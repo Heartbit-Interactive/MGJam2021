@@ -1,5 +1,6 @@
 ﻿#define VERBOSE
 #define ECHO
+using Lidgren.Network;
 using System;
 
 namespace TheCheapsServer
@@ -15,8 +16,8 @@ namespace TheCheapsServer
             Console.WriteLine($"Server for {config.AppIdentifier} starting... Status is : {server.Status} on port {server.Port}");
             while (true)
             {
-                var message = server.WaitMessage(1000);
-                if (message == null)
+                NetIncomingMessage msg = server.WaitMessage(1000);
+                if (msg == null)
                 {
 #if VERBOSE
                     Console.WriteLine($"No messages recevied for 1s, time is {DateTime.Now.ToShortTimeString()}, Status is : {server.Status}");
@@ -24,8 +25,39 @@ namespace TheCheapsServer
                     continue;
                 }
 #if ECHO
-                Console.WriteLine($"Message received {message}");
+                Console.WriteLine($"Message received {msg}");
 #endif
+
+                while ((msg = server.ReadMessage()) != null)
+                {
+                    switch (msg.MessageType)
+                    {
+
+                        case NetIncomingMessageType.VerboseDebugMessage:
+
+                        case NetIncomingMessageType.DebugMessage:
+
+                        case NetIncomingMessageType.WarningMessage:
+
+                        case NetIncomingMessageType.ErrorMessage:
+
+                            Console.WriteLine(msg.ReadString());
+
+                            break;
+
+                        default:
+
+                            Console.WriteLine("Unhandled type: " + msg.MessageType);
+
+                            break;
+
+                    }
+
+                    server.Recycle(msg);
+
+                }
+
+
             }
         }
     }
