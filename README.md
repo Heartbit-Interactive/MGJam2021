@@ -1,6 +1,6 @@
-# MGJam2021: Tema Low Budget
+# MGJam2021: The Cheap$
 ## Descrizione
-I personaggi si ritrovano nella stessa discarica, ognuno di loro deve costruire un determinato oggetto (Missile/ Macchina de tempo) con lo scopo di distruggere il mondo? I giocatori dovranno raggiungere il loro obiettivo frugando tra i cumuli di oggetti nella discarica, scambiando oggetti/denaro tra di loro, o rubando (potrebbe essere facoltativo creare una qualche "fortezza" per rendere difficile entrare agli altri giocatori)
+I personaggi si ritrovano nella stessa discarica, ognuno di loro deve costruire: un determinato oggetto (Missile/ Macchina de tempo) con lo scopo di distruggere il mondo? oppure costruire una serie di oggetti in diversi round. I giocatori dovranno raggiungere il loro obiettivo frugando tra i cumuli di oggetti nella discarica, scambiando oggetti/denaro tra di loro, o rubando (potrebbe essere facoltativo creare una qualche "fortezza" per rendere difficile entrare agli altri giocatori)
 
 potrebbero esserci diversi modi per costruire l'oggetto?
 ## Durata di una partita
