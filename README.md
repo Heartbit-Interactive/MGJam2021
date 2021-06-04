@@ -11,6 +11,7 @@ Discarica
 ## Meccaniche di gioco
 ### Frugare nella discarica
 Il giocatore cerca gli oggetti tra i cumuli nella discarica, in modo randomico, e può caricarne al massimo 3? mentre torna alla base questi potrebbero cadere. 
+### Lanciare oggetti
 ### Scambio tra i giocatori
 I giocatori possono scambiare un oggetto con un altro oppure con delle monete tramite un asta a tempo limitato?
 ### Rubare ai giocatori
