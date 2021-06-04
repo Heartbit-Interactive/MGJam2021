@@ -5,3 +5,6 @@
 Code/.vs/TheCheaps/DesignTimeBuild/.dtbcache.v2
 Code/.vs/TheCheaps/v16/.suo
 Code/TheCheaps/TheCheaps.csproj.user
+/Code/TheCheapsLib/bin
+/Code/TheCheapsLib/obj
+/Code/TheCheapsServer/*.user
