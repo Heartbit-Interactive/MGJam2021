@@ -8,7 +8,8 @@ namespace TheCheaps
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
+        private Texture2D test_texture;
+        private NetworkClient client;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -19,13 +20,15 @@ namespace TheCheaps
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            client = new NetworkClient(this);
+            Components.Add(client);
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            test_texture = Content.Load<Texture2D>("test");
 
             // TODO: use this.Content to load your game content here
         }
@@ -43,6 +46,11 @@ namespace TheCheaps
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(test_texture, new Vector2(client.posx, client.posy), new Rectangle(0, 0, 32, 32), Color.White);
+            _spriteBatch.End();
 
             // TODO: Add your drawing code here
 
