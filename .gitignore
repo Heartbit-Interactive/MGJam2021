@@ -8,3 +8,8 @@ Code/TheCheaps/TheCheaps.csproj.user
 /Code/TheCheapsLib/bin
 /Code/TheCheapsLib/obj
 /Code/TheCheapsServer/*.user
+/Code/TheCheaps/Content/obj
+/Code/TheCheaps/Content/bin
+.vs
+obj
+bin

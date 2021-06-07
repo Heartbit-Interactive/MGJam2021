@@ -10,7 +10,9 @@ namespace TheCheaps
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+#if !TEST
         private NetworkClient client;
+#endif
         private KeyboardState oldstate;
         public Game1()
         {
@@ -21,9 +23,11 @@ namespace TheCheaps
 
         protected override void Initialize()
         {
+#if !TEST
             // TODO: Add your initialization logic here
             client = new NetworkClient(this);
             Components.Add(client);
+#endif
             base.Initialize();
         }
 
@@ -69,7 +73,10 @@ namespace TheCheaps
             _spriteBatch.Begin();
             foreach(var entity in SimulationModel.entities)
             {
-                _spriteBatch.Draw(entity.texture, entity.posxy, entity.sourcerect, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
+                if(entity.sourcerect.Width == 0)
+                    _spriteBatch.Draw(entity.texture, entity.posxy, null, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
+                else
+                    _spriteBatch.Draw(entity.texture, entity.posxy, entity.sourcerect, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
             }
             _spriteBatch.End();
 
