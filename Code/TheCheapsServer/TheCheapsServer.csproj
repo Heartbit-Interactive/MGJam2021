@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Libraries\Lidgren\Lidgren.Network\Lidgren.Network.csproj" />
     <ProjectReference Include="..\TheCheapsLib\TheCheapsLib.csproj" />
   </ItemGroup>
