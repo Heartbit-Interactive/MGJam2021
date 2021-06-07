@@ -12,6 +12,7 @@ namespace TheCheaps
         private SpriteBatch _spriteBatch;
         private Texture2D test_texture;
         private NetworkClient client;
+        private KeyboardState oldstate;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -29,27 +30,39 @@ namespace TheCheaps
 
         protected override void LoadContent()
         {
-#if TEST
-            GameSimulation.Start();
-            foreach(var entity in SimulationModel.entities)
-            {
-                entity.texture = Content.Load<Texture2D>(entity.texture_path);
-            }
-#endif
+
+            load_entities();
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             test_texture = Content.Load<Texture2D>("test");
 
             // TODO: use this.Content to load your game content here
         }
 
+        private void load_entities()
+        {
+#if TEST
+            GameSimulation.Stop();
+            GameSimulation.Start();
+            foreach (var entity in SimulationModel.entities)
+            {
+                entity.texture = Content.Load<Texture2D>(entity.texture_path);
+            }
+#endif
+
+        }
+
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
             // TODO: Add your update logic here
 
+            var state = Keyboard.GetState();
+            if (state.IsKeyUp(Keys.F5) && oldstate.IsKeyDown(Keys.F5))
+                load_entities();
+
             base.Update(gameTime);
+            oldstate = state;
         }
 
         protected override void Draw(GameTime gameTime)

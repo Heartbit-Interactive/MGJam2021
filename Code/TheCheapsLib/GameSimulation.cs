@@ -42,5 +42,10 @@ namespace TheCheapsLib
                 return memstream.ToArray();
             }
         }
+
+        public static void Stop()
+        {
+            
+        }
     }
 }

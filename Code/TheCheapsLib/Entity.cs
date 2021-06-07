@@ -17,8 +17,9 @@ namespace TheCheapsLib
         public float z;
         public string texture_path;
         public Rectangle sourcerect;
-        public int direction;
+        public Vector2 direction;
         public bool through;
+        public float speed;
         //for collision
         public Rectangle collisionrect;
       
