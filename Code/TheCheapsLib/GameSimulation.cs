@@ -11,7 +11,7 @@ namespace TheCheapsLib
         {
             //SimulationModel.entities = new List<Entity>();
             //SimulationModel.entities.Add(new Entity());
-            //SimulationModel.entities.Add(new Entity() { posxy = new Microsoft.Xna.Framework.Vector2(0,0.5f), texture_path="123"});
+            //SimulationModel.entities.Add(new Entity() { posxy = new Microsoft.Xna.Framework.Vector2(0, 0.5f), texture_path = "123" , direction = new Microsoft.Xna.Framework.Vector2(0,1), });
             //var text = JsonConvert.SerializeObject(SimulationModel.entities, Formatting.Indented);
             //File.WriteAllText("Level.json", text);
             var jsontext = File.ReadAllText("Level.json");

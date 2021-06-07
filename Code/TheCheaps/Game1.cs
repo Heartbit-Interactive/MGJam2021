@@ -10,7 +10,6 @@ namespace TheCheaps
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Texture2D test_texture;
         private NetworkClient client;
         private KeyboardState oldstate;
         public Game1()
@@ -33,8 +32,6 @@ namespace TheCheaps
 
             load_entities();
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            test_texture = Content.Load<Texture2D>("test");
-
             // TODO: use this.Content to load your game content here
         }
 
