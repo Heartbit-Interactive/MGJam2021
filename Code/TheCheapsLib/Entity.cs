@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,23 +8,30 @@ using System.Text;
 namespace TheCheapsLib
 {
     //MODEL
-    //Contiene: posizione, inventario, percorso texture, eventuale rettangolo sorgente, layer z, fisica collisione
+    //Contiene: posizione, inventario, percorso texture, eventuale rettangolo sorgente, layer z, fisica collisione, direzione, se attraversabile
 
-    class Entity
+    public class Entity
     {
-        private Vector2 posxy;//posizione piedi
-        private int z;
-        private string texture;
-        private Rectangle sourcerect;
-        private int direction;
+        public string name;
+        public Vector2 posxy;//posizione piedi
+        public float z;
+        public string texture_path;
+        public Rectangle sourcerect;
+        public int direction;
+        public bool through;
+        //for collision
+        public Rectangle collisionrect;
+      
+        public Inventory inventory;
+        public Texture2D texture;
+        public Vector2 origin;
 
-        private Inventory inventory;
         public Entity() { }
         public Entity(Vector2 posxy, int z, string texture, Rectangle sourcerect/*, Inventory inventory*/) 
         {
             this.posxy = posxy;
             this.z = z;
-            this.texture = texture;
+            this.texture_path = texture;
             this.sourcerect = sourcerect;
             //this.inventory = inventory;
         }

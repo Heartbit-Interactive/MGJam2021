@@ -1,0 +1,48 @@
+[
+  {
+    "name": null,
+    "posxy": "0, 0",
+    "z": 0.0,
+    "texture_path": null,
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "direction": 0,
+    "through": false,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": null,
+    "posxy": "0, 0.5",
+    "z": 0.0,
+    "texture_path": "123",
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "direction": 0,
+    "through": false,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  }
+]

@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿#define TEST﻿
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using TheCheapsLib;
 
 namespace TheCheaps
 {
@@ -27,6 +29,13 @@ namespace TheCheaps
 
         protected override void LoadContent()
         {
+#if TEST
+            GameSimulation.Start();
+            foreach(var entity in SimulationModel.entities)
+            {
+                entity.texture = Content.Load<Texture2D>(entity.texture_path);
+            }
+#endif
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             test_texture = Content.Load<Texture2D>("test");
 
@@ -49,7 +58,10 @@ namespace TheCheaps
 
 
             _spriteBatch.Begin();
-            _spriteBatch.Draw(test_texture, new Vector2(client.posx, client.posy), new Rectangle(0, 0, 32, 32), Color.White);
+            foreach(var entity in SimulationModel.entities)
+            {
+                _spriteBatch.Draw(entity.texture, entity.posxy, entity.sourcerect, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
+            }
             _spriteBatch.End();
 
             // TODO: Add your drawing code here

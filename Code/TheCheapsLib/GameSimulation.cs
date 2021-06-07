@@ -9,7 +9,13 @@ namespace TheCheapsLib
     {
         public static void Start()
         {
-            SimulationModel.entities = JsonConvert.DeserializeObject<List<Entity>>("Level.json");
+            //SimulationModel.entities = new List<Entity>();
+            //SimulationModel.entities.Add(new Entity());
+            //SimulationModel.entities.Add(new Entity() { posxy = new Microsoft.Xna.Framework.Vector2(0,0.5f), texture_path="123"});
+            //var text = JsonConvert.SerializeObject(SimulationModel.entities, Formatting.Indented);
+            //File.WriteAllText("Level.json", text);
+            var jsontext = File.ReadAllText("Level.json");
+            SimulationModel.entities = JsonConvert.DeserializeObject<List<Entity>>(jsontext);
         }
 
         public static void Step()

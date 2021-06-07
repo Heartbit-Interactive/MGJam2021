@@ -4,8 +4,8 @@ using System.Text;
 
 namespace TheCheapsLib
 {
-    internal static class SimulationModel
+    public static class SimulationModel
     {
-        internal static List<Entity> entities;
+        public static List<Entity> entities;
     }
 }
