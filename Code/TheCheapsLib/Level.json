@@ -25,7 +25,7 @@
   },
   {
     "name": "ACTOR_02_NoVax",
-    "posxy": "0, 0.5",
+    "posxy": "48, 0",
     "z": 0.0,
     "texture_path": "ACTOR_02",
     "sourcerect": {
@@ -49,7 +49,7 @@
   },
   {
     "name": "ACTOR_03_Businessman",
-    "posxy": "0, 0.5",
+    "posxy": "96, 0",
     "z": 0.0,
     "texture_path": "ACTOR_03",
     "sourcerect": {
@@ -73,7 +73,7 @@
   },
   {
     "name": "ACTOR_04_Insano",
-    "posxy": "0, 0.5",
+    "posxy": "144, 0",
     "z": 0.0,
     "texture_path": "ACTOR_04",
     "sourcerect": {
@@ -97,7 +97,7 @@
   },
   {
     "name": "BASE_01",
-    "posxy": "0, 0.5",
+    "posxy": "0,48",
     "z": 0.0,
     "texture_path": "BASE_01",
     "sourcerect": {
@@ -121,7 +121,7 @@
   },
   {
     "name": "BASE_02",
-    "posxy": "0, 0.5",
+    "posxy": "168, 48",
     "z": 0.0,
     "texture_path": "BASE_02",
     "sourcerect": {
@@ -145,7 +145,7 @@
   },
   {
     "name": "BASE_03",
-    "posxy": "0, 0.5",
+    "posxy": "336, 48",
     "z": 0.0,
     "texture_path": "BASE_03",
     "sourcerect": {
@@ -169,7 +169,7 @@
   },
   {
     "name": "BASE_04",
-    "posxy": "0, 0.5",
+    "posxy": "504, 48",
     "z": 0.0,
     "texture_path": "BASE_04",
     "sourcerect": {
@@ -193,7 +193,7 @@
   },
   {
     "name": "LEVEL_Barrier_V_01",
-    "posxy": "0, 0.5",
+    "posxy": "0, 168",
     "z": 0.0,
     "texture_path": "LEVEL_Barrier_V_01",
     "sourcerect": {
@@ -217,7 +217,7 @@
   },
   {
     "name": "LEVEL_Trash_01",
-    "posxy": "0, 0.5",
+    "posxy": "24, 168",
     "z": 0.0,
     "texture_path": "LEVEL_Trash_01",
     "sourcerect": {
@@ -241,7 +241,7 @@
   },
   {
     "name": "LEVEL_Trash_02",
-    "posxy": "0, 0.5",
+    "posxy": "96, 168",
     "z": 0.0,
     "texture_path": "LEVEL_Trash_02",
     "sourcerect": {
@@ -265,7 +265,7 @@
   },
   {
     "name": "LEVEL_Trash_03",
-    "posxy": "0, 0.5",
+    "posxy": "168, 168",
     "z": 0.0,
     "texture_path": "LEVEL_Trash_03",
     "sourcerect": {
@@ -289,7 +289,7 @@
   },
   {
     "name": "LEVEL_Trash_04",
-    "posxy": "0, 0.5",
+    "posxy": "240, 168",
     "z": 0.0,
     "texture_path": "LEVEL_Trash_04",
     "sourcerect": {
@@ -313,7 +313,7 @@
   },
   {
     "name": "RESOURCE_01",
-    "posxy": "0, 0.5",
+    "posxy": "0, 216",
     "z": 0.0,
     "texture_path": "RESOURCE_01",
     "sourcerect": {
@@ -337,7 +337,7 @@
   },
   {
     "name": "RESOURCE_02",
-    "posxy": "0, 0.5",
+    "posxy": "168, 216",
     "z": 0.0,
     "texture_path": "RESOURCE_02",
     "sourcerect": {
@@ -361,7 +361,7 @@
   },
   {
     "name": "RESOURCE_03",
-    "posxy": "0, 0.5",
+    "posxy": "336, 216",
     "z": 0.0,
     "texture_path": "RESOURCE_03",
     "sourcerect": {
@@ -385,7 +385,7 @@
   },
   {
     "name": "RESOURCE_04",
-    "posxy": "0, 0.5",
+    "posxy": "504, 216",
     "z": 0.0,
     "texture_path": "RESOURCE_04",
     "sourcerect": {

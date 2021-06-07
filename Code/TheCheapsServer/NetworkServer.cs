@@ -1,5 +1,6 @@
 ﻿using Lidgren.Network;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Net;
 using System.Runtime.Serialization;
@@ -14,7 +15,8 @@ namespace TheCheapsServer
     class NetworkServer
     {
         NetServer server;
-        List<NetConnection> peerConnections = new List<NetConnection>();
+        NetConnection[] peerConnections = new NetConnection[Settings.maxPlayers];
+        Dictionary<NetConnection, int> connectionToPlayerMapping = new Dictionary<NetConnection, int>();
         private NetPeerConfiguration config;
         public NetworkServer()
         {
@@ -33,10 +35,11 @@ namespace TheCheapsServer
             process_message();
             GameSimulation.Step();
             foreach (var peer in peerConnections)
-                sendState(server, peer);
+            {
+                if(peer!=null)
+                    sendState(server, peer);
+            }
         }
-
-        DataContractSerializer gamepadDeserializer = new DataContractSerializer(typeof(GamePadState));
         private void process_message()
         {
             NetIncomingMessage msg = server.ReadMessage();
@@ -60,19 +63,15 @@ namespace TheCheapsServer
                     Console.WriteLine(msg.ReadString());
                     break;
                 case NetIncomingMessageType.Data:
-            if (!peerConnections.Contains(msg.SenderConnection))
-            {
-                peerConnections.Add(msg.SenderConnection);
-                        Console.WriteLine("peer added");
-            }
-                    SimulationModel.gamepads.Clear();
+                    var conn = msg.SenderConnection;
+                    var pl_index = 0;
+                    if (!connectionToPlayerMapping.TryGetValue(conn,out pl_index))
+                    {
+                        pl_index = addPeer(msg, conn);
+                    }
                     var count = msg.ReadInt32();
                     var buffer = msg.ReadBytes(count);
-                    using (var memstream = new MemoryStream(buffer))
-                    {
-                        var gpstate = deserializegamepadstate(memstream);
-                        SimulationModel.gamepads.Add(gpstate);
-                    }
+                    GameInput.deserializeInputState(buffer,pl_index);
                     break;
                 default:
                     break;
@@ -81,27 +80,17 @@ namespace TheCheapsServer
             server.Recycle(msg);
         }
 
-        private GamePadState deserializegamepadstate(MemoryStream memstream)
+        private int addPeer(NetIncomingMessage msg, NetConnection conn)
         {
-            using (var br = new BinaryReader(memstream))
+            int pl_index = Array.IndexOf(peerConnections, null);
+            if (pl_index >= 0)
             {
-                var left = Vector2.Zero;
-                left.X = br.ReadSingle();
-                left.Y = br.ReadSingle();
-                var buttonA = br.ReadBoolean();
-                var buttonB = br.ReadBoolean();
-                var button_list = new List<Buttons>();
-                if (buttonA)
-                    button_list.Add(Buttons.A);
-                if (buttonB)
-                    button_list.Add(Buttons.B);
-                GamePadState gamePadState = new GamePadState(left, Vector2.Zero, 0, 0, button_list.ToArray());
-                return gamePadState;
+                Console.WriteLine($"Peer added at index {pl_index}");
+                connectionToPlayerMapping[conn] = pl_index;
+                peerConnections[pl_index] = msg.SenderConnection;
             }
-            //bw.Write(gpState.ThumbSticks.Left.X);
-            //bw.Write(gpState.ThumbSticks.Left.Y);
-            //bw.Write(gpState.Buttons.A == ButtonState.Pressed);
-            //bw.Write(gpState.Buttons.B == ButtonState.Pressed);
+
+            return pl_index;
         }
 
         private void sendState(NetServer server, NetConnection destinationConnection)

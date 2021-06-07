@@ -17,6 +17,7 @@ namespace TheCheaps
         private NetClient client;
         private int num_message = 0;
         private NetConnection connection;
+
         public NetworkClient(Game game) : base(game)
         {
             config = new NetPeerConfiguration("TheCheaps");
@@ -32,31 +33,15 @@ namespace TheCheaps
         {
             base.Update(gameTime);
             ReadSimulationState();
-            var gpState = GamePad.GetState(0);
             var message = client.CreateMessage();
-            using (var memstream = new MemoryStream(32 * 1024))
-            {
-                serializeGamepadState(gpState, memstream);
-                var bytes = memstream.ToArray();
-                message.Write(bytes.Length);
-                message.Write(bytes);
+            var bytes = GameInput.serializeInputState();
 #if VERBOSE
-                System.Diagnostics.Debug.WriteLine("Sent {bytes.Length} bytes to server with GamepadState");
+            System.Diagnostics.Debug.WriteLine("Sent {bytes.Length} bytes to server with GamepadState");
 #endif
-            }
+            message.Write(bytes.Length);
+            message.Write(bytes);
             client.SendMessage(message, NetDeliveryMethod.UnreliableSequenced);
             num_message++;
-        }
-
-        private void serializeGamepadState(GamePadState gpState, MemoryStream memstream)
-        {
-            using (var bw = new BinaryWriter(memstream))
-            {
-                bw.Write(gpState.ThumbSticks.Left.X);
-                bw.Write(gpState.ThumbSticks.Left.Y);
-                bw.Write(gpState.Buttons.A == ButtonState.Pressed);
-                bw.Write(gpState.Buttons.B == ButtonState.Pressed);
-            }
         }
 
         private void ReadSimulationState()

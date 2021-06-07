@@ -31,7 +31,7 @@ namespace TheCheapsLib
         {
             var now = DateTime.Now;
             float speedframe = 1;
-            if (SimulationModel.gamepads.Count > 0)
+            if (SimulationModel.gamepads[0]!=null)
             {
                 var speed = SimulationModel.gamepads[0].ThumbSticks.Left* speedframe;
                 speed.Y *= -1;

@@ -10,6 +10,14 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Content\bin\**" />
+    <Compile Remove="Content\obj\**" />
+    <EmbeddedResource Remove="Content\bin\**" />
+    <EmbeddedResource Remove="Content\obj\**" />
+    <None Remove="Content\bin\**" />
+    <None Remove="Content\obj\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
   </ItemGroup>
@@ -30,5 +38,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Libraries\Lidgren\Lidgren.Network\Lidgren.Network.csproj" />
     <ProjectReference Include="..\TheCheapsLib\TheCheapsLib.csproj" />
+    <ProjectReference Include="..\TheCheapsServer\TheCheapsServer.csproj" />
   </ItemGroup>
 </Project>
