@@ -69,6 +69,12 @@ namespace TheCheaps
                 if(entity.texture == null)
                 entity.texture = Content.Load<Texture2D>(entity.texture_path);
             }
+
+            foreach (var entity in SimulationModel.player_entities)
+            {
+                if (entity.texture == null)
+                    entity.texture = Content.Load<Texture2D>(entity.texture_path);
+            }
             oldstate = state;
         }
 
@@ -81,6 +87,13 @@ namespace TheCheaps
             foreach(var entity in SimulationModel.entities)
             {
                 if(entity.sourcerect.Width == 0)
+                    _spriteBatch.Draw(entity.texture, entity.posxy, null, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
+                else
+                    _spriteBatch.Draw(entity.texture, entity.posxy, entity.sourcerect, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
+            }
+            foreach (var entity in SimulationModel.player_entities)
+            {
+                if (entity.sourcerect.Width == 0)
                     _spriteBatch.Draw(entity.texture, entity.posxy, null, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
                 else
                     _spriteBatch.Draw(entity.texture, entity.posxy, entity.sourcerect, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
