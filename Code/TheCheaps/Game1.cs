@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Diagnostics;
 using TheCheapsLib;
 
@@ -9,6 +10,7 @@ namespace TheCheaps
 {
     public class Game1 : Game
     {
+        private Process server_process;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 #if !TEST
@@ -17,7 +19,7 @@ namespace TheCheaps
         private KeyboardState oldstate;
         public Game1()
         {
-            Process.Start(@"C:\GitHub\MGJam2021\Code\TheCheapsServer\bin\Debug\netcoreapp3.1\TheCheapsServer.exe");
+            server_process = Process.Start(@"TheCheapsServer.exe");
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -90,6 +92,11 @@ namespace TheCheaps
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+        }
+        protected override void OnExiting(object sender, EventArgs args)
+        {
+            server_process.Kill(true);
+            base.OnExiting(sender, args);
         }
     }
 }
