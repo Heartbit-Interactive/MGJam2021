@@ -3,22 +3,45 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using TheCheapsLib;
 
 namespace TheCheaps
 {
     public class Game1 : Game
     {
-        private Process server_process;
+        private Task serverTask;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private NetworkClient client;
         public Game1()
         {
-            server_process = Process.Start(@"TheCheapsServer.exe");
+            serverTask = System.Threading.Tasks.Task.Factory.StartNew(runServer);
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+        }
+
+        private void runServer()
+        {
+            var server = new TheCheapsServer.NetworkServer();
+            server.Start();
+            var msperstep = 8;
+            while (true)
+            {
+                //GESTIONE DEL CLOCK BASILARE
+                var ms = DateTime.Now.Ticks / 10000;
+                server.Tick();
+                var newms = DateTime.Now.Ticks / 10000;
+                var elapsedms = newms - ms;
+                while (elapsedms < msperstep)
+                {
+                    System.Threading.Thread.Yield();
+                    System.Threading.Thread.Sleep(1);
+                    newms = DateTime.Now.Ticks / 10000;
+                    elapsedms = newms - ms;
+                }
+            }
         }
 
         protected override void Initialize()
@@ -41,7 +64,7 @@ namespace TheCheaps
                 Exit();
 
             base.Update(gameTime);
-            foreach (var entity in SimulationModel.entities)
+            foreach (var entity in client.simulation.model.entities)
             {
                 if (entity.texture == null)
                 {
@@ -51,7 +74,7 @@ namespace TheCheaps
                 }
             }
 
-            foreach (var entity in SimulationModel.player_entities)
+            foreach (var entity in client.simulation.model.player_entities)
             {
                 if (entity.texture == null)
                     entity.texture = Content.Load<Texture2D>(entity.texture_path);
@@ -64,14 +87,14 @@ namespace TheCheaps
 
 
             _spriteBatch.Begin();
-            foreach(var entity in SimulationModel.entities)
+            foreach(var entity in client.simulation.model.entities)
             {
                 if(entity.sourcerect.Width == 0)
                     _spriteBatch.Draw(entity.texture, entity.posxy, null, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
                 else
                     _spriteBatch.Draw(entity.texture, entity.posxy, entity.sourcerect, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
             }
-            foreach (var entity in SimulationModel.player_entities)
+            foreach (var entity in client.simulation.model.player_entities)
             {
                 if (entity.sourcerect.Width == 0)
                     _spriteBatch.Draw(entity.texture, entity.posxy, null, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
@@ -85,8 +108,7 @@ namespace TheCheaps
             base.Draw(gameTime);
         }
         protected override void OnExiting(object sender, EventArgs args)
-        {
-            server_process.Kill(true);
+        {            
             base.OnExiting(sender, args);
         }
     }

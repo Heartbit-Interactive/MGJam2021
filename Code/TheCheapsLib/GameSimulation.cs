@@ -5,9 +5,14 @@ using System.IO;
 
 namespace TheCheapsLib
 {
-    public static class GameSimulation
+    public class GameSimulation
     {
-        public static void Start()
+        public SimulationModel model;
+        public GameSimulation()
+        {
+            model = new SimulationModel();
+        }
+        public void Start()
         {
             //SimulationModel.entities = new List<Entity>();
             //SimulationModel.entities.Add(new Entity());
@@ -15,7 +20,7 @@ namespace TheCheapsLib
             //var text = JsonConvert.SerializeObject(SimulationModel.entities, Formatting.Indented);
             //File.WriteAllText("Level.json", text);
             var jsontext = File.ReadAllText("Level.json");
-            SimulationModel.entities = JsonConvert.DeserializeObject<List<Entity>>(jsontext);
+            model.entities = JsonConvert.DeserializeObject<List<Entity>>(jsontext);
 
             //SimulationModel.player_entities = new List<PlayerEntity>();
             //SimulationModel.player_entities.Add(new PlayerEntity());
@@ -23,72 +28,72 @@ namespace TheCheapsLib
             //var text = JsonConvert.SerializeObject(SimulationModel.player_entities, Formatting.Indented);
             //File.WriteAllText("Players.json", text);
             var jsontextplayer = File.ReadAllText("Players.json");
-            SimulationModel.player_entities = JsonConvert.DeserializeObject<List<PlayerEntity>>(jsontextplayer);
+            model.player_entities = JsonConvert.DeserializeObject<List<PlayerEntity>>(jsontextplayer);
         }
 
 
-        public static void Step()
+        public void Step()
         {
             var now = DateTime.Now;
             float speedframe = 1;
-            if (SimulationModel.gamepads[0]!=null)
+            if (model.gamepads[0]!=null)
             {
-                var speed = SimulationModel.gamepads[0].ThumbSticks.Left* speedframe;
+                var speed = model.gamepads[0].ThumbSticks.Left* speedframe;
                 speed.Y *= -1;
                 //cambiare lo 0 con index del player
-                SimulationModel.player_entities[0].posxy = SimulationModel.player_entities[0].posxy + speed ;
+                model.player_entities[0].posxy = model.player_entities[0].posxy + speed ;
             }
             foreach (var entity in updateable_entities)
                 update_entity(entity);
         }
 
-        private static void update_entity(Entity entity)
+        private void update_entity(Entity entity)
         {
         }
 
-        private static IEnumerable<Entity> updateable_entities { get { return SimulationModel.entities; } }
+        private IEnumerable<Entity> updateable_entities { get { return model.entities; } }
 
-        public static byte[] GetSerializedState()
+        public byte[] GetSerializedState()
         {
             using (var memstream = new MemoryStream(128 * 1024))
             {
                 var bw = new BinaryWriter(memstream);
-                bw.Write(SimulationModel.entities.Count);
-                foreach (var entity in SimulationModel.entities)
+                bw.Write(model.entities.Count);
+                foreach (var entity in model.entities)
                     entity.binarywrite(bw);
 
-                bw.Write(SimulationModel.player_entities.Count);
-                foreach (var entity in SimulationModel.player_entities)
+                bw.Write(model.player_entities.Count);
+                foreach (var entity in model.player_entities)
                     entity.binarywrite(bw);
                 return memstream.ToArray();
             }
         }
 
-        public static void Stop()
+        public void Stop()
         {
             
         }
 
-        public static void DeserializeState(byte[] content)
+        public void DeserializeState(byte[] content)
         {
             using (var memstream = new MemoryStream(content))
             {
                 var br = new BinaryReader(memstream);
                 var count = br.ReadInt32();
-                SimulationModel.entities = new List<Entity>(count);
+                model.entities = new List<Entity>(count);
                 for (int i = 0; i < count; i++)
                 {
                     var entity = new Entity();
                     entity.binaryread(br);
-                    SimulationModel.entities.Add(entity);
+                    model.entities.Add(entity);
                 }
                 count = br.ReadInt32();
-                SimulationModel.player_entities = new List<PlayerEntity>(count);
+                model.player_entities = new List<PlayerEntity>(count);
                 for (int i = 0; i < count; i++)
                 {
                     var entity = new PlayerEntity();
                     entity.binaryread(br);
-                    SimulationModel.player_entities.Add(entity);
+                    model.player_entities.Add(entity);
                 }
             }
         }

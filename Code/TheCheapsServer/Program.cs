@@ -14,7 +14,6 @@ namespace TheCheapsServer
         {
             var server = new NetworkServer();
             server.Start();
-            GameSimulation.Start();
             var msperstep = 8;
             while (true)
             {

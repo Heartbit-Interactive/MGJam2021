@@ -7,12 +7,16 @@ using Microsoft.Xna.Framework.Input;
 
 namespace TheCheapsLib
 {
-    public static class GameInput
+    public class GameInput
     {
-        private static GamePadState oldGpState = new GamePadState();
-        private static KeyboardState oldKbState = new KeyboardState();
-
-        public static byte[] serializeInputState()
+        private GamePadState oldGpState = new GamePadState();
+        private KeyboardState oldKbState = new KeyboardState();
+        public SimulationModel model;
+        public GameInput(SimulationModel model)
+        {
+            this.model = model;
+        }
+        public byte[] serializeInputState()
         {
             var gpState = GamePad.GetState(0);
             var kbState = Keyboard.GetState();
@@ -30,14 +34,14 @@ namespace TheCheapsLib
                 return memstream.ToArray();
             }
         }
-        private static void writeGamePadState(GamePadState gpState, BinaryWriter bw)
+        private void writeGamePadState(GamePadState gpState, BinaryWriter bw)
         {
             bw.Write(gpState.ThumbSticks.Left.X);
             bw.Write(gpState.ThumbSticks.Left.Y);
             bw.Write(gpState.Buttons.A == ButtonState.Pressed);
             bw.Write(gpState.Buttons.B == ButtonState.Pressed);
         }
-        private static void writeKeyboardState(KeyboardState kbState, BinaryWriter bw)
+        private void writeKeyboardState(KeyboardState kbState, BinaryWriter bw)
         {
             var keys = kbState.GetPressedKeys();
             bw.Write(keys.Length);
@@ -45,7 +49,7 @@ namespace TheCheapsLib
                 bw.Write((int)keys[i]);
         }
 
-        private static KeyboardState readKeyboardState(BinaryReader br)
+        private KeyboardState readKeyboardState(BinaryReader br)
         {
             var l = br.ReadInt32();
             var keys = new Keys[l];
@@ -54,7 +58,7 @@ namespace TheCheapsLib
             return new KeyboardState(keys);
         }
 
-        public static void deserializeInputState(byte[] buffer,int playerIndex)
+        public void deserializeInputState(byte[] buffer,int playerIndex)
         {
             using (var memstream = new MemoryStream(buffer))
             {
@@ -67,14 +71,14 @@ namespace TheCheapsLib
                     kbState = readKeyboardState(br);
                     oldKbState = readKeyboardState(br);
                 }
-                SimulationModel.gamepads[playerIndex] = gamePadState;
-                SimulationModel.oldGamepads[playerIndex] = oldGamePadState;
-                SimulationModel.keyboards[playerIndex] = kbState;
-                SimulationModel.oldKeyboards[playerIndex] = oldKbState;
+                model.gamepads[playerIndex] = gamePadState;
+                model.oldGamepads[playerIndex] = oldGamePadState;
+                model.keyboards[playerIndex] = kbState;
+                model.oldKeyboards[playerIndex] = oldKbState;
             }
         }
 
-        private static GamePadState readGamePadState(BinaryReader br)
+        private GamePadState readGamePadState(BinaryReader br)
         {
             GamePadState gamePadState;
             var left = Vector2.Zero;

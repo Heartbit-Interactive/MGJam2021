@@ -12,12 +12,14 @@ using Microsoft.Xna.Framework;
 
 namespace TheCheapsServer
 {
-    class NetworkServer
+    public class NetworkServer
     {
         NetServer server;
         NetConnection[] peerConnections = new NetConnection[Settings.maxPlayers];
         Dictionary<NetConnection, int> connectionToPlayerMapping = new Dictionary<NetConnection, int>();
         private NetPeerConfiguration config;
+        private GameInput input;
+        private GameSimulation simulation;
         public NetworkServer()
         {
 
@@ -25,15 +27,18 @@ namespace TheCheapsServer
             config.Port = 12345;
             server = new Lidgren.Network.NetServer(config);
         }
-        internal void Start()
+        public void Start()
         {
+            this.simulation = new GameSimulation();
+            this.simulation.Start();
+            this.input = new GameInput(simulation.model);
             server.Start();
             Console.WriteLine($"Server for {config.AppIdentifier} starting... Listening on IP:{GetLocalIPAddress()} on port {server.Port}");
         }
-        internal void Tick()
+        public void Tick()
         {
             process_message();
-            GameSimulation.Step();
+            simulation.Step();
             foreach (var peer in peerConnections)
             {
                 if(peer!=null)
@@ -71,7 +76,7 @@ namespace TheCheapsServer
                     }
                     var count = msg.ReadInt32();
                     var buffer = msg.ReadBytes(count);
-                    GameInput.deserializeInputState(buffer,pl_index);
+                    input.deserializeInputState(buffer,pl_index);
                     break;
                 default:
                     break;
@@ -96,7 +101,7 @@ namespace TheCheapsServer
         private void sendState(NetServer server, NetConnection destinationConnection)
         {
             NetOutgoingMessage msg = server.CreateMessage();
-            var array = GameSimulation.GetSerializedState();
+            var array = simulation.GetSerializedState();
             msg.Write(array.Length);
             msg.Write(array);
             server.SendMessage(msg, destinationConnection, NetDeliveryMethod.UnreliableSequenced);

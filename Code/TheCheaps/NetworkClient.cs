@@ -18,6 +18,8 @@ namespace TheCheaps
         private int num_message = 0;
         private NetConnection connection;
 
+        private GameInput input;
+        public GameSimulation simulation;
         public NetworkClient(Game game) : base(game)
         {
             config = new NetPeerConfiguration("TheCheaps");
@@ -27,6 +29,8 @@ namespace TheCheaps
         }
         public override void Initialize()
         {
+            this.simulation = new GameSimulation();
+            this.input = new GameInput(simulation.model);
             base.Initialize();
         }
         public override void Update(GameTime gameTime)
@@ -34,7 +38,7 @@ namespace TheCheaps
             base.Update(gameTime);
             ReadSimulationState();
             var message = client.CreateMessage();
-            var bytes = GameInput.serializeInputState();
+            var bytes = this.input.serializeInputState();
 #if VERBOSE
             System.Diagnostics.Debug.WriteLine("Sent {bytes.Length} bytes to server with GamepadState");
 #endif
@@ -67,7 +71,7 @@ namespace TheCheaps
 #endif
                         var size = msg.ReadInt32();
                         var content = msg.ReadBytes(size);
-                        GameSimulation.DeserializeState(content);
+                        simulation.DeserializeState(content);
                         break;
                     default:
                         break;
