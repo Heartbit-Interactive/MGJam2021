@@ -9,6 +9,7 @@ namespace TheCheapsLib
 {
     //MODEL
     //Contiene: posizione, inventario, percorso texture, eventuale rettangolo sorgente, layer z, fisica collisione, direzione, se attraversabile
+    //da aggiungere tag(elettronica o altro)
 
     public class Entity
     {
@@ -28,13 +29,12 @@ namespace TheCheapsLib
         public Vector2 origin;
 
         public Entity() { }
-        public Entity(Vector2 posxy, int z, string texture, Rectangle sourcerect/*, Inventory inventory*/) 
+        public Entity(Vector2 posxy, int z, string texture, Rectangle sourcerect) 
         {
             this.posxy = posxy;
             this.z = z;
             this.texture_path = texture;
             this.sourcerect = sourcerect;
-            //this.inventory = inventory;
         }
         public void binarywrite(BinaryWriter bw)
         {
