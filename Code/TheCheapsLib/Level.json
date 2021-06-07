@@ -24,7 +24,7 @@
     "origin": "0, 0"
   },
   {
-    "name": null,
+    "name": "default",
     "posxy": "0, 0.5",
     "z": 0.0,
     "texture_path": "Hate",

@@ -1,7 +1,8 @@
-﻿#define TEST﻿
+﻿#define _TEST﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 using TheCheapsLib;
 
 namespace TheCheaps
@@ -16,6 +17,7 @@ namespace TheCheaps
         private KeyboardState oldstate;
         public Game1()
         {
+            Process.Start(@"C:\GitHub\MGJam2021\Code\TheCheapsServer\bin\Debug\netcoreapp3.1\TheCheapsServer.exe");
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -62,6 +64,11 @@ namespace TheCheaps
                 load_entities();
 
             base.Update(gameTime);
+            foreach (var entity in SimulationModel.entities)
+            {
+                if(entity.texture == null)
+                entity.texture = Content.Load<Texture2D>(entity.texture_path);
+            }
             oldstate = state;
         }
 

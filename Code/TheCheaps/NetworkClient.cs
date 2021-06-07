@@ -22,13 +22,12 @@ namespace TheCheaps
             config = new NetPeerConfiguration("TheCheaps");
             client = new NetClient(config);
             client.Start();
-            connection = client.Connect(host: "192.168.01.92", port: 12345);
+            connection = client.Connect(host: "127.0.0.1"/*"192.168.01.92"*/, port: 12345);
         }
         public override void Initialize()
         {
             base.Initialize();
         }
-        DataContractSerializer gamepadSerializer = new DataContractSerializer(typeof(GamePadState));
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
@@ -37,7 +36,7 @@ namespace TheCheaps
             var message = client.CreateMessage();
             using (var memstream = new MemoryStream(32 * 1024))
             {
-                gamepadSerializer.WriteObject(memstream, gpState);
+                serializeGamepadState(gpState, memstream);
                 var bytes = memstream.ToArray();
                 message.Write(bytes.Length);
                 message.Write(bytes);
@@ -49,17 +48,47 @@ namespace TheCheaps
             num_message++;
         }
 
+        private void serializeGamepadState(GamePadState gpState, MemoryStream memstream)
+        {
+            using (var bw = new BinaryWriter(memstream))
+            {
+                bw.Write(gpState.ThumbSticks.Left.X);
+                bw.Write(gpState.ThumbSticks.Left.Y);
+                bw.Write(gpState.Buttons.A == ButtonState.Pressed);
+                bw.Write(gpState.Buttons.B == ButtonState.Pressed);
+            }
+        }
+
         private void ReadSimulationState()
         {
-            var msg = client.ReadMessage();
+            NetIncomingMessage msg = client.ReadMessage();
             while (msg != null)
             {
+#if ECHO
+            Console.WriteLine($"Message received {msg}");
+#endif
+                switch (msg.MessageType)
+                {
+
+                    case NetIncomingMessageType.VerboseDebugMessage:
+                    case NetIncomingMessageType.DebugMessage:
+                    case NetIncomingMessageType.WarningMessage:
+                    case NetIncomingMessageType.ErrorMessage:
+                        Console.WriteLine(msg.ReadString());
+                        break;
+                    case NetIncomingMessageType.Data:
 #if VERBOSE
                 System.Diagnostics.Debug.WriteLine($"{msg} received from server");
 #endif
-                var size = msg.ReadInt32();
-                var content = msg.ReadBytes(size);
-                GameSimulation.DeserializeState(content);
+                        var size = msg.ReadInt32();
+                        var content = msg.ReadBytes(size);
+                        GameSimulation.DeserializeState(content);
+                        break;
+                    default:
+                        break;
+
+                }
+                client.Recycle(msg);
                 msg = client.ReadMessage();
             }
         }

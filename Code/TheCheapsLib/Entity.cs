@@ -12,10 +12,10 @@ namespace TheCheapsLib
 
     public class Entity
     {
-        public string name;
+        public string texture_path="";
+        public string name = "default";
         public Vector2 posxy;//posizione piedi
         public float z;
-        public string texture_path="";
         public Rectangle sourcerect;
         public Vector2 direction;
         public bool through;
@@ -40,7 +40,7 @@ namespace TheCheapsLib
         {
             bw.Write(through);
 
-            bw.Write(name);
+            bw.Write(name??"");
             bw.Write(texture_path);
 
             bw.Write(z);

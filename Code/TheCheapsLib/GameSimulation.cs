@@ -23,8 +23,12 @@ namespace TheCheapsLib
         {
             var now = DateTime.Now;
             float speedframe = 1;
-            if(SimulationModel.gamepads.Count>0)
-                SimulationModel.entities[0].posxy = SimulationModel.entities[0].posxy + SimulationModel.gamepads[0].ThumbSticks.Left * speedframe;
+            if (SimulationModel.gamepads.Count > 0)
+            {
+                var speed = SimulationModel.gamepads[0].ThumbSticks.Left* speedframe;
+                speed.Y *= -1;
+                SimulationModel.entities[0].posxy = SimulationModel.entities[0].posxy + speed ;
+            }
             foreach (var entity in updateable_entities)
                 update_entity(entity);
         }

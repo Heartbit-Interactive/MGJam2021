@@ -7,13 +7,14 @@ using System.Text;
 using TheCheapsLib;
 using Microsoft.Xna.Framework.Input;
 using System.IO;
+using Microsoft.Xna.Framework;
 
 namespace TheCheapsServer
 {
     class NetworkServer
     {
         NetServer server;
-        List<NetConnection> peerConnections;
+        List<NetConnection> peerConnections = new List<NetConnection>();
         private NetPeerConfiguration config;
         public NetworkServer()
         {
@@ -59,12 +60,17 @@ namespace TheCheapsServer
                     Console.WriteLine(msg.ReadString());
                     break;
                 case NetIncomingMessageType.Data:
+            if (!peerConnections.Contains(msg.SenderConnection))
+            {
+                peerConnections.Add(msg.SenderConnection);
+                        Console.WriteLine("peer added");
+            }
                     SimulationModel.gamepads.Clear();
                     var count = msg.ReadInt32();
                     var buffer = msg.ReadBytes(count);
                     using (var memstream = new MemoryStream(buffer))
                     {
-                        var gpstate = (GamePadState)gamepadDeserializer.ReadObject(memstream);
+                        var gpstate = deserializegamepadstate(memstream);
                         SimulationModel.gamepads.Add(gpstate);
                     }
                     break;
@@ -75,10 +81,35 @@ namespace TheCheapsServer
             server.Recycle(msg);
         }
 
+        private GamePadState deserializegamepadstate(MemoryStream memstream)
+        {
+            using (var br = new BinaryReader(memstream))
+            {
+                var left = Vector2.Zero;
+                left.X = br.ReadSingle();
+                left.Y = br.ReadSingle();
+                var buttonA = br.ReadBoolean();
+                var buttonB = br.ReadBoolean();
+                var button_list = new List<Buttons>();
+                if (buttonA)
+                    button_list.Add(Buttons.A);
+                if (buttonB)
+                    button_list.Add(Buttons.B);
+                GamePadState gamePadState = new GamePadState(left, Vector2.Zero, 0, 0, button_list.ToArray());
+                return gamePadState;
+            }
+            //bw.Write(gpState.ThumbSticks.Left.X);
+            //bw.Write(gpState.ThumbSticks.Left.Y);
+            //bw.Write(gpState.Buttons.A == ButtonState.Pressed);
+            //bw.Write(gpState.Buttons.B == ButtonState.Pressed);
+        }
+
         private void sendState(NetServer server, NetConnection destinationConnection)
         {
             NetOutgoingMessage msg = server.CreateMessage();
-            msg.Write(GameSimulation.GetSerializedState());
+            var array = GameSimulation.GetSerializedState();
+            msg.Write(array.Length);
+            msg.Write(array);
             server.SendMessage(msg, destinationConnection, NetDeliveryMethod.UnreliableSequenced);
         }
 

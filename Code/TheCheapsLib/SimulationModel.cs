@@ -7,7 +7,7 @@ namespace TheCheapsLib
 {
     public static class SimulationModel
     {
-        public static List<Entity> entities;
-        public static List<GamePadState> gamepads;
+        public static List<Entity> entities = new List<Entity>();
+        public static List<GamePadState> gamepads = new List<GamePadState>();
     }
 }
