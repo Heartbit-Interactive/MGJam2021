@@ -16,8 +16,8 @@ namespace TheCheaps
         private NetworkClient client;
         public Game1()
         {
-            serverTask = System.Threading.Tasks.Task.Factory.StartNew(runServer);
             _graphics = new GraphicsDeviceManager(this);
+            serverTask = System.Threading.Tasks.Task.Factory.StartNew(runServer);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -50,6 +50,9 @@ namespace TheCheaps
             client = new NetworkClient(this);
             Components.Add(client);
             base.Initialize();
+            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.PreferredBackBufferHeight = 1080;
+            _graphics.ApplyChanges();
         }
 
         protected override void LoadContent()
