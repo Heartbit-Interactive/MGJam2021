@@ -26,7 +26,6 @@ namespace TheCheaps
         {
             base.Initialize();
         }
-
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
@@ -47,16 +46,14 @@ namespace TheCheaps
                 client.SendMessage(message, NetDeliveryMethod.ReliableOrdered);
                 num_message++;
                 counter = 0;
+
+
             }
             counter++;
-
-
         }
-
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
         }
-
     }
 }
