@@ -38,11 +38,60 @@ namespace TheCheapsLib
         }
         public void binarywrite(BinaryWriter bw)
         {
+            bw.Write(through);
 
+            bw.Write(name);
+            bw.Write(texture_path);
+
+            bw.Write(z);
+            bw.Write(speed);
+
+            bw.Write(posxy.X);
+            bw.Write(posxy.Y);
+
+            bw.Write(direction.X);
+            bw.Write(direction.Y);
+
+            bw.Write(sourcerect.X);
+            bw.Write(sourcerect.Y);
+            bw.Write(sourcerect.Width);
+            bw.Write(sourcerect.Height);
+
+            bw.Write(collisionrect.X);
+            bw.Write(collisionrect.Y);
+            bw.Write(collisionrect.Width);
+            bw.Write(collisionrect.Height);
         }
+
         public void binaryread(BinaryReader br)
         {
+            through = br.ReadBoolean();
 
+            name = br.ReadString();
+            texture_path = br.ReadString();
+
+            z = br.ReadSingle();
+            speed = br.ReadSingle();
+
+            posxy = new Vector2(
+            br.ReadSingle(),
+            br.ReadSingle());
+
+            direction = new Vector2(
+            br.ReadSingle(),
+            br.ReadSingle());
+
+            sourcerect = new Rectangle(
+                br.ReadInt32(),
+                br.ReadInt32(),
+                br.ReadInt32(),
+                br.ReadInt32());
+
+            collisionrect = new Rectangle(
+                br.ReadInt32(),
+                br.ReadInt32(),
+                br.ReadInt32(),
+                br.ReadInt32());
         }
     }
 }
