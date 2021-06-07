@@ -1,8 +1,11 @@
 ﻿
 using Lidgren.Network;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
 using System.Text;
 using TheCheapsLib;
 
@@ -14,9 +17,6 @@ namespace TheCheaps
         private NetClient client;
         private int num_message = 0;
         private NetConnection connection;
-        private int counter = 0;
-        public int posx;
-        public int posy;
         public NetworkClient(Game game) : base(game)
         {
             config = new NetPeerConfiguration("TheCheaps");
@@ -28,31 +28,41 @@ namespace TheCheaps
         {
             base.Initialize();
         }
+        DataContractSerializer gamepadSerializer = new DataContractSerializer(typeof(GamePadState));
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            ReadSimulationState();
+            var gpState = GamePad.GetState(0);
+            var message = client.CreateMessage();
+            using (var memstream = new MemoryStream(32 * 1024))
+            {
+                gamepadSerializer.WriteObject(memstream, gpState);
+                var bytes = memstream.ToArray();
+                message.Write(bytes.Length);
+                message.Write(bytes);
+#if VERBOSE
+                System.Diagnostics.Debug.WriteLine("Sent {bytes.Length} bytes to server with GamepadState");
+#endif
+            }
+            client.SendMessage(message, NetDeliveryMethod.UnreliableSequenced);
+            num_message++;
+        }
+
+        private void ReadSimulationState()
+        {
             var msg = client.ReadMessage();
             while (msg != null)
             {
+#if VERBOSE
                 System.Diagnostics.Debug.WriteLine($"{msg} received from server");
-                posx = msg.ReadInt32();
-                posy = msg.ReadInt32();
+#endif
+                var size = msg.ReadInt32();
+                var content = msg.ReadBytes(size);
                 msg = client.ReadMessage();
             }
-            if (counter >= 5)
-            {
-                var message = client.CreateMessage();
-                var text = $"this is message {num_message} connection is {connection.Status}";
-                message.Write(text);
-                System.Diagnostics.Debug.WriteLine(text);
-                client.SendMessage(message, NetDeliveryMethod.ReliableOrdered);
-                num_message++;
-                counter = 0;
-
-
-            }
-            counter++;
         }
+
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
