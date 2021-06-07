@@ -11,3 +11,5 @@ Code/TheCheaps/TheCheaps.csproj.user
 /Code/TheCheaps/Content/obj
 /Code/TheCheaps/Content/bin
 .vs
+obj
+bin
