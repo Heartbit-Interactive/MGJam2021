@@ -30,7 +30,6 @@ namespace TheCheapsLib
                 return memstream.ToArray();
             }
         }
-
         private static void writeGamePadState(GamePadState gpState, BinaryWriter bw)
         {
             bw.Write(gpState.ThumbSticks.Left.X);
@@ -70,6 +69,8 @@ namespace TheCheapsLib
                 }
                 SimulationModel.gamepads[playerIndex] = gamePadState;
                 SimulationModel.oldGamepads[playerIndex] = oldGamePadState;
+                SimulationModel.keyboards[playerIndex] = kbState;
+                SimulationModel.oldKeyboards[playerIndex] = oldKbState;
             }
         }
 
