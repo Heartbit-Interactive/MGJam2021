@@ -68,8 +68,12 @@ namespace TheCheaps
             base.Update(gameTime);
             foreach (var entity in SimulationModel.entities)
             {
-                if(entity.texture == null)
-                entity.texture = Content.Load<Texture2D>(entity.texture_path);
+                if (entity.texture == null)
+                {
+                    var tex = Content.Load<Texture2D>(entity.texture_path);
+                    entity.texture = tex;
+                    entity.origin = new Vector2(tex.Width / 2, tex.Height);
+                }
             }
             oldstate = state;
         }
