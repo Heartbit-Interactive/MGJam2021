@@ -1,77 +1,5 @@
 [
   {
-    "name": "ACTOR_01_Wizard",
-    "posxy": "24, 48",
-    "z": 0.0,
-    "texture_path": "ACTOR_01",
-    "direction": "0, 0",
-    "through": false,
-    "speed": 0.0,
-    "collisionrect": {
-      "X": 0,
-      "Y": 0,
-      "Width": 0,
-      "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
-  },
-  {
-    "name": "ACTOR_02_NoVax",
-    "posxy": "72, 48",
-    "z": 0.0,
-    "texture_path": "ACTOR_02",
-    "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
-    "collisionrect": {
-      "X": 0,
-      "Y": 0,
-      "Width": 0,
-      "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
-  },
-  {
-    "name": "ACTOR_03_Businessman",
-    "posxy": "120, 48",
-    "z": 0.0,
-    "texture_path": "ACTOR_03",
-    "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
-    "collisionrect": {
-      "X": 0,
-      "Y": 0,
-      "Width": 0,
-      "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
-  },
-  {
-    "name": "ACTOR_04_Insano",
-    "posxy": "168, 48",
-    "z": 0.0,
-    "texture_path": "ACTOR_04",
-    "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
-    "collisionrect": {
-      "X": 0,
-      "Y": 0,
-      "Width": 0,
-      "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
-  },
-  {
     "name": "BASE_01",
     "posxy": "96,312",
     "z": 0.0,
@@ -145,7 +73,7 @@
   },
   {
     "name": "RESOURCE_01",
-    "posxy": "84, 384",
+    "posxy": "672, 382",
     "z": 0.0,
     "texture_path": "RESOURCE_01",
     "direction": "0, 1",
@@ -163,7 +91,7 @@
   },
   {
     "name": "RESOURCE_02",
-    "posxy": "252, 384",
+    "posxy": "1272, 382",
     "z": 0.0,
     "texture_path": "RESOURCE_02",
     "direction": "0, 1",
@@ -181,7 +109,7 @@
   },
   {
     "name": "RESOURCE_03",
-    "posxy": "420, 384",
+    "posxy": "1272, 864",
     "z": 0.0,
     "texture_path": "RESOURCE_03",
     "direction": "0, 1",
@@ -199,7 +127,7 @@
   },
   {
     "name": "RESOURCE_04",
-    "posxy": "588, 384",
+    "posxy": "672, 864",
     "z": 0.0,
     "texture_path": "RESOURCE_04",
     "direction": "0, 1",
@@ -426,6 +354,42 @@
       "Y": 0,
       "Width": 0,
       "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Trash_01 SX",
+    "posxy": "36, 768",
+    "z": 0.0,
+    "texture_path": "LEVEL_Trash_01",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": -36,
+      "Y": 0,
+      "Width": 24,
+      "Height": 72
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Trash_02 SX",
+    "posxy": "108, 768",
+    "z": 0.0,
+    "texture_path": "LEVEL_Trash_02",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": -36,
+      "Y": 0,
+      "Width": 24,
+      "Height": 72
     },
     "inventory": null,
     "texture": null,
