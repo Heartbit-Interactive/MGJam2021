@@ -10,7 +10,9 @@ namespace TheCheaps
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+#if !TEST
         private NetworkClient client;
+#endif
         private KeyboardState oldstate;
         public Game1()
         {
@@ -21,9 +23,11 @@ namespace TheCheaps
 
         protected override void Initialize()
         {
+#if !TEST
             // TODO: Add your initialization logic here
             client = new NetworkClient(this);
             Components.Add(client);
+#endif
             base.Initialize();
         }
 
