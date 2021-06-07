@@ -3,15 +3,16 @@
     "name": null,
     "posxy": "0, 0",
     "z": 0.0,
-    "texture_path": null,
+    "texture_path": "012",
     "sourcerect": {
       "X": 0,
       "Y": 0,
       "Width": 0,
       "Height": 0
     },
-    "direction": 0,
+    "direction": "0, 0",
     "through": false,
+    "speed": 0.0,
     "collisionrect": {
       "X": 0,
       "Y": 0,
@@ -33,8 +34,9 @@
       "Width": 0,
       "Height": 0
     },
-    "direction": 0,
+    "direction": "0, 1",
     "through": false,
+    "speed": 0.0,
     "collisionrect": {
       "X": 0,
       "Y": 0,

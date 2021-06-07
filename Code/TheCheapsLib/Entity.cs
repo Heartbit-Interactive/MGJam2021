@@ -15,7 +15,7 @@ namespace TheCheapsLib
         public string name;
         public Vector2 posxy;//posizione piedi
         public float z;
-        public string texture_path;
+        public string texture_path="";
         public Rectangle sourcerect;
         public Vector2 direction;
         public bool through;

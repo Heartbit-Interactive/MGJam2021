@@ -45,7 +45,6 @@ namespace TheCheaps
                 entity.texture = Content.Load<Texture2D>(entity.texture_path);
             }
 #endif
-
         }
 
         protected override void Update(GameTime gameTime)
