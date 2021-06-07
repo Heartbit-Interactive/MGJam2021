@@ -73,7 +73,10 @@ namespace TheCheaps
             _spriteBatch.Begin();
             foreach(var entity in SimulationModel.entities)
             {
-                _spriteBatch.Draw(entity.texture, entity.posxy, entity.sourcerect, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
+                if(entity.sourcerect.Width == 0)
+                    _spriteBatch.Draw(entity.texture, entity.posxy, null, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
+                else
+                    _spriteBatch.Draw(entity.texture, entity.posxy, entity.sourcerect, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
             }
             _spriteBatch.End();
 
