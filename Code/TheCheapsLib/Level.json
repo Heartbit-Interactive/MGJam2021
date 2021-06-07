@@ -1,9 +1,9 @@
 [
   {
-    "name": null,
+    "name": "Testfile",
     "posxy": "0, 0",
     "z": 0.0,
-    "texture_path": "012",
+    "texture_path": "Hate",
     "sourcerect": {
       "X": 0,
       "Y": 0,
@@ -27,7 +27,7 @@
     "name": null,
     "posxy": "0, 0.5",
     "z": 0.0,
-    "texture_path": "123",
+    "texture_path": "Hate",
     "sourcerect": {
       "X": 0,
       "Y": 0,
