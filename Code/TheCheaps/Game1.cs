@@ -1,5 +1,4 @@
-﻿#define _TEST﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -13,10 +12,7 @@ namespace TheCheaps
         private Process server_process;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-#if !TEST
         private NetworkClient client;
-#endif
-        private KeyboardState oldstate;
         public Game1()
         {
             server_process = Process.Start(@"TheCheapsServer.exe");
@@ -27,43 +23,22 @@ namespace TheCheaps
 
         protected override void Initialize()
         {
-#if !TEST
             // TODO: Add your initialization logic here
             client = new NetworkClient(this);
             Components.Add(client);
-#endif
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-
-            load_entities();
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: use this.Content to load your game content here
-        }
-
-        private void load_entities()
-        {
-#if TEST
-            GameSimulation.Stop();
-            GameSimulation.Start();
-            foreach (var entity in SimulationModel.entities)
-            {
-                entity.texture = Content.Load<Texture2D>(entity.texture_path);
-            }
-#endif
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            // TODO: Add your update logic here
-
-            var state = Keyboard.GetState();
-            if (state.IsKeyUp(Keys.F5) && oldstate.IsKeyDown(Keys.F5))
-                load_entities();
 
             base.Update(gameTime);
             foreach (var entity in SimulationModel.entities)
@@ -75,7 +50,6 @@ namespace TheCheaps
                     entity.origin = new Vector2(tex.Width / 2, tex.Height);
                 }
             }
-            oldstate = state;
         }
 
         protected override void Draw(GameTime gameTime)
