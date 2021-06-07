@@ -21,6 +21,9 @@ namespace TheCheapsLib
         public static void Step()
         {
             var now = DateTime.Now;
+            float speedframe = 1;
+            if(SimulationModel.gamepads.Count>0)
+                SimulationModel.entities[0].posxy = SimulationModel.entities[0].posxy + SimulationModel.gamepads[0].ThumbSticks.Left * speedframe;
             foreach (var entity in updateable_entities)
                 update_entity(entity);
         }

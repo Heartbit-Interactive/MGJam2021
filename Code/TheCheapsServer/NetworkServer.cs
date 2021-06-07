@@ -29,14 +29,14 @@ namespace TheCheapsServer
         }
         internal void Tick()
         {
-            process_message(server);
+            process_message();
             GameSimulation.Step();
             foreach (var peer in peerConnections)
                 sendState(server, peer);
         }
 
         DataContractSerializer gamepadDeserializer = new DataContractSerializer(typeof(GamePadState));
-        private void process_message(NetServer server)
+        private void process_message()
         {
             NetIncomingMessage msg = server.ReadMessage();
             if (msg == null)
