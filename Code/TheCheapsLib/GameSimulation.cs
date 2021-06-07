@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -8,7 +9,7 @@ namespace TheCheapsLib
     {
         public static void Start()
         {
-
+            SimulationModel.entities = JsonConvert.DeserializeObject<List<Entity>>("Level.json");
         }
 
         public static void Step()
