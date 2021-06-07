@@ -47,5 +47,21 @@ namespace TheCheapsLib
         {
             
         }
+
+        public static void DeserializeState(byte[] content)
+        {
+            using (var memstream = new MemoryStream(content))
+            {
+                var br = new BinaryReader(memstream);
+                var count = br.ReadInt32();
+                SimulationModel.entities = new List<Entity>(count);
+                for (int i = 0; i < count; i++)
+                {
+                    var entity = new Entity();
+                    entity.binaryread(br);
+                    SimulationModel.entities.Add(entity);
+                }
+            }
+        }
     }
 }

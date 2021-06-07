@@ -59,6 +59,7 @@ namespace TheCheaps
 #endif
                 var size = msg.ReadInt32();
                 var content = msg.ReadBytes(size);
+                GameSimulation.DeserializeState(content);
                 msg = client.ReadMessage();
             }
         }
