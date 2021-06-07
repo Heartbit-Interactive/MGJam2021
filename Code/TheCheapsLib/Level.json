@@ -1,9 +1,9 @@
 [
   {
-    "name": "Testfile",
+    "name": "ACTOR_01_Wizard",
     "posxy": "0, 0",
     "z": 0.0,
-    "texture_path": "Hate",
+    "texture_path": "ACTOR_01",
     "sourcerect": {
       "X": 0,
       "Y": 0,
@@ -24,10 +24,370 @@
     "origin": "0, 0"
   },
   {
-    "name": "default",
+    "name": "ACTOR_02_NoVax",
     "posxy": "0, 0.5",
     "z": 0.0,
-    "texture_path": "Hate",
+    "texture_path": "ACTOR_02",
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "ACTOR_03_Businessman",
+    "posxy": "0, 0.5",
+    "z": 0.0,
+    "texture_path": "ACTOR_03",
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "ACTOR_04_Insano",
+    "posxy": "0, 0.5",
+    "z": 0.0,
+    "texture_path": "ACTOR_04",
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "BASE_01",
+    "posxy": "0, 0.5",
+    "z": 0.0,
+    "texture_path": "BASE_01",
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "BASE_02",
+    "posxy": "0, 0.5",
+    "z": 0.0,
+    "texture_path": "BASE_02",
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "BASE_03",
+    "posxy": "0, 0.5",
+    "z": 0.0,
+    "texture_path": "BASE_03",
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "BASE_04",
+    "posxy": "0, 0.5",
+    "z": 0.0,
+    "texture_path": "BASE_04",
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Barrier_V_01",
+    "posxy": "0, 0.5",
+    "z": 0.0,
+    "texture_path": "LEVEL_Barrier_V_01",
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Trash_01",
+    "posxy": "0, 0.5",
+    "z": 0.0,
+    "texture_path": "LEVEL_Trash_01",
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Trash_02",
+    "posxy": "0, 0.5",
+    "z": 0.0,
+    "texture_path": "LEVEL_Trash_02",
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Trash_03",
+    "posxy": "0, 0.5",
+    "z": 0.0,
+    "texture_path": "LEVEL_Trash_03",
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Trash_04",
+    "posxy": "0, 0.5",
+    "z": 0.0,
+    "texture_path": "LEVEL_Trash_04",
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "RESOURCE_01",
+    "posxy": "0, 0.5",
+    "z": 0.0,
+    "texture_path": "RESOURCE_01",
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "RESOURCE_02",
+    "posxy": "0, 0.5",
+    "z": 0.0,
+    "texture_path": "RESOURCE_02",
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "RESOURCE_03",
+    "posxy": "0, 0.5",
+    "z": 0.0,
+    "texture_path": "RESOURCE_03",
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "RESOURCE_04",
+    "posxy": "0, 0.5",
+    "z": 0.0,
+    "texture_path": "RESOURCE_04",
     "sourcerect": {
       "X": 0,
       "Y": 0,
