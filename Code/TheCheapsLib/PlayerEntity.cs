@@ -10,7 +10,7 @@ namespace TheCheapsLib
         public Inventory inventory;
         public PlayerEntity():base() 
         {
-
+            inventory = new Inventory();
         }
 
 

@@ -18,6 +18,7 @@ namespace TheCheapsLib
         }
         public byte[] serializeInputState()
         {
+            System.Diagnostics.Debug.WriteLine("write gamepad state");
             var gpState = GamePad.GetState(0);
             var kbState = Keyboard.GetState();
             using (var memstream = new MemoryStream(32 * 1024))
@@ -33,13 +34,6 @@ namespace TheCheapsLib
                 oldKbState = kbState;
                 return memstream.ToArray();
             }
-        }
-        private void writeGamePadState(GamePadState gpState, BinaryWriter bw)
-        {
-            bw.Write(gpState.ThumbSticks.Left.X);
-            bw.Write(gpState.ThumbSticks.Left.Y);
-            bw.Write(gpState.Buttons.A == ButtonState.Pressed);
-            bw.Write(gpState.Buttons.B == ButtonState.Pressed);
         }
         private void writeKeyboardState(KeyboardState kbState, BinaryWriter bw)
         {
@@ -66,6 +60,7 @@ namespace TheCheapsLib
                 KeyboardState kbState, oldKbState;
                 using (var br = new BinaryReader(memstream))
                 {
+                    System.Diagnostics.Debug.WriteLine("read gamepad state");
                     gamePadState = readGamePadState(br);
                     oldGamePadState = readGamePadState(br);
                     kbState = readKeyboardState(br);
@@ -78,20 +73,57 @@ namespace TheCheapsLib
             }
         }
 
+        private void writeGamePadState(GamePadState gpState, BinaryWriter bw)
+        {
+            bw.Write(gpState.ThumbSticks.Left.X);
+            bw.Write(gpState.ThumbSticks.Left.Y);
+
+            bw.Write(gpState.ThumbSticks.Right.X);
+            bw.Write(gpState.ThumbSticks.Right.Y);
+
+            bw.Write(gpState.Triggers.Left);
+            bw.Write(gpState.Triggers.Right);
+
+            bw.Write(gpState.Buttons.A == ButtonState.Pressed);
+            bw.Write(gpState.Buttons.B == ButtonState.Pressed);
+            bw.Write(gpState.Buttons.X == ButtonState.Pressed);
+            bw.Write(gpState.Buttons.Y == ButtonState.Pressed);
+            bw.Write(gpState.Buttons.LeftShoulder == ButtonState.Pressed);
+            bw.Write(gpState.Buttons.RightShoulder == ButtonState.Pressed);
+        }
         private GamePadState readGamePadState(BinaryReader br)
         {
             GamePadState gamePadState;
             var left = Vector2.Zero;
             left.X = br.ReadSingle();
             left.Y = br.ReadSingle();
+            var right = Vector2.Zero;
+            right.X = br.ReadSingle();
+            right.Y = br.ReadSingle();
+            var trigger_left = br.ReadSingle();
+            var trigger_right = br.ReadSingle();
+
             var buttonA = br.ReadBoolean();
             var buttonB = br.ReadBoolean();
+            var buttonX = br.ReadBoolean();
+            var buttonY = br.ReadBoolean(); 
+            var buttonLS = br.ReadBoolean();
+            var buttonRS = br.ReadBoolean();
             var button_list = new List<Buttons>();
             if (buttonA)
                 button_list.Add(Buttons.A);
             if (buttonB)
                 button_list.Add(Buttons.B);
-            gamePadState = new GamePadState(left, Vector2.Zero, 0, 0, button_list.ToArray());
+            if (buttonX)
+                button_list.Add(Buttons.X);
+            if (buttonY)
+                button_list.Add(Buttons.Y);
+            if (buttonLS)
+                button_list.Add(Buttons.LeftShoulder);
+            if (buttonRS)
+                button_list.Add(Buttons.RightShoulder);
+
+            gamePadState = new GamePadState(left, right, trigger_left, trigger_right, button_list.ToArray());
             return gamePadState;
         }
     }

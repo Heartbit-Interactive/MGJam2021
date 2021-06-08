@@ -12,6 +12,10 @@ namespace TheCheapsLib
         private int id;
         private bool oldenter;
         private SimulationModel model;
+        private int timer_evade = 0;
+        private bool moving = true;
+        private const int TIMEREVADE = 30;
+
         public GamePlayer(int id, SimulationModel model) 
         {
             this.id = id;
@@ -20,11 +24,48 @@ namespace TheCheapsLib
 
         public void update_input()
         {
-            float speedframe = 1;
+            //timers 
+            if (timer_evade > 0)
+                timer_evade--;
+            var gp = model.gamepads[id];
+
+            //base movement
+            movement(1);
+            //press button or keys
+            if(trigger(Buttons.A) /*|| trigger(Keys.Enter)*/)
+            {
+                //interazione con ambiente con impulsi, reset se non raccolgo per x tempo
+            }
+            //schivata //B
+            if ((trigger(Buttons.B) /*|| trigger(Keys.X)*/) && timer_evade == 0 && moving)
+            {
+                timer_evade = TIMEREVADE;
+                //schivata
+                movement(24);
+            }
+            //RT se non c'è direzione quella giusta è la direzione del giocatore 
+            //sparare + analogico destro per mirare
+            //potenza lancio costante
+            if (trigger(Buttons.RightTrigger) && model.player_entities[id].inventory != null /*|| trigger(Keys.RightControl)*/)
+            {
+                var object_thrown = model.player_entities[id].inventory.last_entity();
+                if (object_thrown != null)
+                {
+                    var vt_shoot = gp.ThumbSticks.Right;// vettore 
+                    
+
+                }
+
+            }
+            
+        }
+
+        private void movement(float speedframe)
+        {
+            //float speedframe = 2;
             var player = model.player_entities[id];
             var kb = model.keyboards[id];
             var gp = model.gamepads[id];
-            //MOVIMENTO DIREZIONALE
             if (gp.ThumbSticks.Left != Vector2.Zero)
             {
                 //gamepad
@@ -52,23 +93,13 @@ namespace TheCheapsLib
                     player.posxy = player.posxy + speedframe * Vector2.UnitY;
                 }
             }
-            if(trigger(Buttons.A) || trigger(Keys.Enter))
-            {
-
-            }
-            //if (trigger(Buttons.B) || trigger(Keys.Back))
-            //{
-
-            //}
-
         }
 
         public bool trigger(Buttons bt)
         {
             var gp = model.gamepads[id];
             var oldgp = model.oldGamepads[id];
-
-
+            System.Diagnostics.Debug.WriteLine("check trigger");
             if (gp.IsButtonDown(bt) && !oldgp.IsButtonDown(bt))
             {
                 return true;
