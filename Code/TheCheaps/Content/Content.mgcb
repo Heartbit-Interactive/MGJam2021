@@ -265,6 +265,18 @@
 /processorParam:TextureFormat=Color
 /build:LEVEL_Barrier_V_01.png
 
+#begin LEVEL_Barrier_V_02.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LEVEL_Barrier_V_02.png
+
 #begin LEVEL_Trash_01.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -312,6 +324,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:LEVEL_Trash_04.png
+
+#begin LEVEL_Trash_A_01.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LEVEL_Trash_A_01.png
 
 #begin menu/lobby_background.png
 /importer:TextureImporter
