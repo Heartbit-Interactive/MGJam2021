@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,9 +10,14 @@ namespace TheCheapsLib
     public class GameSimulation
     {
         public SimulationModel model;
+        public GamePlayer[] players;
         public GameSimulation()
         {
             model = new SimulationModel();
+            players = new GamePlayer[Settings.maxPlayers];
+            for (int i = 0; i < players.Length; i++)
+                players[i] = new GamePlayer(i);
+                
         }
         public void Start()
         {
@@ -35,13 +42,9 @@ namespace TheCheapsLib
         public void Step()
         {
             var now = DateTime.Now;
-            float speedframe = 1;
-            if (model.gamepads[0]!=null)
+            foreach(var player in players)
             {
-                var speed = model.gamepads[0].ThumbSticks.Left* speedframe;
-                speed.Y *= -1;
-                //cambiare lo 0 con index del player
-                model.player_entities[0].posxy = model.player_entities[0].posxy + speed ;
+                player.update_input(model);
             }
             foreach (var entity in updateable_entities)
                 update_entity(entity);
