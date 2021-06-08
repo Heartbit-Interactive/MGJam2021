@@ -16,7 +16,7 @@ namespace TheCheapsLib
             model = new SimulationModel();
             players = new GamePlayer[Settings.maxPlayers];
             for (int i = 0; i < players.Length; i++)
-                players[i] = new GamePlayer(i);
+                players[i] = new GamePlayer(i, model);
                 
         }
         public void Start()
@@ -44,7 +44,7 @@ namespace TheCheapsLib
             var now = DateTime.Now;
             foreach(var player in players)
             {
-                player.update_input(model);
+                player.update_input();
             }
             foreach (var entity in updateable_entities)
                 update_entity(entity);
