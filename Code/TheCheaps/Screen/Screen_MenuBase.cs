@@ -28,6 +28,7 @@ namespace TheCheaps.Scenes
         }
         public override void Update(GameTime gameTime)
         {
+            RefreshInputState();
         }
         public override void Draw(SpriteBatch spriteBatch)
         {

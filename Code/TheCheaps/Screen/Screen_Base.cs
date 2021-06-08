@@ -15,29 +15,37 @@ namespace TheCheaps.Scenes
         public abstract void Draw(SpriteBatch spriteBatch);
         public abstract void Terminate(ContentManager content);
 
+        protected void RefreshInputState()
+        {
+            oldKbState = kbState;
+            oldGpState = gpState;
+            kbState = Keyboard.GetState();
+            gpState = GamePad.GetState(0);
+        }
+
         KeyboardState kbState, oldKbState;
         GamePadState gpState, oldGpState;
-        public bool Triggered(Keys key)
+        public bool Trigger(Keys key)
         {
             return kbState.IsKeyDown(key) && oldKbState.IsKeyUp(key);
         }
-        public bool Triggered(Buttons button)
+        public bool Trigger(Buttons button)
         {
             return gpState.IsButtonDown(button) && gpState.IsButtonUp(button);
         }
-        public bool Released(Keys key)
+        public bool Release(Keys key)
         {
             return kbState.IsKeyUp(key) && oldKbState.IsKeyDown(key);
         }
-        public bool Released(Buttons button)
+        public bool Release(Buttons button)
         {
             return gpState.IsButtonUp(button) && gpState.IsButtonDown(button);
         }
-        public bool Pressed(Keys key)
+        public bool Press(Keys key)
         {
             return kbState.IsKeyDown(key);
         }
-        public bool Pressed(Buttons button)
+        public bool Press(Buttons button)
         {
             return gpState.IsButtonDown(button);
         }

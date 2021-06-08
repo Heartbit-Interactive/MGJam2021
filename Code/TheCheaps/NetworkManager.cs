@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,6 +11,9 @@ namespace TheCheapsServer
     {
         private static NetworkServer server;
         private static CancellationTokenSource serverCancellation;
+
+        public static IPAddress PublicIp { get; internal set; }
+
         public static void StartServer()
         {
             serverCancellation = new CancellationTokenSource();

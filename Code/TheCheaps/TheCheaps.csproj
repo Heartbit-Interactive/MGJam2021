@@ -18,6 +18,7 @@
     <None Remove="Content\obj\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Content\MenuContent.mgcb" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
   </ItemGroup>
@@ -26,6 +27,7 @@
     <EmbeddedResource Include="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <MonoGameContentReference Include="Content\MenuContent.mgcb" />
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
