@@ -10,12 +10,15 @@ namespace TheCheapsLib
     public class GamePlayer
     {
         private int id;
-        public GamePlayer(int id) 
+        private bool oldenter;
+        private SimulationModel model;
+        public GamePlayer(int id, SimulationModel model) 
         {
             this.id = id;
+            this.model = model;
         }
 
-        public void update_input(SimulationModel model)
+        public void update_input()
         {
             float speedframe = 1;
             var player = model.player_entities[id];
@@ -49,11 +52,49 @@ namespace TheCheapsLib
                     player.posxy = player.posxy + speedframe * Vector2.UnitY;
                 }
             }
-            if(kb.IsKeyDown(Keys.Enter) || gp.IsButtonDown(Buttons.A))
+            if(trigger(Buttons.A) || trigger(Keys.Enter))
             {
 
             }
-            
+            //if (trigger(Buttons.B) || trigger(Keys.Back))
+            //{
+
+            //}
+
         }
+
+        public bool trigger(Buttons bt)
+        {
+            var gp = model.gamepads[id];
+            var oldgp = model.oldGamepads[id];
+
+
+            if (gp.IsButtonDown(bt) && !oldgp.IsButtonDown(bt))
+            {
+                return true;
+            }
+
+            return false;
+
+        }
+        public bool trigger(Keys key)
+        {
+            var kb = model.keyboards[id];
+            var oldkb = model.oldKeyboards[id];
+
+
+            if (kb.IsKeyDown(key) && !oldkb.IsKeyDown(key))
+            {
+                return true;
+            }
+
+            return false;
+
+        }
+
+        //public bool release()
+        //{
+
+        //}
     }
 }
