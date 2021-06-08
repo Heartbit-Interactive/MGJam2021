@@ -56,7 +56,10 @@ namespace TheCheaps.Scenes
         public override void Draw(GameTime gameTime)
         {
             if (Screen != null)
+            {
                 Screen.Draw(_spriteBatch);
+                Screen.EndDraw(_spriteBatch);
+            }
             base.Draw(gameTime);
         }
         protected override void Dispose(bool disposing)

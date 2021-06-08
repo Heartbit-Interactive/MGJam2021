@@ -33,10 +33,11 @@ namespace TheCheaps
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             this.Services.AddService(_spriteBatch);
+            SoundManager.LoadContent(Content);
             // TODO: Add your initialization logic here
             var screenManager = new ScreenManager(this);
             Components.Add(screenManager);
-            screenManager.ChangeScreen("game");
+            screenManager.ChangeScreen("lobby");
             // TODO: use this.Content to load your game content here
         }
 

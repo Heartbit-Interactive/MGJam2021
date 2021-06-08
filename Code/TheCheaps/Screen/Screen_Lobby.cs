@@ -76,31 +76,44 @@ namespace TheCheaps.Scenes
         }
         public override void Update(GameTime gameTime)
         {
-            var kbstate = Keyboard.GetState();
-            if (Trigger(Buttons.LeftThumbstickDown) || Trigger(Buttons.DPadDown) || Trigger(Keys.Down))
+            base.Update(gameTime);
+            if (view_stack.Count == 0)
             {
-                menuIndex = (textual_gui.Count + menuIndex + 1) % textual_gui.Count;
-                SoundManager.PlayCursors();
-            }
-            if (Trigger(Buttons.LeftThumbstickUp) || Trigger(Buttons.DPadUp) || Trigger(Keys.Up))
-            {
-                menuIndex = (textual_gui.Count + menuIndex - 1) % textual_gui.Count;
-                SoundManager.PlayCursors();
-            }
-            if (Trigger(Buttons.A) || Trigger(Keys.Enter))
-            {
-                var command = textual_gui[menuIndex];
-                if (!command.enabled)
-                    SoundManager.PlayBuzzer();
-                switch (command.text.ToLowerInvariant())
+                if (Trigger(Buttons.LeftThumbstickDown) || Trigger(Buttons.DPadDown) || Trigger(Keys.Down))
                 {
-                    case "join":
-                        SoundManager.PlayDecision();
-                        break;
+                    menuIndex = (textual_gui.Count + menuIndex + 1) % textual_gui.Count;
+                    SoundManager.PlayCursors();
+                }
+                if (Trigger(Buttons.LeftThumbstickUp) || Trigger(Buttons.DPadUp) || Trigger(Keys.Up))
+                {
+                    menuIndex = (textual_gui.Count + menuIndex - 1) % textual_gui.Count;
+                    SoundManager.PlayCursors();
+                }
+                if (Trigger(Buttons.A) || Trigger(Keys.Enter))
+                {
+                    var command = textual_gui[menuIndex];
+                    if (!command.enabled)
+                        SoundManager.PlayBuzzer();
+                    switch (command.text.ToLowerInvariant())
+                    {
+                        case "join":
+                            SoundManager.PlayDecision();
+                            var view = new View_InputIp(this, new Rectangle(0, 0, 640, 256));
+                            view.Center();
+                            view.Accept += (s, a) => { BeginJoinIp(view.Ip, view.Port); RemoveViewLayer(); };
+                            view.Cancel += (s, a) => { RemoveViewLayer(); };
+                            AddView(view);
+                            break;
+                    }
                 }
             }
-            base.Update(gameTime);
         }
+
+        private void BeginJoinIp(IPAddress ip, int port)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);

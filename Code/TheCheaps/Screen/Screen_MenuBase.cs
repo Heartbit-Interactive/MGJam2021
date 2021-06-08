@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TheCheaps.Screen.View;
 using TheCheapsLib;
 
 namespace TheCheaps.Scenes
@@ -26,15 +27,45 @@ namespace TheCheaps.Scenes
             audio.Play();
             background = content.Load<Texture2D>(background_name);
         }
+        public Stack<View_Base[]> view_stack = new Stack<View_Base[]>();
+        public void AddView(params View_Base[] views)
+        {
+            foreach (var view in views)
+                view.LoadContent(ScreenManager.Instance.Game.Content);
+            view_stack.Push(views);
+        }
+        public void RemoveViewLayer()
+        {
+            var views = view_stack.Pop();
+            foreach (var view in views)
+                view.Terminate(ScreenManager.Instance.Game.Content);
+        }
+
         public override void Update(GameTime gameTime)
         {
             RefreshInputState();
+            if (view_stack.Count > 0)
+            {
+                var views = view_stack.Peek();
+                foreach (var view in views)
+                    view.Update(gameTime);
+            }
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
             spriteBatch.Draw(background, GraphicSettings.Bounds, Color.White);
             spriteBatch.End();
+        }
+
+        public override void EndDraw(SpriteBatch spriteBatch)
+        {
+            if (view_stack.Count > 0)
+            {
+                var views = view_stack.Peek();
+                foreach (var view in views)
+                    view.Draw(spriteBatch);
+            }
         }
         public override void Terminate(ContentManager content)
         {

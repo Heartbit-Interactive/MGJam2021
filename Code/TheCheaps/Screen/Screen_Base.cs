@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TheCheaps.Screen.View;
 
 namespace TheCheaps.Scenes
 {
@@ -13,6 +14,7 @@ namespace TheCheaps.Scenes
         public abstract void LoadContent(ContentManager content);
         public abstract void Update(GameTime gameTime);
         public abstract void Draw(SpriteBatch spriteBatch);
+        public abstract void EndDraw(SpriteBatch spriteBatch);
         public abstract void Terminate(ContentManager content);
 
         protected void RefreshInputState()

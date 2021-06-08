@@ -55,7 +55,9 @@ namespace TheCheaps.Scenes
             }
             spriteBatch.End();
         }
-
+        public override void EndDraw(SpriteBatch spriteBatch)
+        {
+        }
         private void refresh_entity_textures()
         {
             foreach (var entity in client.simulation.model.entities)

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TheCheaps.Scenes;
+using TheCheapsLib;
 
 namespace TheCheaps.Screen.View
 {
@@ -16,6 +17,8 @@ namespace TheCheaps.Screen.View
         public Rectangle Rectangle;
         public Color BackgroundColor = new Color(0, 0, 0, 196);
         private Texture2D white_texture;
+        public event EventHandler Accept;
+        public event EventHandler Cancel;
 
         protected View_Base(Screen_Base screen,Rectangle rect)
         {
@@ -34,7 +37,17 @@ namespace TheCheaps.Screen.View
             spriteBatch.End();
         }
         public abstract void Terminate(ContentManager content);
+        protected void OnCancel()
+        {
+            if (Cancel != null)
+                Cancel.Invoke(this, null);
+        }
 
+        protected void OnAccept()
+        {
+            if (Accept != null)
+                Accept.Invoke(this, null);
+        }
         internal static void DrawString(SpriteFont font, SpriteBatch spriteBatch, string text, Vector2 pos, Color color,bool outline,bool shadow)
         {
             var size = font.MeasureString(text);
@@ -54,6 +67,12 @@ namespace TheCheaps.Screen.View
                 spriteBatch.DrawString(font, text, pos + new Vector2(-1, -1) * outlineOffset, outlineColor, 0, size / 2, 1, SpriteEffects.None, 1f);
             }
             spriteBatch.DrawString(font, text, pos, color, 0, size / 2, 1, SpriteEffects.None, 1f);
+        }
+
+        internal void Center()
+        {
+            this.Rectangle.X = GraphicSettings.Bounds.Center.X - this.Rectangle.Width / 2;
+            this.Rectangle.Y = GraphicSettings.Bounds.Center.Y - this.Rectangle.Height / 2;
         }
     }
 }
