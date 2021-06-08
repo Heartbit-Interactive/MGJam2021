@@ -29,7 +29,6 @@ namespace TheCheaps.Scenes
         }
         public override void Update(GameTime gameTime)
         {
-            NetworkManager.Client.Update(gameTime);
         }
 
         Color backgroundColor = new Color(191 ,149 ,77);

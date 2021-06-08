@@ -18,6 +18,8 @@ namespace TheCheaps.Scenes
 
         SoundEffectInstance audio;
         Texture2D background;
+
+        public int input_sleep;
         public override void LoadContent(ContentManager content)
         {
             var se = content.Load<SoundEffect>(audio_name);
@@ -39,6 +41,7 @@ namespace TheCheaps.Scenes
             var views = view_stack.Pop();
             foreach (var view in views)
                 view.Terminate(ScreenManager.Instance.Game.Content);
+            input_sleep = 5;
         }
 
         public override void Update(GameTime gameTime)

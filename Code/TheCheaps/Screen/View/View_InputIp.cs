@@ -46,9 +46,9 @@ namespace TheCheaps.Screen.View
             else if (ParentScreen.Press(Keys.Up) || ParentScreen.Press(Buttons.LeftThumbstickUp) || ParentScreen.Press(Buttons.DPadUp))
                 numbers[menu_index] = (number_limits[menu_index] + numbers[menu_index] + 1) % number_limits[menu_index];
 
-            else if (ParentScreen.Press(Buttons.A) || ParentScreen.Press(Keys.Enter))
+            else if (ParentScreen.Trigger(Buttons.A) || ParentScreen.Trigger(Keys.Enter))
                 OnAccept();
-            else if (ParentScreen.Press(Buttons.B) || ParentScreen.Press(Keys.Back))
+            else if (ParentScreen.Trigger(Buttons.B) || ParentScreen.Trigger(Keys.Back))
                 OnCancel();
 
             if (menu_index == 0)

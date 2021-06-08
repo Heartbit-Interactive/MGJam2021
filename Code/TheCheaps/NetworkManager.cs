@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Lidgren.Network;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -97,7 +98,7 @@ namespace TheCheaps
         {
             serverCancellation.Cancel();
         }
-
+        public static NetPeerStatus ServerStatus { get { return server != null ? server.Status : NetPeerStatus.NotRunning; } } 
         internal static void BeginJoin(IPAddress ip, int port)
         {
             if (server != null || _client != null)
