@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -35,23 +36,23 @@ namespace TheCheapsLib
             }
             if (Press(Keys.Left))
             {
-                dir = -Vector2.UnitX;
-                dir2 = -Vector2.UnitX;
+                dir += -Vector2.UnitX;
+                dir2 += -Vector2.UnitX;
             }
-            else if (Press(Keys.Right))
+            if (Press(Keys.Right))
             {
-                dir = Vector2.UnitX;
-                dir2 = -Vector2.UnitX;
+                dir += Vector2.UnitX;
+                dir2 += -Vector2.UnitX;
             }
-            else if (Press(Keys.Up))
+            if (Press(Keys.Up))
             {
-                dir = -Vector2.UnitY;
-                dir2 = -Vector2.UnitX;
+                dir += -Vector2.UnitY;
+                dir2 += -Vector2.UnitX;
             }
-            else if (Press(Keys.Down))
+            if (Press(Keys.Down))
             {
-                dir = Vector2.UnitY;
-                dir2 = -Vector2.UnitX;
+                dir += Vector2.UnitY;
+                dir2 += -Vector2.UnitX;
             }
             if (Trigger(Buttons.A) || Trigger(Keys.Z))
                 actionList.Add(new ActionModel() { type = ActionModel.Type.Interact, direction = dir });
@@ -95,7 +96,7 @@ namespace TheCheapsLib
                 }
             }
         }
-#if TRUE
+#if OLD
         public byte[] serializeInputState()
         {
             //System.Diagnostics.Debug.WriteLine("write gamepad state");

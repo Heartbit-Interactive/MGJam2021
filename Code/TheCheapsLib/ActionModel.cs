@@ -6,7 +6,7 @@ using System.Text;
 
 namespace TheCheapsLib
 {
-    class ActionModel
+    public class ActionModel
     {
         public enum Type { Move, Throw, Dash, Interact }
         public Type type;

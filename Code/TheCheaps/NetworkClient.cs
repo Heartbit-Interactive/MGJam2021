@@ -33,7 +33,8 @@ namespace TheCheaps
         {
             ReadSimulationState();
             var message = client.CreateMessage();
-#if TRUE
+#if OLD
+
             var bytes = this.input.serializeInputState();
 #else
             var bytes = this.input.serializeActionState();
