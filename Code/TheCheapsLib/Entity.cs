@@ -21,7 +21,7 @@ namespace TheCheapsLib
         public Vector2 direction;
         public bool through;
         public float speed;
-        public List<string> tags;
+        public List<string> tags = new List<string>();
         //for collision
         public Rectangle collisionrect;
       
@@ -41,7 +41,7 @@ namespace TheCheapsLib
         {
             bw.Write(through);
 
-            bw.Write(name??"");
+            bw.Write(name ?? "");
             bw.Write(texture_path);
 
             bw.Write(z);
@@ -62,12 +62,9 @@ namespace TheCheapsLib
             bw.Write(collisionrect.Y);
             bw.Write(collisionrect.Width);
             bw.Write(collisionrect.Height);
-            if (tags.Count > 0)
-            {
-                bw.Write(tags.Count);
-                foreach (var tag in tags)
-                    bw.Write(tag);
-            }
+            bw.Write(tags.Count);
+            foreach (var tag in tags)
+                bw.Write(tag);
         }
 
         public void binaryread(BinaryReader br)
