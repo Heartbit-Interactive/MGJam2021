@@ -11,7 +11,7 @@ using TheCheapsLib;
 
 namespace TheCheaps
 {
-    internal class NetworkClient : GameComponent
+    internal class NetworkClient
     {
         private NetPeerConfiguration config;
         private NetClient client;
@@ -20,22 +20,17 @@ namespace TheCheaps
 
         private GameInput input;
         public GameSimulation simulation;
-        public NetworkClient(Game game) : base(game)
+        public NetworkClient(Game game)
         {
             config = new NetPeerConfiguration("TheCheaps");
             client = new NetClient(config);
             client.Start();
             connection = client.Connect(host: "127.0.0.1"/*"192.168.01.92"*/, port: 12345);
-        }
-        public override void Initialize()
-        {
             this.simulation = new GameSimulation();
             this.input = new GameInput(simulation.model);
-            base.Initialize();
         }
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
             ReadSimulationState();
             var message = client.CreateMessage();
             var bytes = this.input.serializeInputState();
@@ -80,11 +75,6 @@ namespace TheCheaps
                 client.Recycle(msg);
                 msg = client.ReadMessage();
             }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
         }
     }
 }

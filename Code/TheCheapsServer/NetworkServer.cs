@@ -20,6 +20,9 @@ namespace TheCheapsServer
         private NetPeerConfiguration config;
         private GameInput input;
         private GameSimulation simulation;
+        public bool Started { get { return _started; } }
+        private bool _started;
+
         public NetworkServer()
         {
 
@@ -34,6 +37,7 @@ namespace TheCheapsServer
             this.input = new GameInput(simulation.model);
             server.Start();
             Console.WriteLine($"Server for {config.AppIdentifier} starting... Listening on IP:{GetLocalIPAddress()} on port {server.Port}");
+            this._started = true;
         }
         public void Tick()
         {
@@ -107,7 +111,16 @@ namespace TheCheapsServer
             server.SendMessage(msg, destinationConnection, NetDeliveryMethod.UnreliableSequenced);
         }
 
+        public void Stop(string reason)
+        {
+            server.Shutdown($"Server shutting down: {reason}");
+            //server.Stop();
+        }
 
+        public void Dispose()
+        {
+            //server.Dispose();
+        }
 
         static string GetLocalIPAddress()
         {

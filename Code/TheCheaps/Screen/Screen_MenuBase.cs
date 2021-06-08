@@ -37,6 +37,7 @@ namespace TheCheaps.Scenes
         }
         public override void Terminate(ContentManager content)
         {
+            audio.Stop();
             audio = null;
             background = null;
         }

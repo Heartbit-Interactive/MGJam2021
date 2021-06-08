@@ -20,6 +20,7 @@ namespace TheCheaps.Scenes
         }
         public override void Update(GameTime gameTime)
         {
+            ScreenManager.Instance.ChangeScreen("game");
             base.Update(gameTime);
         }
         public override void Draw(SpriteBatch spriteBatch)

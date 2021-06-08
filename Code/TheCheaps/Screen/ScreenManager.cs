@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,65 +10,58 @@ namespace TheCheaps.Scenes
     /// <summary>
     /// Singleton class gamecomponent
     /// </summary>
-    class ScreenManager : GameComponent
+    class ScreenManager : DrawableGameComponent
     {
         public static ScreenManager Instance;
-        public Screen_Base screen;
-        ContentManager content;
+        public Screen_Base Screen;
+        ContentManager _content;
+        SpriteBatch _spriteBatch;
         public ScreenManager(Game game):base(game)
         {
             if (Instance != null)
                 throw new InvalidOperationException("Only one instance is allowed");
             Instance = this;
+            _content = game.Content;
+            _spriteBatch = game.Services.GetService<SpriteBatch>();
         }
-
         internal void ChangeScreen(string screen_name)
         {
-            screen.Terminate(content);
+            if(Screen!=null)
+            Screen.Terminate(_content);
             switch (screen_name.ToLowerInvariant())
             {
                 case "splash":
-                    screen = new Screen_Splash();
+                    Screen = new Screen_Splash();
                     break;
                 case "lobby":
-                    screen = new Screen_Lobby();
+                    Screen = new Screen_Lobby();
                     break;
                 case "game":
-                    screen = new Screen_Game();
+                    Screen = new Screen_Game((Game1)Game);
                     break;
             }
-            screen.LoadContent(content);
+            Screen.LoadContent(_content);
         }
-
         public override void Initialize()
         {
-            screen = new Screen_Splash();
+            Screen = new Screen_Splash();
             base.Initialize();
         }
-
-        public override string ToString()
-        {
-            return base.ToString();
-        }
-
         public override void Update(GameTime gameTime)
         {
+            if (Screen != null) 
+                Screen.Update(gameTime);
             base.Update(gameTime);
         }
-
+        public override void Draw(GameTime gameTime)
+        {
+            if (Screen != null)
+                Screen.Draw(_spriteBatch);
+            base.Draw(gameTime);
+        }
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-        }
-
-        protected override void OnEnabledChanged(object sender, EventArgs args)
-        {
-            base.OnEnabledChanged(sender, args);
-        }
-
-        protected override void OnUpdateOrderChanged(object sender, EventArgs args)
-        {
-            base.OnUpdateOrderChanged(sender, args);
         }
     }
 }
