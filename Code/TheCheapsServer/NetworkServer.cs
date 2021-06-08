@@ -80,7 +80,11 @@ namespace TheCheapsServer
                     }
                     var count = msg.ReadInt32();
                     var buffer = msg.ReadBytes(count);
-                    input.deserializeInputState(buffer,pl_index);
+#if TRUE
+                    input.deserializeInputState(buffer, pl_index);
+#else
+                    input.deserializeActionState(buffer,pl_index);
+#endif
                     break;
                 default:
                     break;

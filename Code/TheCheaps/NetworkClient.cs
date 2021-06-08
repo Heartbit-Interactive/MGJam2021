@@ -33,7 +33,11 @@ namespace TheCheaps
         {
             ReadSimulationState();
             var message = client.CreateMessage();
+#if TRUE
             var bytes = this.input.serializeInputState();
+#else
+            var bytes = this.input.serializeActionState();
+#endif
 #if VERBOSE
             System.Diagnostics.Debug.WriteLine("Sent {bytes.Length} bytes to server with GamepadState");
 #endif

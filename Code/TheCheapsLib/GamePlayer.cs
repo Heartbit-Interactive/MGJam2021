@@ -64,8 +64,10 @@ namespace TheCheapsLib
         {
             //float speedframe = 2;
             var player = model.player_entities[id];
+
             var kb = model.keyboards[id];
             var gp = model.gamepads[id];
+
             if (gp.ThumbSticks.Left != Vector2.Zero)
             {
                 //gamepad
@@ -99,7 +101,7 @@ namespace TheCheapsLib
         {
             var gp = model.gamepads[id];
             var oldgp = model.oldGamepads[id];
-            System.Diagnostics.Debug.WriteLine("check trigger");
+            //System.Diagnostics.Debug.WriteLine("check trigger");
             if (gp.IsButtonDown(bt) && !oldgp.IsButtonDown(bt))
             {
                 return true;
