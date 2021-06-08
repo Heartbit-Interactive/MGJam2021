@@ -21,6 +21,7 @@ namespace TheCheapsLib
         public Vector2 direction;
         public bool through;
         public float speed;
+        public List<string> tags;
         //for collision
         public Rectangle collisionrect;
       
@@ -61,6 +62,12 @@ namespace TheCheapsLib
             bw.Write(collisionrect.Y);
             bw.Write(collisionrect.Width);
             bw.Write(collisionrect.Height);
+            if (tags.Count > 0)
+            {
+                bw.Write(tags.Count);
+                foreach (var tag in tags)
+                    bw.Write(tag);
+            }
         }
 
         public void binaryread(BinaryReader br)
@@ -92,6 +99,11 @@ namespace TheCheapsLib
                 br.ReadInt32(),
                 br.ReadInt32(),
                 br.ReadInt32());
+
+            var count = br.ReadInt32();
+            tags = new List<string>(count);
+            for(int i =0; i< count; i++)
+                tags.Add(br.ReadString());
         }
     }
 }
