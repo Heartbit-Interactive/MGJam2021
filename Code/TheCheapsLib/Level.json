@@ -628,5 +628,275 @@
     "inventory": null,
     "texture": null,
     "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Trash_01",
+    "posxy": "1032, 624",
+    "z": 0.0,
+    "texture_path": "LEVEL_Trash_01",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 72,
+      "Height": 24
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Trash_04",
+    "posxy": "960, 624",
+    "z": 0.0,
+    "texture_path": "LEVEL_Trash_04",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 72,
+      "Height": 24
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Barrier_V_02",
+    "posxy": "948, 780",
+    "z": 0.0,
+    "texture_path": "LEVEL_Barrier_V_02",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 48,
+      "Height": 156
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Barrier_V_01",
+    "posxy": "948, 936",
+    "z": 0.0,
+    "texture_path": "LEVEL_Barrier_V_01",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 48,
+      "Height": 156
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Trash_02",
+    "posxy": "852, 960",
+    "z": 0.0,
+    "texture_path": "LEVEL_Trash_02",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 72,
+      "Height": 24
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Trash_01",
+    "posxy": "924, 960",
+    "z": 0.0,
+    "texture_path": "LEVEL_Trash_01",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 72,
+      "Height": 24
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Trash_01",
+    "posxy": "996, 960",
+    "z": 0.0,
+    "texture_path": "LEVEL_Trash_01",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 72,
+      "Height": 24
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Trash_04",
+    "posxy": "1068, 960",
+    "z": 0.0,
+    "texture_path": "LEVEL_Trash_04",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 72,
+      "Height": 24
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Trash_A_01",
+    "posxy": "1752, 552",
+    "z": 0.0,
+    "texture_path": "LEVEL_Trash_A_01",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 48,
+      "Height": 96
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Trash_02",
+    "posxy": "1692, 552",
+    "z": 0.0,
+    "texture_path": "LEVEL_Trash_02",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 72,
+      "Height": 24
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Trash_02",
+    "posxy": "1620, 552",
+    "z": 0.0,
+    "texture_path": "LEVEL_Trash_02",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 72,
+      "Height": 24
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Trash_01",
+    "posxy": "1548, 552",
+    "z": 0.0,
+    "texture_path": "LEVEL_Trash_01",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 72,
+      "Height": 24
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Barrier_V_02",
+    "posxy": "1488, 684",
+    "z": 0.0,
+    "texture_path": "LEVEL_Barrier_V_02",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 48,
+      "Height": 156
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Trash_04",
+    "posxy": "1884, 740",
+    "z": 0.0,
+    "texture_path": "LEVEL_Trash_04",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 72,
+      "Height": 24
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "LEVEL_Trash_03",
+    "posxy": "1812, 740",
+    "z": 0.0,
+    "texture_path": "LEVEL_Trash_03",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 72,
+      "Height": 24
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
   }
 ]
