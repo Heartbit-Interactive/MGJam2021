@@ -15,7 +15,7 @@ namespace TheCheaps.Scenes
 {
     class Screen_Lobby : Screen_MenuBase
     {
-        int menuIndex = 2;
+        int menuIndex = 4;
         bool shadow = false;
         bool outline = true;
         int extra_lineHeight = 8;
@@ -29,7 +29,6 @@ namespace TheCheaps.Scenes
         {
             public string text;
             public bool enabled;
-
             public MenuOption(string v1, bool v2)
             {
                 this.text = v1;
@@ -38,9 +37,10 @@ namespace TheCheaps.Scenes
         }
         public Screen_Lobby()
         {
-            WhatsMyIp.GetMyIpAsync().ContinueWith(publicIpReceived);
-            textual_gui.Add(new MenuOption($"Local Ip: {NetworkServer.GetLocalIPAddress()}", false));
-            textual_gui.Add(new MenuOption($"Public Ip: -", false));
+            //textual_gui.Add(new MenuOption($"Local Ip: {NetworkServer.GetLocalIPAddress()}", false));
+            //textual_gui.Add(new MenuOption($"STATUS", false));
+            //textual_gui.Add(new MenuOption($"Port: {NetworkManager.Port}", true));
+            textual_gui.Add(new MenuOption("Host", true));
             textual_gui.Add(new MenuOption("Join", true));
             textual_gui.Add(new MenuOption("Start", false));
             textual_gui.Add(new MenuOption("", false));
@@ -59,12 +59,12 @@ namespace TheCheaps.Scenes
             if (!arg1.IsCompletedSuccessfully || arg1.Result == null)
             {
                 NetworkManager.PublicIp = null;
-                gui.text = $"Public Ip: Null";
+                gui.text = $"[Error] Invalid State";
             }
             else
             {
                 NetworkManager.PublicIp = arg1.Result;
-                gui.text = $"Public Ip: {arg1.Result}"; 
+                gui.text = $"[Hosting] Public Ip: {arg1.Result}"; 
             }
             textual_gui[1] = gui;
         }
@@ -97,21 +97,42 @@ namespace TheCheaps.Scenes
                     switch (command.text.ToLowerInvariant())
                     {
                         case "join":
-                            SoundManager.PlayDecision();
-                            var view = new View_InputIp(this, new Rectangle(0, 0, 640, 256));
-                            view.Center();
-                            view.Accept += (s, a) => { BeginJoinIp(view.Ip, view.Port); RemoveViewLayer(); };
-                            view.Cancel += (s, a) => { RemoveViewLayer(); };
-                            AddView(view);
+                            {
+                                SoundManager.PlayDecision();
+                                var view = new View_InputIp(this, new Rectangle(0, 0, 640, 256));
+                                view.Center();
+                                view.Accept += (s, a) => { BeginJoinIp(view.Ip, view.Port); RemoveViewLayer(); };
+                                view.Cancel += (s, a) => { RemoveViewLayer(); };
+                                AddView(view);
+                            }
+                            break;
+                        case "host":
+                            {
+                                SoundManager.PlayDecision();
+                                var view = new View_InputPort(this, new Rectangle(0, 0, 640, 256));
+                                view.Center();
+                                view.Accept += (s, a) => { BeginHostPort(view.Port); RemoveViewLayer(); };
+                                view.Cancel += (s, a) => { RemoveViewLayer(); };
+                                AddView(view);
+                            }
                             break;
                     }
                 }
             }
         }
 
+        private void BeginHostPort(int port)
+        {
+            if (NetworkManager.ServerRunning)
+                NetworkManager.StopServer();
+            NetworkManager.BeginHost(port);
+        }
+
         private void BeginJoinIp(IPAddress ip, int port)
         {
-            throw new NotImplementedException();
+            if (NetworkManager.ServerRunning)
+                NetworkManager.StopServer();
+            NetworkManager.BeginJoin(ip, port);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

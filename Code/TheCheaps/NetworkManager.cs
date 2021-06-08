@@ -1,18 +1,41 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TheCheaps;
+using TheCheapsServer;
 
-namespace TheCheapsServer
+namespace TheCheaps
 {
     public class NetworkManager
     {
         private static NetworkServer server;
+        private static NetworkClient _client;
+        public static NetworkClient Client { get { return _client; } }
         private static CancellationTokenSource serverCancellation;
+        private static int _port;
+
+        internal static int Port
+        {
+            get { return _port; }
+            set
+            {
+                if (value == _port)
+                    return;
+                _port = value;
+                if (server != null && server.Started)
+                {
+                    StopServer();
+                    StartServer();
+                }
+            }
+        }
 
         public static IPAddress PublicIp { get; internal set; }
+        public static bool ServerRunning { get { return server != null && server.Started; } }
 
         public static void StartServer()
         {
@@ -31,7 +54,7 @@ namespace TheCheapsServer
             {
                 throw new TaskCanceledException();
             }
-            server = new TheCheapsServer.NetworkServer();
+            server = new TheCheapsServer.NetworkServer(_port);
             server.Start();
             var msperstep = 8;
             while (true)
@@ -45,6 +68,7 @@ namespace TheCheapsServer
                 {
                     server.Stop("Task Cancelled");
                     server.Dispose();
+                    server = null;
                     throw new TaskCanceledException();
                 }
                 while (elapsedms < msperstep)
@@ -55,6 +79,7 @@ namespace TheCheapsServer
                     {
                         server.Stop("Task Cancelled");
                         server.Dispose();
+                        server = null;
                         throw new TaskCanceledException();
                     }
                     newms = DateTime.Now.Ticks / 10000;
@@ -63,9 +88,29 @@ namespace TheCheapsServer
             }
         }
 
+        public static void Update(GameTime time)
+        {
+            if (_client != null)
+                _client.Update(time);
+        }
         public static void StopServer()
         {
             serverCancellation.Cancel();
+        }
+
+        internal static void BeginJoin(IPAddress ip, int port)
+        {
+            if (server != null || _client != null)
+                throw new InvalidOperationException();
+            _client = new NetworkClient(ip,port);
+        }
+
+        internal static void BeginHost(int port)
+        {
+            if (server != null || _client!=null)
+                throw new InvalidOperationException();
+            _port = port;
+            StartServer();
         }
     }
 }

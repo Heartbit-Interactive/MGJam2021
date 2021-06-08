@@ -5,13 +5,14 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Runtime.Serialization;
 using System.Text;
 using TheCheapsLib;
 
 namespace TheCheaps
 {
-    internal class NetworkClient
+    public class NetworkClient
     {
         private NetPeerConfiguration config;
         private NetClient client;
@@ -20,12 +21,13 @@ namespace TheCheaps
 
         private GameInput input;
         public GameSimulation simulation;
-        public NetworkClient(Game game)
+        public NetworkClient(IPAddress ip,int port)
         {
             config = new NetPeerConfiguration("TheCheaps");
             client = new NetClient(config);
             client.Start();
-            connection = client.Connect(host: "127.0.0.1"/*"192.168.01.92"*/, port: 12345);
+            var string_ip = ip.ToString();
+            connection = client.Connect(host: string_ip, port: port);
             this.simulation = new GameSimulation();
             this.input = new GameInput(simulation.model);
         }

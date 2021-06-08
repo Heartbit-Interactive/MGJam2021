@@ -100,5 +100,9 @@ namespace TheCheapsLib
                 }
             }
         }
+
+        public void Dispose()
+        {
+        }
     }
 }

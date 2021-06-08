@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using TheCheaps.Scenes;
 using TheCheapsLib;
+using TheCheapsServer;
 
 namespace TheCheaps
 {
@@ -45,7 +46,7 @@ namespace TheCheaps
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            NetworkManager.Update(gameTime);
             base.Update(gameTime);
         }
 

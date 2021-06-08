@@ -12,7 +12,7 @@ namespace TheCheapsServer
     {
         static void Main(string[] args)
         {
-            var server = new NetworkServer();
+            var server = new NetworkServer(12345);
             server.Start();
             var msperstep = 8;
             while (true)

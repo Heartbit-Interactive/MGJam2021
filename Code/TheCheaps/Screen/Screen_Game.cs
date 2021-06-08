@@ -13,15 +13,14 @@ namespace TheCheaps.Scenes
 {
     class Screen_Game : Screen_Base
     {
-        private NetworkClient client;
         private Game1 game;
         public Screen_Game(Game1 game)
         {
             this.game = game;
 #if TEST
             NetworkManager.StartServer();
+            NetworkManager.BeginJoin(new System.Net.IPAddress(new byte[] { 127, 0, 0, 1 }), 12345);
 #endif
-            client = new NetworkClient(game);
         }
         private ContentManager Content;
         public override void LoadContent(ContentManager content)
@@ -30,7 +29,7 @@ namespace TheCheaps.Scenes
         }
         public override void Update(GameTime gameTime)
         {
-            client.Update(gameTime);
+            NetworkManager.Client.Update(gameTime);
         }
 
         Color backgroundColor = new Color(191 ,149 ,77);
@@ -39,14 +38,14 @@ namespace TheCheaps.Scenes
             refresh_entity_textures();
             game.GraphicsDevice.Clear(backgroundColor);
             spriteBatch.Begin();
-            foreach (var entity in client.simulation.model.entities)
+            foreach (var entity in NetworkManager.Client.simulation.model.entities)
             {
                 if (entity.sourcerect.Width == 0)
                     spriteBatch.Draw(entity.texture, entity.posxy, null, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
                 else
                     spriteBatch.Draw(entity.texture, entity.posxy, entity.sourcerect, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
             }
-            foreach (var entity in client.simulation.model.player_entities)
+            foreach (var entity in NetworkManager.Client.simulation.model.player_entities)
             {
                 if (entity.sourcerect.Width == 0)
                     spriteBatch.Draw(entity.texture, entity.posxy, null, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
@@ -60,7 +59,7 @@ namespace TheCheaps.Scenes
         }
         private void refresh_entity_textures()
         {
-            foreach (var entity in client.simulation.model.entities)
+            foreach (var entity in NetworkManager.Client.simulation.model.entities)
             {
                 if (entity.texture == null)
                 {
@@ -69,7 +68,7 @@ namespace TheCheaps.Scenes
                     entity.origin = new Vector2(tex.Width / 2, tex.Height);
                 }
             }
-            foreach (var entity in client.simulation.model.player_entities)
+            foreach (var entity in NetworkManager.Client.simulation.model.player_entities)
             {
                 if (entity.texture == null)
                     entity.texture = Content.Load<Texture2D>(entity.texture_path);

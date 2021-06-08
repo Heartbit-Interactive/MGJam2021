@@ -23,11 +23,10 @@ namespace TheCheapsServer
         public bool Started { get { return _started; } }
         private bool _started;
 
-        public NetworkServer()
+        public NetworkServer(int port)
         {
-
             config = new Lidgren.Network.NetPeerConfiguration("TheCheaps");
-            config.Port = 12345;
+            config.Port = port;
             server = new Lidgren.Network.NetServer(config);
         }
         public void Start()
@@ -123,6 +122,7 @@ namespace TheCheapsServer
 
         public void Dispose()
         {
+            simulation.Dispose();
             //server.Dispose();
         }
 
