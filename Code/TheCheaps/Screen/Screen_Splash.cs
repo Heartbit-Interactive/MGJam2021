@@ -14,7 +14,6 @@ namespace TheCheaps.Scenes
         public override string audio_name => "menu/splash_intro";
         public override string background_name => "menu/splash_background";
         public override bool audio_loop => false;
-
         public override void Update(GameTime gameTime)
         {
             duration_seconds -= gameTime.ElapsedGameTime.TotalSeconds;

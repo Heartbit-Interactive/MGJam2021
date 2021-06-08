@@ -14,13 +14,12 @@ namespace TheCheaps.Scenes
     class Screen_Game : Screen_Base
     {
         private NetworkClient client;
-        private NetworkServer server;
         private Game1 game;
         public Screen_Game(Game1 game)
         {
             this.game = game;
 #if TEST
-            start_server();
+            NetworkManager.StartServer();
 #endif
             client = new NetworkClient(game);
         }
@@ -77,60 +76,8 @@ namespace TheCheaps.Scenes
         public override void Terminate(ContentManager content)
         {
 #if TEST
-            serverCancellation.Cancel();
+            NetworkManager.StopServer();
 #endif
         }
-
-#if TEST
-        private CancellationTokenSource serverCancellation;
-        private void start_server()
-        {
-            serverCancellation = new CancellationTokenSource();
-            var ct = serverCancellation.Token;
-            System.Threading.Tasks.Task.Factory.StartNew(()=>runServer(serverCancellation.Token), ct);
-            while (server == null || !server.Started)
-            {
-                System.Threading.Thread.Yield();
-                System.Threading.Thread.Sleep(1);
-            }
-        }
-        private void runServer(CancellationToken ctoken)
-        {
-            if (ctoken.IsCancellationRequested)
-            {
-                throw new TaskCanceledException();
-            }
-            server = new TheCheapsServer.NetworkServer();
-            server.Start();
-            var msperstep = 8;
-            while (true)
-            {
-                //GESTIONE DEL CLOCK BASILARE
-                var ms = DateTime.Now.Ticks / 10000;
-                server.Tick();
-                var newms = DateTime.Now.Ticks / 10000;
-                var elapsedms = newms - ms;
-                if (ctoken.IsCancellationRequested)
-                {
-                    server.Stop("Task Cancelled");
-                    server.Dispose();
-                    throw new TaskCanceledException();
-                }
-                while (elapsedms < msperstep)
-                {
-                    System.Threading.Thread.Yield();
-                    System.Threading.Thread.Sleep(1);
-                    if (ctoken.IsCancellationRequested)
-                    {
-                        server.Stop("Task Cancelled");
-                        server.Dispose();
-                        throw new TaskCanceledException();
-                    }
-                    newms = DateTime.Now.Ticks / 10000;
-                    elapsedms = newms - ms;
-                }
-            }
-        }
-#endif
     }
 }

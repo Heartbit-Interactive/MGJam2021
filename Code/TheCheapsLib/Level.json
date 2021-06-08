@@ -898,5 +898,131 @@
     "inventory": null,
     "texture": null,
     "origin": "0, 0"
+  },
+  {
+    "name": "GROUND_A_01",
+    "posxy": "324, 360",
+    "z": 0.0,
+    "texture_path": "GROUND_A_01",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "GROUND_A_02",
+    "posxy": "646, 600",
+    "z": 0.0,
+    "texture_path": "GROUND_A_02",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "GROUND_A_02",
+    "posxy": "352, 822",
+    "z": 0.0,
+    "texture_path": "GROUND_A_02",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "GROUND_A_01",
+    "posxy": "1128, 492",
+    "z": 0.0,
+    "texture_path": "GROUND_A_01",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "GROUND_A_04",
+    "posxy": "1472, 266",
+    "z": 0.0,
+    "texture_path": "GROUND_A_04",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "GROUND_A_04",
+    "posxy": "1682, 654",
+    "z": 0.0,
+    "texture_path": "GROUND_A_04",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "GROUND_A_03",
+    "posxy": "1516, 892",
+    "z": 0.0,
+    "texture_path": "GROUND_A_03",
+    "direction": "0, 1",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
   }
 ]
