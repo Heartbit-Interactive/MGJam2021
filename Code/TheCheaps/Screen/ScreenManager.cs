@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +13,7 @@ namespace TheCheaps.Scenes
     {
         public static ScreenManager Instance;
         public Screen_Base screen;
+        ContentManager content;
         public ScreenManager(Game game):base(game)
         {
             if (Instance != null)
@@ -19,14 +21,27 @@ namespace TheCheaps.Scenes
             Instance = this;
         }
 
-        internal void ChangeScreen(string v)
+        internal void ChangeScreen(string screen_name)
         {
-            throw new NotImplementedException();
+            screen.Terminate(content);
+            switch (screen_name.ToLowerInvariant())
+            {
+                case "splash":
+                    screen = new Screen_Splash();
+                    break;
+                case "lobby":
+                    screen = new Screen_Lobby();
+                    break;
+                case "game":
+                    screen = new Screen_Game();
+                    break;
+            }
+            screen.LoadContent(content);
         }
 
         public override void Initialize()
         {
-            screen = new Screen_Title();
+            screen = new Screen_Splash();
             base.Initialize();
         }
 

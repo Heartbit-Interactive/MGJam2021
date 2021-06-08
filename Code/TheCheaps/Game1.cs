@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using TheCheaps.Scenes;
 using TheCheapsLib;
 
 namespace TheCheaps
@@ -48,6 +49,8 @@ namespace TheCheaps
         {
             // TODO: Add your initialization logic here
             client = new NetworkClient(this);
+            var screenManager = new ScreenManager(this);
+            Components.Add(screenManager);
             Components.Add(client);
             base.Initialize();
             _graphics.PreferredBackBufferWidth = 1920;

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace TheCheaps.Scenes
 {
-    class Screen_Title : Screen_MenuBase
+    class Screen_Splash : Screen_MenuBase
     {
         public double duration_seconds = 3;
         public override string audio_name => "menu/splash_intro";
