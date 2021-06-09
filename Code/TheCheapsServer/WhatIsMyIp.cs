@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,9 @@ namespace TheCheapsServer
             "http://icanhazip.com"
         };
             services.Shuffle();
-            using (var webclient = new WebClient())
+            using (var webclient = new MyWebClient())
+            {
+                webclient.Timeout = 2000;
                 foreach (var service in services)
                 {
                     try
@@ -32,8 +35,12 @@ namespace TheCheapsServer
                         var content = await webclient.DownloadStringTaskAsync(service);
                         return IPAddress.Parse(content);
                     }
-                    catch { }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine($"Exception while parsing public IP addess: {e}");
+                    }
                 }
+            }
             return null;
         }
     }
