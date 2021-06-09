@@ -22,11 +22,14 @@ namespace TheCheaps.Scenes
         public int input_sleep;
         public override void LoadContent(ContentManager content)
         {
-            var se = content.Load<SoundEffect>(audio_name);
-            audio = se.CreateInstance();
-            audio.Volume = 0.75f;
-            audio.IsLooped = audio_loop;
-            audio.Play();
+            if (audio_name != null)
+            {
+                var se = content.Load<SoundEffect>(audio_name);
+                audio = se.CreateInstance();
+                audio.Volume = 0.75f;
+                audio.IsLooped = audio_loop;
+                audio.Play();
+            }
             background = content.Load<Texture2D>(background_name);
         }
         public Stack<View_Base[]> view_stack = new Stack<View_Base[]>();
@@ -72,7 +75,8 @@ namespace TheCheaps.Scenes
         }
         public override void Terminate(ContentManager content)
         {
-            audio.Stop();
+            if(audio!=null)
+                audio.Stop();
             audio = null;
             background = null;
         }

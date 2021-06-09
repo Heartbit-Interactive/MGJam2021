@@ -10,8 +10,9 @@ namespace TheCheapsLib
 
         public NetworkPlayerState() { }
         public NetworkPlayerState(int uniq) { this.Unique = uniq; }
-        public void BinaryRead(BinaryReader br)
+        public override void BinaryRead(BinaryReader br)
         {
+            base.BinaryRead(br);
             Unique = br.ReadInt32();
             Name = br.ReadString();
             Ready = br.ReadBoolean();

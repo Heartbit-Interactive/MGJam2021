@@ -32,6 +32,7 @@ namespace TheCheaps
         }
         public int PlayerIndex { get { return Array.FindIndex(network.model.players,x => x!=null && x.Unique == NetworkManager.ThisPeerUnique); } }
 
+
         public NetPeerStatus Status { get { return client == null ? NetPeerStatus.NotRunning : client.Status; } }
 
         public NetworkClient(IPAddress ip, int port)
@@ -44,13 +45,27 @@ namespace TheCheaps
             this.simulation = new GameSimulation();
             this.network = new GameNetwork();
             this.input = new GameInput(simulation.model);
+            StateChanged += SendHandshake;
+        }
+
+        private void SendHandshake(object sender, EventArgs e)
+        {
+            if (this.Status != NetPeerStatus.Running)
+                return;
+            if (this.client.ServerConnection == null)
+                return;
+            if (this.client.ServerConnection.Status != NetConnectionStatus.Connected)
+                return;
+            StateChanged -= SendHandshake;
             SendOp(NetworkOp.OpType.HandShake, NetworkManager.ThisPeerUnique, NetworkManager.ThisPlayerName);
         }
         public void Update(GameTime gameTime)
         {
-            if (Status != LastStatus)
+            _stateChanged = false;
+            var currentConnected = (client.ServerConnection == null ? false : client.ServerConnection.Status == NetConnectionStatus.Connected);
+            if (Status != LastStatus || LastConnected != currentConnected)
             {
-                OnStateChanged();
+                _stateChanged = true;
             }
             ProcessIncomingMessages();
             StepResponseTimeouts();
@@ -65,7 +80,12 @@ namespace TheCheaps
                 case NetworkServerState.Phase.Lobby:
                     break;
             }
+            if (_stateChanged)
+            {
+                OnStateChanged();
+            }
             LastStatus = Status;
+            LastConnected = currentConnected;
         }
 
         private void StepResponseTimeouts()
@@ -112,6 +132,7 @@ namespace TheCheaps
                                 break;
                             case NetworkServer.MessageType.PeerState:
                                 network.SetState(msg.Deserialize<NetworkState>());
+                                _stateChanged = true;
                                 break;
                             case NetworkServer.MessageType.SimulationState:
                                 simulation.SetState(msg.Deserialize<SimulationState>());
@@ -146,7 +167,10 @@ namespace TheCheaps
                 this.response = networkResponse;
             }
         }
-        internal void Dispose() { }
+        internal void Dispose() 
+        {
+            StateChanged = null;
+        }
 
         private void SendOp(NetworkOp.OpType type, params object[] pars)
         {
@@ -155,6 +179,8 @@ namespace TheCheaps
         int defaultTimeoutS = 5;
         SortedList<long, ulong> TimeoutsTicks = new SortedList<long, ulong>();
         private NetPeerStatus LastStatus;
+        private bool LastConnected;
+        private bool _stateChanged;
 
         private void SendOp(NetworkOp.OpType type, EventHandler<NetworkResponseEventArgs> handler, params object[] pars)
         {

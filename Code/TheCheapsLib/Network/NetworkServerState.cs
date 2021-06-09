@@ -15,7 +15,7 @@ namespace TheCheapsLib
             Gameplay,
             Lobby
         }
-        public void BinaryRead(BinaryReader br)
+        public override void BinaryRead(BinaryReader br)
         {
             base.BinaryRead(br);
             GamePhase = (Phase)br.ReadInt32();

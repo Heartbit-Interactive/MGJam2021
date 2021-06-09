@@ -15,11 +15,15 @@ namespace TheCheaps.Scenes
 {
     class Screen_Lobby : Screen_MenuBase
     {
-        int menuIndex = 4;
+        int menuIndex = 2;
         bool shadow = false;
         bool outline = true;
         int extra_lineHeight = 8;
+#if DEBUG
+        public override string audio_name => null;
+#else
         public override string audio_name => "menu/lobby_loop";
+#endif
         public override string background_name => "menu/lobby_background";        
         public override bool audio_loop => true;
 
@@ -78,14 +82,20 @@ namespace TheCheaps.Scenes
             }
             try
             {
-                if(NetworkManager.Client.Status != Lidgren.Network.NetPeerStatus.Running)
+                if (NetworkManager.Client.Status != Lidgren.Network.NetPeerStatus.Running)
                     join_option.text = $"{NetworkManager.Client.Status}...";
-                else if (NetworkManager.Client.GetReady(NetworkManager.Client.PlayerIndex))
-                    join_option.text = "Ready [V]";
                 else
-                    join_option.text = "Ready [ ]";
+                {
+                    var pi = NetworkManager.Client.PlayerIndex;
+                    if (pi < 0)
+                        join_option.text = "Awaiting State";
+                    else if (NetworkManager.Client.GetReady(pi))
+                        join_option.text = "Ready [V]";
+                    else
+                        join_option.text = "Ready [ ]";
+                }
             }
-            catch
+            catch(Exception e)
             {
                 join_option.text = "Error...";
             }
@@ -180,7 +190,7 @@ namespace TheCheaps.Scenes
                             SetReady(true);
                         }
                         break;
-                    case "ready [V]":
+                    case "ready [v]":
                         {
                             SoundManager.PlayDecision();
                             SetReady(false);
@@ -270,6 +280,12 @@ namespace TheCheaps.Scenes
             if (NetworkManager.ServerRunning)
                 NetworkManager.StopServer();
             NetworkManager.BeginJoin(ip, port);
+            NetworkManager.Client.StateChanged += Client_StateChanged;
+        }
+
+        private void Client_StateChanged(object sender, EventArgs e)
+        {
+            refresh_ClientView();
         }
 
         public override void Draw(SpriteBatch spriteBatch)

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,8 +21,16 @@ namespace TheCheaps.Scenes
 #if TEST
             NetworkManager.StartServer();
             NetworkManager.BeginJoin(new System.Net.IPAddress(new byte[] { 127, 0, 0, 1 }), 12345);
-#endif
+            NetworkManager.Client.StateChanged += Client_StateChanged;
         }
+
+        private void Client_StateChanged(object sender, EventArgs e)
+        {
+            NetworkManager.Client.SetReady(true);
+        }
+#else
+        }
+#endif
         private ContentManager Content;
         public override void LoadContent(ContentManager content)
         {
@@ -29,6 +38,14 @@ namespace TheCheaps.Scenes
         }
         public override void Update(GameTime gameTime)
         {
+#if TEST
+            if (NetworkManager.Client.network.model.serverState.GamePhase != TheCheapsLib.NetworkServerState.Phase.Gameplay)
+            {
+                var pls = NetworkManager.Client.network.model.players;
+                if (pls.Any(x => x != null) && pls.All(p => p == null || p.Ready))
+                    NetworkManager.Server.StartMatch();
+            }
+#endif
         }
 
         Color backgroundColor = new Color(191 ,149 ,77);

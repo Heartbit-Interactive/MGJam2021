@@ -17,6 +17,7 @@ namespace TheCheaps
         private static NetworkServer _server;
         private static NetworkClient _client;
         public static NetworkClient Client { get { return _client; } }
+        public static NetworkServer Server { get { return _server; } }
         private static int _port = 12345;
         public static int ThisPeerUnique = Rand.Generator.Next();
         public static string ThisPlayerName = Rand.GeneratePlayerName();

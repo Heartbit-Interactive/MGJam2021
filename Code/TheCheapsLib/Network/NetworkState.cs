@@ -22,7 +22,7 @@ namespace TheCheapsLib
         {
             base.BinaryRead(br);
 
-            var serverState = new NetworkServerState();
+            serverState = new NetworkServerState();
             serverState.BinaryRead(br);
 
             players = new NetworkPlayerState[Settings.maxPlayers];

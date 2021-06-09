@@ -12,7 +12,7 @@ namespace TheCheapsLib
         {
             model = new NetworkModel();
         }
-        public NetworkState GetNetworkState()
+        public NetworkState GetState()
         {
             return new NetworkState(model);
         }
@@ -65,7 +65,6 @@ namespace TheCheapsLib
 
         public void Update()
         {
-            throw new NotImplementedException();
         }
 
         public void SetState(NetworkState networkState)

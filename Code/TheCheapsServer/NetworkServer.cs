@@ -35,6 +35,7 @@ namespace TheCheapsServer
             this.simulation.Start();
             this.input = new GameInput(simulation.model);
             server.Start();
+            network.model.serverState.GamePhase = NetworkServerState.Phase.Lobby;
             Console.WriteLine($"Server for {config.AppIdentifier} starting... Listening on IP:{GetLocalIPAddress()} on port {server.Port}");
             this._started = true;
         }
@@ -49,13 +50,17 @@ namespace TheCheapsServer
                     BroadCast(MessageType.SimulationState, simulation.GetState());
                     break;
                 case NetworkServerState.Phase.Lobby:
-                    BroadCast(MessageType.PeerState, simulation.GetState());
+                    BroadCast(MessageType.PeerState, network.GetState());
                     break;
                 default:
                     break;
             }
         }
-
+        public void StartMatch()
+        {
+            network.model.serverState.GamePhase = NetworkServerState.Phase.Gameplay;
+            BroadCast(MessageType.PeerState, network.GetState());
+        }
         private void process_message()
         {
             NetIncomingMessage msg = server.ReadMessage();
@@ -124,6 +129,8 @@ namespace TheCheapsServer
 
         private void BroadCast(MessageType messageType, IBinarizable state)
         {
+            if (server.Connections.Count == 0)
+                return;
             NetOutgoingMessage msg = server.CreateMessage();
             byte[] array = null;
             using (var memstream = new MemoryStream(128 * 1024))
