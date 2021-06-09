@@ -4,11 +4,16 @@ using System.Text;
 
 namespace TheCheapsLib
 {
-    public static class Random
+    public static class Rand
     {
         static System.Random _rng;
-        public static System.Random rng { get { return _rng; } }
-        static Random()
+        public static string GeneratePlayerName()
+        {
+            return $"Funny Random Name {Generator.Next(1000)}";
+        }
+
+        public static System.Random Generator { get { return _rng; } }
+        static Rand()
         {
             _rng = new System.Random(DateTime.Now.Millisecond);
         }

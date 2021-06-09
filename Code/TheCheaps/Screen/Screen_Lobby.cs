@@ -27,6 +27,10 @@ namespace TheCheaps.Scenes
         List<MenuOption> textual_gui = new List<MenuOption>();
         private MenuOption host_option;
         private MenuOption join_option;
+        private MenuOption status_option;
+        private MenuOption[] player_option;
+        private bool isServer;
+        private bool isClient;
 
         class MenuOption
         {
@@ -40,21 +44,70 @@ namespace TheCheaps.Scenes
         }
         public Screen_Lobby()
         {
-            //textual_gui.Add(new MenuOption($"Local Ip: {NetworkServer.GetLocalIPAddress()}", false));
-            //textual_gui.Add(new MenuOption($"STATUS", false));
-            //textual_gui.Add(new MenuOption($"Port: {NetworkManager.Port}", true));
+            setDefault();
+        }
+
+        private void setDefault()
+        {
+            textual_gui.Clear();
+            textual_gui.Add(status_option = new MenuOption("-status-", false));
             textual_gui.Add(host_option = new MenuOption("Host", true));
             textual_gui.Add(join_option = new MenuOption("Join", true));
-            textual_gui.Add(new MenuOption("Start", false));
             textual_gui.Add(new MenuOption("", false));
-            textual_gui.Add(new MenuOption("Players", false));
-            textual_gui.Add(new MenuOption("You (Host)", false));
-            for (int i = 1; i < Settings.maxPlayers; i++)
+            textual_gui.Add(new MenuOption("-Players-", false));
+            player_option = new MenuOption[Settings.maxPlayers];
+            for (int i = 0; i < Settings.maxPlayers; i++)
             {
-                textual_gui.Add(new MenuOption("-", false));
+                textual_gui.Add(player_option[i] = new MenuOption("-", false));
+            }
+        }
+        private void SetClient()
+        {
+            isServer = false;
+            isClient = true;
+            host_option.text = "Disconnect";
+            refresh_ClientView();
+        }
+
+        private void refresh_ClientView()
+        {
+            try
+            {
+                if (NetworkManager.Client.GetReady(NetworkManager.Client.PlayerIndex))
+                    join_option.text = "Ready [V]";
+                else
+                    join_option.text = "Ready [ ]";
+            }
+            catch
+            {
+                join_option.text = "Error...";
             }
         }
 
+        private void SetServer()
+        {
+            isServer = false;
+            isClient = true;
+            host_option.text = "Waiting Ready";
+            join_option.text = "Stop";
+            switch (NetworkManager.ServerStatus)
+            {
+                case Lidgren.Network.NetPeerStatus.NotRunning:
+                    status_option.text = $"[Hosting] Not running";
+                    break;
+                case Lidgren.Network.NetPeerStatus.Starting:
+                    status_option.text = $"[Hosting] Starting";
+                    break;
+                case Lidgren.Network.NetPeerStatus.Running:
+                    status_option.text = $"[Hosting] Public Ip: {NetworkManager.PublicIp}:{NetworkManager.Port}";
+                    break;
+                case Lidgren.Network.NetPeerStatus.ShutdownRequested:
+                    status_option.text = $"[Hosting] Shutdown Requested";
+                    break;
+                default:
+                    break;
+            }
+        }
 
         public override void LoadContent(ContentManager content)
         {
@@ -67,20 +120,20 @@ namespace TheCheaps.Scenes
             if (view_stack.Count != 0)
                 return;
             if (input_sleep > 0)
-                    {
+            {
                 input_sleep--;
                 return;
             }
-                if (Trigger(Buttons.LeftThumbstickDown) || Trigger(Buttons.DPadDown) || Trigger(Keys.Down))
-                {
-                    menuIndex = (textual_gui.Count + menuIndex + 1) % textual_gui.Count;
-                    SoundManager.PlayCursors();
-                }
-                if (Trigger(Buttons.LeftThumbstickUp) || Trigger(Buttons.DPadUp) || Trigger(Keys.Up))
-                {
-                    menuIndex = (textual_gui.Count + menuIndex - 1) % textual_gui.Count;
-                    SoundManager.PlayCursors();
-                }
+            if (Trigger(Buttons.LeftThumbstickDown) || Trigger(Buttons.DPadDown) || Trigger(Keys.Down))
+            {
+                menuIndex = (textual_gui.Count + menuIndex + 1) % textual_gui.Count;
+                SoundManager.PlayCursors();
+            }
+            if (Trigger(Buttons.LeftThumbstickUp) || Trigger(Buttons.DPadUp) || Trigger(Keys.Up))
+            {
+                menuIndex = (textual_gui.Count + menuIndex - 1) % textual_gui.Count;
+                SoundManager.PlayCursors();
+            }
             if (Trigger(Buttons.A) || Trigger(Keys.Enter))
             {
                 var command = textual_gui[menuIndex];
@@ -93,9 +146,15 @@ namespace TheCheaps.Scenes
                             SoundManager.PlayDecision();
                             var view = new View_InputIp(this, new Rectangle(0, 0, 640, 256));
                             view.Center();
-                            view.Accept += (s, a) => { BeginJoinIp(view.Ip, view.Port); RemoveViewLayer(); };
-                            view.Cancel += (s, a) => { RemoveViewLayer(); };
+                            view.Accept += Join;
+                            view.Cancel += CloseView;
                             AddView(view);
+                        }
+                        break;
+                    case "disconnect":
+                        {
+                            SoundManager.PlayDecision();
+                            Disconnect();
                         }
                         break;
                     case "host":
@@ -103,14 +162,72 @@ namespace TheCheaps.Scenes
                             SoundManager.PlayDecision();
                             var view = new View_InputPort(this, new Rectangle(0, 0, 640, 256));
                             view.Center();
-                            view.Accept += (s, a) => { BeginHostPort(view.Port); RemoveViewLayer(); };
-                            view.Cancel += (s, a) => { RemoveViewLayer(); };
+                            view.Accept += Host;
+                            view.Cancel += CloseView;
                             AddView(view);
+                        }
+                        break;
+                    case "ready [ ]":
+                        {
+                            SoundManager.PlayDecision();
+                            SetReady(true);
+                        }
+                        break;
+                    case "ready [V]":
+                        {
+                            SoundManager.PlayDecision();
+                            SetReady(false);
                         }
                         break;
                 }
             }
+            for (int i = 0; i < Settings.maxPlayers; i++)
+            {
+                if (NetworkManager.Client == null)
+                {
+                    player_option[i].text = "-";
+                    continue;
+                }
+                var pl = NetworkManager.Client.network.model.players[i];
+                if (pl == null)
+                    player_option[i].text = "-";
+                else
+                    player_option[i].text = pl.ToString();
+            }
         }
+
+        private void Disconnect()
+        {
+            NetworkManager.StopClient();
+            setDefault();
+        }
+
+        private void SetReady(bool v)
+        {
+            NetworkManager.Client.SetReady(v);
+            refresh_ClientView();
+        }
+
+        private void Host(object sender, EventArgs e)
+        {
+            var view = ((View_InputPort)sender);
+            BeginHostPort(view.Port); 
+            RemoveViewLayer();
+        }
+
+        private void CloseView(object sender, EventArgs e)
+        {
+            RemoveViewLayer();
+        }
+
+        private void Join(object sender, EventArgs e)
+        {
+            var view = ((View_InputIp)sender);
+            SetClient();
+            BeginJoinIp(view.Ip, view.Port); 
+            RemoveViewLayer();
+        }
+
 
         private void BeginHostPort(int port)
         {
@@ -128,40 +245,25 @@ namespace TheCheaps.Scenes
         }
         private void publicIpReceived(Task<IPAddress> task)
         {
-            var gui = textual_gui[0];
             if (!task.IsCompletedSuccessfully || task.Result == null)
             {
                 NetworkManager.PublicIp = null;
-                gui.text = $"[Error] Invalid State";
+                AddView(new View_Message($"[Error] Invalid State",this));
             }
             else
             {
                 NetworkManager.PublicIp = task.Result;
-                switch (NetworkManager.ServerStatus)
-                {
-                    case Lidgren.Network.NetPeerStatus.NotRunning:
-                        gui.text = $"[Hosting] Not running";
-                        break;
-                    case Lidgren.Network.NetPeerStatus.Starting:
-                        gui.text = $"[Hosting] Starting";
-                        break;
-                    case Lidgren.Network.NetPeerStatus.Running:
-                        gui.text = $"[Hosting] Public Ip: {task.Result}:{NetworkManager.Port}";
-                        break;
-                    case Lidgren.Network.NetPeerStatus.ShutdownRequested:
-                        gui.text = $"[Hosting] Shutdown Requested";
-                        break;
-                    default:
-                        break;
-                }
+                SetServer();
             }
         }
+
 
         private void BeginJoinIp(IPAddress ip, int port)
         {
             if (NetworkManager.ServerRunning)
                 NetworkManager.StopServer();
             NetworkManager.BeginJoin(ip, port);
+            NetworkManager.Client.StateChanged +=
         }
 
         public override void Draw(SpriteBatch spriteBatch)

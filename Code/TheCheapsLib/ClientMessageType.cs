@@ -6,6 +6,7 @@ namespace TheCheapsLib
 {
     public enum ClientMessageType
     {
-        ActionState
+        ActionState,
+        NetworkOp
     }
 }

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TheCheaps;
+using TheCheapsLib;
 using TheCheapsServer;
 
 namespace TheCheaps
@@ -17,6 +18,8 @@ namespace TheCheaps
         private static NetworkClient _client;
         public static NetworkClient Client { get { return _client; } }
         private static int _port = 12345;
+        public static int ThisPeerUnique = Rand.Generator.Next();
+        public static string ThisPlayerName = Rand.GeneratePlayerName();
 
         internal static int Port
         {
@@ -51,7 +54,9 @@ namespace TheCheaps
         {
             ServerThreadManager.Stop();
         }
-        public static NetPeerStatus ServerStatus { get { return _server != null ? _server.Status : NetPeerStatus.NotRunning; } } 
+        public static NetPeerStatus ServerStatus { get { return _server != null ? _server.Status : NetPeerStatus.NotRunning; } }
+
+
         internal static void BeginJoin(IPAddress ip, int port)
         {
             if (_client != null)
@@ -65,6 +70,13 @@ namespace TheCheaps
                 throw new InvalidOperationException();
             _port = port;
             StartServer();
+        }
+
+        internal static void StopClient()
+        {
+            _client.Disconnect();
+            _client.Dispose();
+            _client = null;
         }
     }
 }

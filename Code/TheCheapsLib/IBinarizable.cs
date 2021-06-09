@@ -8,6 +8,6 @@ namespace TheCheapsLib
     public interface IBinarizable
     {
         void BinaryRead(BinaryReader br);
-        void BinaryWrite(BinaryWriter br);
+        void BinaryWrite(BinaryWriter bw);
     }
 }

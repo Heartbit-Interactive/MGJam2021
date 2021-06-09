@@ -15,11 +15,10 @@ namespace TheCheapsServer
     public class NetworkServer
     {
         NetServer server;
-        NetConnection[] peerConnections = new NetConnection[Settings.maxPlayers];
-        Dictionary<NetConnection, int> connectionToPlayerMapping = new Dictionary<NetConnection, int>();
         private NetPeerConfiguration config;
         private GameInput input;
         private GameSimulation simulation;
+        private GameNetwork network;
         public bool Started { get { return _started; } }
         private bool _started;
         public NetPeerStatus Status { get { return server.Status; } }
@@ -31,6 +30,7 @@ namespace TheCheapsServer
         }
         public void Start()
         {
+            this.network = new GameNetwork();
             this.simulation = new GameSimulation();
             this.simulation.Start();
             this.input = new GameInput(simulation.model);
@@ -41,16 +41,21 @@ namespace TheCheapsServer
         public void Tick()
         {
             process_message();
-            simulation.Step();
-            foreach (var peer in peerConnections)
+            network.Update();
+            switch (network.model.serverState.GamePhase)
             {
-                if (peer != null)
-                {
-                    //SENDS SIMULATION STATE
-                    SendMessage(peer, MessageType.SimulationState, simulation.GetState());
-                }
+                case NetworkServerState.Phase.Gameplay:
+                    simulation.Step();
+                    BroadCast(MessageType.SimulationState, simulation.GetState());
+                    break;
+                case NetworkServerState.Phase.Lobby:
+                    BroadCast(MessageType.PeerState, simulation.GetState());
+                    break;
+                default:
+                    break;
             }
         }
+
         private void process_message()
         {
             NetIncomingMessage msg = server.ReadMessage();
@@ -75,19 +80,19 @@ namespace TheCheapsServer
                     break;
                 case NetIncomingMessageType.Data:
 #if VERBOSE
-                        System.Diagnostics.Debug.WriteLine($"{msg} received from server");
+                    System.Diagnostics.Debug.WriteLine($"{msg} received from server");
 #endif
                     var type = (ClientMessageType)msg.ReadByte();
-                    var conn = msg.SenderConnection;
-                    var pl_index = 0;
-                    if (!connectionToPlayerMapping.TryGetValue(conn, out pl_index))
-                    {
-                        pl_index = addPeer(msg, conn);
-                    }
                     switch (type)
                     {
                         case ClientMessageType.ActionState:
-                            input.SetActionState(msg.Deserialize<FrameActionState>(),pl_index);
+                            var pl_index = network.GetPlayerIndex(msg.SenderConnection);
+                            if(pl_index>=0)
+                                input.SetActionState(msg.Deserialize<FrameActionState>(), pl_index);
+                            break;
+                        case ClientMessageType.NetworkOp:                            
+                            var response = network.ProcessOp(msg.SenderConnection,msg.Deserialize<NetworkOp>());
+                            SendMessage(msg.SenderConnection,MessageType.Response, response, NetDeliveryMethod.ReliableOrdered);
                             break;
                         default:
                             throw new Exception("Invalid message type");
@@ -99,21 +104,7 @@ namespace TheCheapsServer
             }
             server.Recycle(msg);
         }
-
-        private int addPeer(NetIncomingMessage msg, NetConnection conn)
-        {
-            int pl_index = Array.IndexOf(peerConnections, null);
-            if (pl_index >= 0)
-            {
-                Console.WriteLine($"Peer added at index {pl_index}");
-                connectionToPlayerMapping[conn] = pl_index;
-                peerConnections[pl_index] = msg.SenderConnection;
-            }
-
-            return pl_index;
-        }
-
-        private void SendMessage(NetConnection destinationConnection, MessageType messageType, IBinarizable state)
+        private void SendMessage(NetConnection destinationConnection, MessageType messageType, IBinarizable state, NetDeliveryMethod method = NetDeliveryMethod.UnreliableSequenced)
         {
             NetOutgoingMessage msg = server.CreateMessage();
             byte[] array = null;
@@ -128,7 +119,25 @@ namespace TheCheapsServer
             msg.Write((byte)messageType);
             msg.Write(array.Length);
             msg.Write(array);
-            server.SendMessage(msg, destinationConnection, NetDeliveryMethod.UnreliableSequenced);
+            server.SendMessage(msg, destinationConnection, method);
+        }
+
+        private void BroadCast(MessageType messageType, IBinarizable state)
+        {
+            NetOutgoingMessage msg = server.CreateMessage();
+            byte[] array = null;
+            using (var memstream = new MemoryStream(128 * 1024))
+            {
+                using (var bw = new BinaryWriter(memstream))
+                {
+                    state.BinaryWrite(bw);
+                }
+                array = memstream.ToArray();
+            }
+            msg.Write((byte)messageType);
+            msg.Write(array.Length);
+            msg.Write(array);
+            server.SendToAll(msg, NetDeliveryMethod.UnreliableSequenced);
         }
 
         public void Stop(string reason)
@@ -160,8 +169,8 @@ namespace TheCheapsServer
         {
             PeerState,
             SimulationState,
-            PeerUpdate,
-            SimulationUpdate,
+            Op,
+            Response,
         }
     }
 }

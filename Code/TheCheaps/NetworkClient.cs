@@ -17,27 +17,46 @@ namespace TheCheaps
     {
         private NetPeerConfiguration config;
         private NetClient client;
-        private int num_message = 0;
         private NetConnection connection;
 
         private GameInput input;
         public GameSimulation simulation;
+        public GameNetwork network;
+
+        public event EventHandler StateChanged;
+        private void OnStateChanged()
+        {
+            if (StateChanged != null)
+                StateChanged.Invoke(this, null);
+        }
+        public int PlayerIndex { get { return Array.FindIndex(network.model.players,x => x!=null && x.Unique == NetworkManager.ThisPeerUnique); } }
+
         public NetworkClient(IPAddress ip, int port)
         {
             config = new NetPeerConfiguration("TheCheaps");
             client = new NetClient(config);
             client.Start();
             var string_ip = ip.ToString();
-            connection = client.Connect(host: string_ip, port: port);
+            connection = client.Connect(host: string_ip, port: port);            
             this.simulation = new GameSimulation();
+            this.network = new GameNetwork();
             this.input = new GameInput(simulation.model);
+            SendOp(NetworkOp.OpType.HandShake, NetworkManager.ThisPeerUnique, NetworkManager.ThisPlayerName);
         }
         public void Update(GameTime gameTime)
         {
             ProcessIncomingMessages();
-            SendMessage(ClientMessageType.ActionState, this.input.getActionState());
-            input.update_times();
-            num_message++;
+            switch (network.model.serverState.GamePhase)
+            {
+                case NetworkServerState.Phase.Unset:
+                    break;
+                case NetworkServerState.Phase.Gameplay:
+                    SendMessage(ClientMessageType.ActionState, this.input.getActionState());
+                    input.update_times();
+                    break;
+                case NetworkServerState.Phase.Lobby:
+                    break;
+            }
         }
         private void ProcessIncomingMessages()
         {
@@ -64,14 +83,11 @@ namespace TheCheaps
                         switch (type)
                         {
                             case NetworkServer.MessageType.PeerState:
-                                ReadPeerState(msg);
+                                network.SetState(msg.Deserialize<NetworkState>());
                                 break;
                             case NetworkServer.MessageType.SimulationState:
                                 simulation.SetState(msg.Deserialize<SimulationState>());
                                 break;
-                            case NetworkServer.MessageType.PeerUpdate:
-                            case NetworkServer.MessageType.SimulationUpdate:
-                                throw new NotImplementedException();
                             default:
                                 throw new Exception("Invalid message type");
                         }
@@ -85,11 +101,12 @@ namespace TheCheaps
             }
         }
 
-        private void ReadPeerState(NetIncomingMessage msg)
-        {
-            throw new NotImplementedException();
-        }
+        internal void Dispose() { }
 
+        private void SendOp(NetworkOp.OpType type, params object[] pars)
+        {
+            SendMessage(ClientMessageType.NetworkOp, new NetworkOp(type, pars), NetDeliveryMethod.ReliableOrdered);
+        }
         private void SendMessage(ClientMessageType messageType, IBinarizable state, NetDeliveryMethod deliveryMethod = NetDeliveryMethod.UnreliableSequenced)
         {
             NetOutgoingMessage msg = client.CreateMessage();
@@ -109,6 +126,22 @@ namespace TheCheaps
 #if VERBOSE
             System.Diagnostics.Debug.WriteLine("Sent {bytes.Length} bytes to server with GamepadState");
 #endif
+        }
+
+        internal void SetReady(bool ready)
+        {
+            SendMessage(ClientMessageType.NetworkOp, new NetworkOp(NetworkOp.OpType.SetReady, ready), NetDeliveryMethod.ReliableOrdered);
+        }
+
+        internal bool GetReady(int playerIndex)
+        {
+            return network.model.players[playerIndex].Ready;
+        }
+
+        internal void Disconnect()
+        {
+            SendOp(NetworkOp.OpType.Disconnect);
+            client.Disconnect("DisconnectRequestedByUser");
         }
     }
 }
