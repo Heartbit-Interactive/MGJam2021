@@ -12,23 +12,10 @@ namespace TheCheapsServer
     {
         static void Main(string[] args)
         {
-            var server = new NetworkServer(12345);
-            server.Start();
-            var msperstep = 8;
-            while (true)
+            var server = ServerThreadManager.Start(12345);
+            while (server.Status != NetPeerStatus.NotRunning)
             {
-                //GESTIONE DEL CLOCK BASILARE
-                var ms = DateTime.Now.Ticks / 10000;
-                server.Tick();
-                var newms = DateTime.Now.Ticks / 10000;
-                var elapsedms = newms - ms;
-                while (elapsedms < msperstep)
-                {
-                    System.Threading.Thread.Yield();
-                    System.Threading.Thread.Sleep(1);
-                    newms = DateTime.Now.Ticks / 10000;
-                    elapsedms = newms - ms;
-                }
+                System.Threading.Thread.Sleep(2);
             }
         }
     }

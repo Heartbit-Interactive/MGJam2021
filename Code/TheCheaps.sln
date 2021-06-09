@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheCheaps", "TheCheaps\TheC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidgren.Network", "Libraries\Lidgren\Lidgren.Network\Lidgren.Network.csproj", "{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheCheapsServer", "TheCheapsServer\TheCheapsServer.csproj", "{433D9ADF-FD9D-4CFF-8F01-49B27A41CA74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheCheapsServer", "TheCheapsServer\TheCheapsServer.csproj", "{433D9ADF-FD9D-4CFF-8F01-49B27A41CA74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheCheapsLib", "TheCheapsLib\TheCheapsLib.csproj", "{1FE9280D-C422-4587-811D-B65AF1C1D711}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheCheapsLib", "TheCheapsLib\TheCheapsLib.csproj", "{1FE9280D-C422-4587-811D-B65AF1C1D711}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

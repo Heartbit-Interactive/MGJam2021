@@ -15,8 +15,10 @@ namespace TheCheaps.Screen.View
     class View_InputIp : View_Base
     {
         private SpriteFont font;
-        public int[] numbers = new int[5];
-        public int[] number_limits = new int[5] { 255, 255, 255, 255, 999999 };
+        public int[] numbers = new int[5] { 127, 0, 0, 1, 12345 };
+        public float[] float_numbers = new float[5] { 127, 0, 0, 1, 12345 };
+        float speed, start_speed = 0.05f;
+        public int[] number_limits = new int[5] { 256, 256, 256, 256, 1000000 };
         public string[] texts = new string[2]{
             "Please enter Host Ip and Port:",
             "" };
@@ -41,12 +43,30 @@ namespace TheCheaps.Screen.View
             else if (ParentScreen.Trigger(Keys.Right) || ParentScreen.Trigger(Buttons.LeftThumbstickRight) || ParentScreen.Trigger(Buttons.DPadRight))
                 menu_index = (5 + menu_index + 1) % 5;
 
+            else if (ParentScreen.Trigger(Keys.Down) || ParentScreen.Trigger(Buttons.LeftThumbstickDown) || ParentScreen.Trigger(Buttons.DPadDown))
+            {
+                change_value(menu_index, -1);
+                float_numbers[menu_index] = numbers[menu_index];
+            }
+            else if (ParentScreen.Trigger(Keys.Up) || ParentScreen.Trigger(Buttons.LeftThumbstickUp) || ParentScreen.Trigger(Buttons.DPadUp))
+            {
+                change_value(menu_index, +1);
+                float_numbers[menu_index] = numbers[menu_index];
+            }
             else if (ParentScreen.Press(Keys.Down) || ParentScreen.Press(Buttons.LeftThumbstickDown) || ParentScreen.Press(Buttons.DPadDown))
-                numbers[menu_index] = (number_limits[menu_index] + numbers[menu_index] - 1) % number_limits[menu_index];
+            {
+                change_value(menu_index, -speed);
+                speed = Math.Min(speed + Math.Max(0.01f, speed / 10f), menu_index == 4 ? 100:1) ;
+            }
             else if (ParentScreen.Press(Keys.Up) || ParentScreen.Press(Buttons.LeftThumbstickUp) || ParentScreen.Press(Buttons.DPadUp))
-                numbers[menu_index] = (number_limits[menu_index] + numbers[menu_index] + 1) % number_limits[menu_index];
-
-            else if (ParentScreen.Trigger(Buttons.A) || ParentScreen.Trigger(Keys.Enter))
+            {
+                change_value(menu_index, +speed);
+                speed = Math.Min(speed + Math.Max(0.01f,speed/10f), menu_index == 4 ? 100 : 1);
+            }
+            else
+                speed = start_speed;
+            
+            if (ParentScreen.Trigger(Buttons.A) || ParentScreen.Trigger(Keys.Enter))
                 OnAccept();
             else if (ParentScreen.Trigger(Buttons.B) || ParentScreen.Trigger(Keys.Back))
                 OnCancel();
@@ -61,6 +81,12 @@ namespace TheCheaps.Screen.View
                 texts[1] = $"{numbers[0]}.{numbers[1]}.{numbers[2]}.<{numbers[3]}>:{numbers[4]}";
             else if (menu_index == 4)
                 texts[1] = $"{numbers[0]}.{numbers[1]}.{numbers[2]}.{numbers[3]}:<{numbers[4]}>";
+        }
+
+        private void change_value(int menu_index, float speed)
+        {
+            float_numbers[menu_index] = (number_limits[menu_index] + float_numbers[menu_index] + speed+0.001f) % number_limits[menu_index];
+            numbers[menu_index] = (int)Math.Round(float_numbers[menu_index]);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
