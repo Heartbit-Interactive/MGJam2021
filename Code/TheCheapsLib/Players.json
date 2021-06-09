@@ -12,8 +12,8 @@
     "collisionrect": {
       "X": 0,
       "Y": 0,
-      "Width": 0,
-      "Height": 0
+      "Width": 24,
+      "Height": 24
     },
     "texture": null,
     "origin": "0, 0"
