@@ -214,7 +214,7 @@ namespace TheCheapsLib
         }
         public bool Trigger(Buttons button)
         {
-            return gpState.IsButtonDown(button) && gpState.IsButtonUp(button);
+            return gpState.IsButtonDown(button) && oldGpState.IsButtonUp(button);
         }
         public bool Release(Keys key)
         {
@@ -222,7 +222,7 @@ namespace TheCheapsLib
         }
         public bool Release(Buttons button)
         {
-            return gpState.IsButtonUp(button) && gpState.IsButtonDown(button);
+            return gpState.IsButtonUp(button) && oldGpState.IsButtonDown(button);
         }
         public bool Press(Keys key)
         {
