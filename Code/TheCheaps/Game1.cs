@@ -38,7 +38,7 @@ namespace TheCheaps
             // TODO: Add your initialization logic here
             var screenManager = new ScreenManager(this);
             Components.Add(screenManager);
-            screenManager.ChangeScreen("lobby");
+            screenManager.ChangeScreen("game");
             //screenManager.ChangeScreen("game");
             // TODO: use this.Content to load your game content here
         }
