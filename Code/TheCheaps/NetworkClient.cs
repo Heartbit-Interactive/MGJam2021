@@ -40,6 +40,8 @@ namespace TheCheaps
             var bytes = this.input.serializeInputState();
 #else
             var bytes = this.input.serializeActionState();
+            input.update_times();
+
 #endif
 #if VERBOSE
             System.Diagnostics.Debug.WriteLine("Sent {bytes.Length} bytes to server with GamepadState");
