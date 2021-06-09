@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TheCheapsLib
 {
-    public class NetworkOp : IBinarizable
+    public class NetworkOp : NetworkMessageBase
     {
         public OpType Type;
         public object[] Parameters;
@@ -22,6 +22,7 @@ namespace TheCheapsLib
 
         public void BinaryRead(BinaryReader br)
         {
+            base.BinaryRead(br);
             Type = (OpType)br.ReadInt32();
             switch (Type)
             {
@@ -36,8 +37,9 @@ namespace TheCheapsLib
             }
         }
 
-        public void BinaryWrite(BinaryWriter bw)
+        public override void BinaryWrite(BinaryWriter bw)
         {
+            base.BinaryWrite(bw);
             bw.Write((int)Type);
             switch (Type)
             {

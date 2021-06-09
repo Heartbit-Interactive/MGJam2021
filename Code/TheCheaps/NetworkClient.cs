@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Text;
@@ -31,6 +32,8 @@ namespace TheCheaps
         }
         public int PlayerIndex { get { return Array.FindIndex(network.model.players,x => x!=null && x.Unique == NetworkManager.ThisPeerUnique); } }
 
+        public NetPeerStatus Status { get { return client == null ? NetPeerStatus.NotRunning : client.Status; } }
+
         public NetworkClient(IPAddress ip, int port)
         {
             config = new NetPeerConfiguration("TheCheaps");
@@ -46,6 +49,7 @@ namespace TheCheaps
         public void Update(GameTime gameTime)
         {
             ProcessIncomingMessages();
+            StepResponseTimeouts();
             switch (network.model.serverState.GamePhase)
             {
                 case NetworkServerState.Phase.Unset:
@@ -57,7 +61,24 @@ namespace TheCheaps
                 case NetworkServerState.Phase.Lobby:
                     break;
             }
+            LastStatus = Status;
         }
+
+        private void StepResponseTimeouts()
+        {
+            var ticks = DateTime.UtcNow.Ticks;
+            if (TimeoutsTicks.Count == 0)
+                return;
+            var first = TimeoutsTicks.FirstOrDefault();
+            while (first.Key < ticks)
+            {
+                processResponse(new NetworkResponse() { type = NetworkResponse.Type.Timeout, OriginId = first.Value });
+                if (TimeoutsTicks.Count == 0)
+                    return;
+                first = TimeoutsTicks.FirstOrDefault();
+            }
+        }
+
         private void ProcessIncomingMessages()
         {
             NetIncomingMessage msg = client.ReadMessage();
@@ -82,6 +103,9 @@ namespace TheCheaps
                         var type = (NetworkServer.MessageType)msg.ReadByte();
                         switch (type)
                         {
+                            case NetworkServer.MessageType.Response:
+                                processResponse(msg.Deserialize<NetworkResponse>());
+                                break;
                             case NetworkServer.MessageType.PeerState:
                                 network.SetState(msg.Deserialize<NetworkState>());
                                 break;
@@ -100,12 +124,40 @@ namespace TheCheaps
                 msg = client.ReadMessage();
             }
         }
-
+        Dictionary<ulong, EventHandler<NetworkResponseEventArgs>> MessagesWaitingResponse = new Dictionary<ulong, EventHandler<NetworkResponseEventArgs>>(); 
+        private void processResponse(NetworkResponse networkResponse)
+        {
+            EventHandler<NetworkResponseEventArgs> handler;
+            if (!MessagesWaitingResponse.TryGetValue(networkResponse.OriginId, out handler))
+                return;
+            TimeoutsTicks.Remove(TimeoutsTicks.FirstOrDefault(x => x.Value == networkResponse.OriginId).Key);
+            MessagesWaitingResponse.Remove(networkResponse.OriginId);
+            handler.Invoke(this, new NetworkResponseEventArgs(networkResponse));
+        }
+        public class NetworkResponseEventArgs : EventArgs
+        {
+            public NetworkResponse response;
+            public NetworkResponseEventArgs(NetworkResponse networkResponse)
+            {
+                this.response = networkResponse;
+            }
+        }
         internal void Dispose() { }
 
         private void SendOp(NetworkOp.OpType type, params object[] pars)
         {
             SendMessage(ClientMessageType.NetworkOp, new NetworkOp(type, pars), NetDeliveryMethod.ReliableOrdered);
+        }
+        int defaultTimeoutS = 5;
+        SortedList<long, ulong> TimeoutsTicks = new SortedList<long, ulong>();
+        private NetPeerStatus LastStatus;
+
+        private void SendOp(NetworkOp.OpType type, EventHandler<NetworkResponseEventArgs> handler, params object[] pars)
+        {
+            var message = new NetworkOp(type, pars);
+            MessagesWaitingResponse[message.MessageId] = handler;
+            TimeoutsTicks.Add(DateTime.UtcNow.Ticks + TimeSpan.FromSeconds(defaultTimeoutS).Ticks + Rand.Generator.Next(10000), message.MessageId);
+            SendMessage(ClientMessageType.NetworkOp,message, NetDeliveryMethod.ReliableOrdered);
         }
         private void SendMessage(ClientMessageType messageType, IBinarizable state, NetDeliveryMethod deliveryMethod = NetDeliveryMethod.UnreliableSequenced)
         {

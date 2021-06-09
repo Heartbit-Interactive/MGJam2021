@@ -5,14 +5,7 @@ using System.Text;
 
 namespace TheCheapsLib
 {
-    public class State : IBinarizable
+    public class State : NetworkMessageBase
     {
-        public virtual void BinaryRead(BinaryReader br)
-        {
-        }
-
-        public virtual void BinaryWrite(BinaryWriter bw)
-        {
-        }
     }
 }

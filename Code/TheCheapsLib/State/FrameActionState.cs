@@ -11,7 +11,7 @@ namespace TheCheapsLib
         List<ActionModel> actionList;
 
         public IEnumerable<ActionModel> List { get { return actionList; } }
-
+        public FrameActionState() { }
         public override void BinaryRead(BinaryReader br)
         {
             base.BinaryRead(br);

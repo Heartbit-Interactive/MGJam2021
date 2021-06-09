@@ -2,7 +2,7 @@
 
 namespace TheCheapsLib
 {
-    public class NetworkServerState : IBinarizable
+    public class NetworkServerState : NetworkMessageBase
     {
         public Phase GamePhase = Phase.Unset;
 
@@ -17,11 +17,13 @@ namespace TheCheapsLib
         }
         public void BinaryRead(BinaryReader br)
         {
+            base.BinaryRead(br);
             GamePhase = (Phase)br.ReadInt32();
         }
 
-        public void BinaryWrite(BinaryWriter bw)
+        public override void BinaryWrite(BinaryWriter bw)
         {
+            base.BinaryWrite(bw);
             bw.Write((int)GamePhase);
         }
     }

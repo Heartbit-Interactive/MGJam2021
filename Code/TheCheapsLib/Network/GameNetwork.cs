@@ -46,7 +46,7 @@ namespace TheCheapsLib
             {
                 case NetworkOp.OpType.SetReady:
                     if (pindex < 0)
-                        return new NetworkResponse(NetworkResponse.Type.Error, "Player not joined") ;
+                        return new NetworkResponse(networkOp, NetworkResponse.Type.Error, "Player not joined") ;
                     model.players[pindex].Ready = (bool)networkOp.Parameters[0];
                     break;
                 case NetworkOp.OpType.HandShake:
@@ -54,12 +54,13 @@ namespace TheCheapsLib
                         addPeer(conn, (int)networkOp.Parameters[0]);
                     pindex = GetPlayerIndex(conn);
                     if (pindex < 0)
-                        throw new InvalidOperationException("Player could not join, maybe game is complete?");
+                        return new NetworkResponse(networkOp, NetworkResponse.Type.Error, "Player could not join, maybe game is complete?");
                     model.players[pindex].Name = (string)networkOp.Parameters[1];
                     break;
                 default:
                     break;
             }
+            return new NetworkResponse(networkOp,NetworkResponse.Type.Ok);
         }
 
         public void Update()

@@ -71,9 +71,16 @@ namespace TheCheaps.Scenes
 
         private void refresh_ClientView()
         {
+            if (NetworkManager.Client == null)
+            {
+                join_option.text = "Joining...";
+                return;
+            }
             try
             {
-                if (NetworkManager.Client.GetReady(NetworkManager.Client.PlayerIndex))
+                if(NetworkManager.Client.Status != Lidgren.Network.NetPeerStatus.Running)
+                    join_option.text = $"{NetworkManager.Client.Status}...";
+                else if (NetworkManager.Client.GetReady(NetworkManager.Client.PlayerIndex))
                     join_option.text = "Ready [V]";
                 else
                     join_option.text = "Ready [ ]";
@@ -263,7 +270,6 @@ namespace TheCheaps.Scenes
             if (NetworkManager.ServerRunning)
                 NetworkManager.StopServer();
             NetworkManager.BeginJoin(ip, port);
-            NetworkManager.Client.StateChanged +=
         }
 
         public override void Draw(SpriteBatch spriteBatch)

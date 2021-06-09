@@ -2,7 +2,7 @@
 
 namespace TheCheapsLib
 {
-    public class NetworkPlayerState : IBinarizable
+    public class NetworkPlayerState : NetworkMessageBase
     {
         public int Unique;
         public string Name = "Unnamed";
@@ -16,8 +16,9 @@ namespace TheCheapsLib
             Name = br.ReadString();
             Ready = br.ReadBoolean();
         }
-        public void BinaryWrite(BinaryWriter bw)
+        public override void BinaryWrite(BinaryWriter bw)
         {
+            base.BinaryWrite(bw);
             bw.Write(Unique);
             bw.Write(Name);
             bw.Write(Ready);
