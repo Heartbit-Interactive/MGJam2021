@@ -37,6 +37,9 @@ namespace TheCheapsLib
             players = new GamePlayer[Settings.maxPlayers];
             for (int i = 0; i < players.Length; i++)
                 players[i] = new GamePlayer(i, model);
+
+            var jsontextitems = File.ReadAllText("Items.json");
+            model.items = JsonConvert.DeserializeObject<List<Entity>>(jsontextitems);
         }
 
 
@@ -75,6 +78,7 @@ namespace TheCheapsLib
         {
             model.entities = simulationState.entities;
             model.player_entities = simulationState.player_entities;
+
         }
     }
 }

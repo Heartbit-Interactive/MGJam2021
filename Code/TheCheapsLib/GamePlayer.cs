@@ -16,7 +16,7 @@ namespace TheCheapsLib
         private PlayerEntity playerEntity;
         private bool moving = true;
 
-        private Entity entity_clicked = null;
+        private Entity heap_clicked = null;
 
         private int click_for_interact = 0;
         private const int CLICK_INTERACT_NEEDS = 5;
@@ -34,7 +34,7 @@ namespace TheCheapsLib
         public void update()
         {
             update_input();
-            if(entity_clicked!= null && click_for_interact > 0)
+            if(heap_clicked!= null && click_for_interact > 0)
             {
                 if (timer_interact >= INTERACT_LOST_AFTER)
                     click_for_interact = 0;
@@ -54,7 +54,7 @@ namespace TheCheapsLib
                 switch (action.type)
                 {
                     case ActionModel.Type.Interact:
-                        if (entity_clicked != null && playerEntity.collisionrect.Intersects(entity_clicked.collisionrect))
+                        if (heap_clicked != null && playerEntity.collisionrect.Intersects(heap_clicked.collisionrect))
                         {
                             if(click_for_interact >= CLICK_INTERACT_NEEDS)
                             {
@@ -71,13 +71,13 @@ namespace TheCheapsLib
                         }
                         else
                         {
-                            entity_clicked = null;
+                            heap_clicked = null;
                             click_for_interact = 0;
                         }
                         foreach (var entity in model.entities)
                         {
                             
-                            if (playerEntity.collisionrect.Intersects(entity.collisionrect))
+                            if (playerEntity.collisionrect.Intersects(entity.collisionrect) && entity.tags.Contains(Tags.HEAP))
                             {
                                 if (click_for_interact >= CLICK_INTERACT_NEEDS)
                                 {
@@ -89,8 +89,7 @@ namespace TheCheapsLib
                                     click_for_interact++;
                                     timer_interact = 0;
                                 }
-                                entity_clicked = entity;
-                                //raccogli
+                                heap_clicked = entity;
                                 break;
                             }
                             else
@@ -128,7 +127,13 @@ namespace TheCheapsLib
 
         private void loot_random_material()
         {
+            var type_list = heap_clicked.tags.Where(x => x != Tags.HEAP).ToList();
 
+            System.Random random = new System.Random();
+            var index_chosen = random.Next(type_list.Count);
+            var entity = model.items.Where(x => x.name == type_list[index_chosen]).FirstOrDefault();
+            playerEntity.inventory.entities.Add(entity);
+            heap_clicked = null;
         }
 
         private bool player_near_entity(Entity entity)
