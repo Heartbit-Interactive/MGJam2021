@@ -13,10 +13,9 @@ namespace TheCheaps
 {
     public class NetworkManager
     {
-        private static NetworkServer server;
+        private static NetworkServer _server;
         private static NetworkClient _client;
         public static NetworkClient Client { get { return _client; } }
-        private static CancellationTokenSource serverCancellation;
         private static int _port = 12345;
 
         internal static int Port
@@ -27,7 +26,7 @@ namespace TheCheaps
                 if (value == _port)
                     return;
                 _port = value;
-                if (server != null && server.Started)
+                if (_server != null && _server.Started)
                 {
                     StopServer();
                     StartServer();
@@ -36,57 +35,11 @@ namespace TheCheaps
         }
 
         public static IPAddress PublicIp { get; internal set; }
-        public static bool ServerRunning { get { return server != null && server.Started; } }
+        public static bool ServerRunning { get { return _server != null && _server.Started; } }
 
         public static void StartServer()
         {
-            serverCancellation = new CancellationTokenSource();
-            var ct = serverCancellation.Token;
-            System.Threading.Tasks.Task.Factory.StartNew(() => runServer(serverCancellation.Token), ct);
-            while (server == null || !server.Started)
-            {
-                System.Threading.Thread.Yield();
-                System.Threading.Thread.Sleep(1);
-            }
-        }
-        private static void runServer(CancellationToken ctoken)
-        {
-            if (ctoken.IsCancellationRequested)
-            {
-                throw new TaskCanceledException();
-            }
-            server = new TheCheapsServer.NetworkServer(_port);
-            server.Start();
-            var msperstep = 8;
-            while (true)
-            {
-                //GESTIONE DEL CLOCK BASILARE
-                var ms = DateTime.Now.Ticks / 10000;
-                server.Tick();
-                var newms = DateTime.Now.Ticks / 10000;
-                var elapsedms = newms - ms;
-                if (ctoken.IsCancellationRequested)
-                {
-                    server.Stop("Task Cancelled");
-                    server.Dispose();
-                    server = null;
-                    throw new TaskCanceledException();
-                }
-                while (elapsedms < msperstep)
-                {
-                    System.Threading.Thread.Yield();
-                    System.Threading.Thread.Sleep(1);
-                    if (ctoken.IsCancellationRequested)
-                    {
-                        server.Stop("Task Cancelled");
-                        server.Dispose();
-                        server = null;
-                        throw new TaskCanceledException();
-                    }
-                    newms = DateTime.Now.Ticks / 10000;
-                    elapsedms = newms - ms;
-                }
-            }
+            _server = ServerThreadManager.Start(_port);
         }
 
         public static void Update(GameTime time)
@@ -96,9 +49,9 @@ namespace TheCheaps
         }
         public static void StopServer()
         {
-            serverCancellation.Cancel();
+            ServerThreadManager.Stop();
         }
-        public static NetPeerStatus ServerStatus { get { return server != null ? server.Status : NetPeerStatus.NotRunning; } } 
+        public static NetPeerStatus ServerStatus { get { return _server != null ? _server.Status : NetPeerStatus.NotRunning; } } 
         internal static void BeginJoin(IPAddress ip, int port)
         {
             if (_client != null)
@@ -108,7 +61,7 @@ namespace TheCheaps
 
         internal static void BeginHost(int port)
         {
-            if (server != null || _client!=null)
+            if (_server != null || _client!=null)
                 throw new InvalidOperationException();
             _port = port;
             StartServer();

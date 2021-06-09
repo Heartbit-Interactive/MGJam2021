@@ -122,7 +122,7 @@ namespace TheCheaps.Scenes
             NetworkManager.BeginHost(port);
             while (NetworkManager.ServerStatus == Lidgren.Network.NetPeerStatus.Starting)
             {
-                System.Threading.Thread.Yield();
+                System.Threading.Thread.Sleep(1);
             }
             WhatsMyIp.GetMyIpAsync().ContinueWith(publicIpReceived);
         }
