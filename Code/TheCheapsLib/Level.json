@@ -125,7 +125,7 @@
     },
     "inventory": null,
     "texture": null,
-    "origin": "0, 0"
+    "origin": "0, 0",
     "tags": [ "heap", "Trave", "Bobina", "Mattone" ]
   },
   {

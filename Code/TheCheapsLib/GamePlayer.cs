@@ -110,6 +110,7 @@ namespace TheCheapsLib
                             if (object_thrown != null)
                             {
                                 var vt_shoot = action.direction;// vettore 
+                                start_animation_object(vt_shoot, object_thrown);
 
                             }
                         }
@@ -123,6 +124,11 @@ namespace TheCheapsLib
 
                 model.actions[id].RemoveAt(model.actions[id].Count - 1);
             }
+        }
+
+        private void start_animation_object(Vector2 vector_dir_shoot, Entity entity)
+        {
+            
         }
 
         private void loot_random_material()
