@@ -13,9 +13,7 @@ namespace TheCheapsLib
         private int id;
         private bool oldenter;
         private SimulationModel model;
-        private int timer_dash = 0;
         private bool moving = true;
-        private const int TIMERDASH = 30;
 
         public GamePlayer(int id, SimulationModel model) 
         {
@@ -25,10 +23,6 @@ namespace TheCheapsLib
 
         public void update_input()
         {
-            //timers 
-            if (timer_dash > 0)
-                timer_dash--;
-            //var gp = model.gamepads[id];
             if(model.actions[id] == null)
             {
                 return;
@@ -41,16 +35,15 @@ namespace TheCheapsLib
                     case ActionModel.Type.Interact:
                         break;
                     case ActionModel.Type.Dash:
-                        timer_dash = TIMERDASH;
-                        //schivata
-                        movement(24,action.direction);
+                        
+                            //schivata
+                            movement(24, action.direction);                        
                         break;
                     case ActionModel.Type.Throw:
                         var object_thrown = model.player_entities[id].inventory.last_entity();
                         if (object_thrown != null)
                         {
                             var vt_shoot =action.direction;// vettore 
-
 
                         }
                         break;

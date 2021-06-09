@@ -15,7 +15,13 @@ namespace TheCheapsLib
         public SimulationModel model;
         private GamePadState gpState;
         private KeyboardState kbState;
-
+        const int TIMER_DASH = 40;
+        public int dash_timer_counter;
+        public void update_times()
+        {
+            if(dash_timer_counter>0)
+            dash_timer_counter--;
+        }
         public GameInput(SimulationModel model)
         {
             this.model = model;
@@ -58,8 +64,11 @@ namespace TheCheapsLib
                 actionList.Add(ActionModel.Type.Interact, dir);
             if (Trigger(Buttons.RightTrigger) || Trigger(Keys.C))
                 actionList.Add(ActionModel.Type.Throw, dir2);
-            if (Trigger(Buttons.B) || Trigger(Keys.X))
+            if (Trigger(Buttons.B) || Trigger(Keys.X) && dash_timer_counter<=0)
+            {
+                dash_timer_counter = TIMER_DASH;
                 actionList.Add(ActionModel.Type.Dash, dir);
+            }
             else if(dir.Length()>=0.25f)
                 actionList.Add(ActionModel.Type.Move, dir);
             oldGpState = gpState;

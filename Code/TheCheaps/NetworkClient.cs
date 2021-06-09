@@ -36,6 +36,7 @@ namespace TheCheaps
         {
             ProcessIncomingMessages();
             SendMessage(ClientMessageType.ActionState, this.input.getActionState());
+            input.update_times();
             num_message++;
         }
         private void ProcessIncomingMessages()
