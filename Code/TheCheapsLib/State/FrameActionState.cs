@@ -28,6 +28,11 @@ namespace TheCheapsLib
         public override void BinaryWrite(BinaryWriter bw)
         {
             base.BinaryWrite(bw);
+            if (actionList == null)
+            {
+                bw.Write(0); return;
+            }
+
             bw.Write(actionList.Count);
             foreach (var action in actionList)
                 action.binary_write(bw);
