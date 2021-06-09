@@ -110,6 +110,7 @@ namespace TheCheapsLib
                             if (object_thrown != null)
                             {
                                 var vt_shoot = action.direction;// vettore 
+                                start_animation_object(vt_shoot, object_thrown);
 
                             }
                         }
@@ -125,6 +126,11 @@ namespace TheCheapsLib
             }
         }
 
+        private void start_animation_object(Vector2 vector_dir_shoot, Entity entity)
+        {
+            
+        }
+
         private void loot_random_material()
         {
             var type_list = heap_clicked.tags.Where(x => x != Tags.HEAP).ToList();
@@ -132,6 +138,8 @@ namespace TheCheapsLib
             System.Random random = new System.Random();
             var index_chosen = random.Next(type_list.Count);
             var entity = model.items.Where(x => x.name == type_list[index_chosen]).FirstOrDefault();
+            if(playerEntity.inventory== null)
+                playerEntity.inventory = new Inventory();
             playerEntity.inventory.entities.Add(entity);
             heap_clicked = null;
         }

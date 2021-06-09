@@ -1,37 +1,218 @@
 [
-  {"name": "Oggetto_01",
-    "posxy": "0,0",
-    "z": 0.0,
-    "texture_path": "BASE_01",
-    "direction": "0, 0",
-    "through": false,
-    "speed": 0.0,
-    "collisionrect": {
-      "X": 0,
-      "Y": 0,
-      "Width": 0,
-      "Height": 0
+    {
+        "name": "Teschio",
+        "posxy": "0,0",
+        "z": 0.0,
+        "texture_path": "ITEM_A_01",
+        "direction": "0, 0",
+        "through": false,
+        "speed": 0.0,
+        "collisionrect": {
+            "X": 0,
+            "Y": 0,
+            "Width": 0,
+            "Height": 0
+        },
+        "inventory": null,
+        "texture": null,
+        "origin": "0, 0"
     },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
-  },
-  {
-    "name": "Oggetto_02",
-    "posxy": "0, 0",
-    "z": 0.0,
-    "texture_path": "BASE_02",
-    "direction": "0, 0",
-    "through": false,
-    "speed": 0.0,
-    "collisionrect": {
-      "X": 0,
-      "Y": 0,
-      "Width": 0,
-      "Height": 0
+    {
+        "name": "Anima",
+        "posxy": "0, 0",
+        "z": 0.0,
+        "texture_path": "ITEM_A_02",
+        "direction": "0, 0",
+        "through": false,
+        "speed": 0.0,
+        "collisionrect": {
+            "X": 0,
+            "Y": 0,
+            "Width": 0,
+            "Height": 0
+        },
+        "inventory": null,
+        "texture": null,
+        "origin": "0, 0"
     },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
-  }
+    {
+        "name": "Sangue",
+        "posxy": "0, 0",
+        "z": 0.0,
+        "texture_path": "ITEM_A_03",
+        "direction": "0, 0",
+        "through": false,
+        "speed": 0.0,
+        "collisionrect": {
+            "X": 0,
+            "Y": 0,
+            "Width": 0,
+            "Height": 0
+        },
+        "inventory": null,
+        "texture": null,
+        "origin": "0, 0"
+    },
+    {
+        "name": "Valvola",
+        "posxy": "0, 0",
+        "z": 0.0,
+        "texture_path": "ITEM_B_01",
+        "direction": "0, 0",
+        "through": false,
+        "speed": 0.0,
+        "collisionrect": {
+            "X": 0,
+            "Y": 0,
+            "Width": 0,
+            "Height": 0
+        },
+        "inventory": null,
+        "texture": null,
+        "origin": "0, 0"
+    },
+    {
+        "name": "Ram",
+        "posxy": "0, 0",
+        "z": 0.0,
+        "texture_path": "ITEM_B_02",
+        "direction": "0, 0",
+        "through": false,
+        "speed": 0.0,
+        "collisionrect": {
+            "X": 0,
+            "Y": 0,
+            "Width": 0,
+            "Height": 0
+        },
+        "inventory": null,
+        "texture": null,
+        "origin": "0, 0"
+    },
+    {
+        "name": "Router",
+        "posxy": "0, 0",
+        "z": 0.0,
+        "texture_path": "ITEM_B_03",
+        "direction": "0, 0",
+        "through": false,
+        "speed": 0.0,
+        "collisionrect": {
+            "X": 0,
+            "Y": 0,
+            "Width": 0,
+            "Height": 0
+        },
+        "inventory": null,
+        "texture": null,
+        "origin": "0, 0"
+    },
+    {
+        "name": "Trave",
+        "posxy": "0, 0",
+        "z": 0.0,
+        "texture_path": "ITEM_C_01",
+        "direction": "0, 0",
+        "through": false,
+        "speed": 0.0,
+        "collisionrect": {
+            "X": 0,
+            "Y": 0,
+            "Width": 0,
+            "Height": 0
+        },
+        "inventory": null,
+        "texture": null,
+        "origin": "0, 0"
+    },
+    {
+        "name": "Bobina",
+        "posxy": "0, 0",
+        "z": 0.0,
+        "texture_path": "ITEM_C_02",
+        "direction": "0, 0",
+        "through": false,
+        "speed": 0.0,
+        "collisionrect": {
+            "X": 0,
+            "Y": 0,
+            "Width": 0,
+            "Height": 0
+        },
+        "inventory": null,
+        "texture": null,
+        "origin": "0, 0"
+    },
+    {
+        "name": "Mattone",
+        "posxy": "0, 0",
+        "z": 0.0,
+        "texture_path": "ITEM_C_03",
+        "direction": "0, 0",
+        "through": false,
+        "speed": 0.0,
+        "collisionrect": {
+            "X": 0,
+            "Y": 0,
+            "Width": 0,
+            "Height": 0
+        },
+        "inventory": null,
+        "texture": null,
+        "origin": "0, 0"
+    },
+    {
+        "name": "Combustibile",
+        "posxy": "0, 0",
+        "z": 0.0,
+        "texture_path": "ITEM_D_01",
+        "direction": "0, 0",
+        "through": false,
+        "speed": 0.0,
+        "collisionrect": {
+            "X": 0,
+            "Y": 0,
+            "Width": 0,
+            "Height": 0
+        },
+        "inventory": null,
+        "texture": null,
+        "origin": "0, 0"
+    },
+    {
+        "name": "Plutonio",
+        "posxy": "0, 0",
+        "z": 0.0,
+        "texture_path": "ITEM_D_02",
+        "direction": "0, 0",
+        "through": false,
+        "speed": 0.0,
+        "collisionrect": {
+            "X": 0,
+            "Y": 0,
+            "Width": 0,
+            "Height": 0
+        },
+        "inventory": null,
+        "texture": null,
+        "origin": "0, 0"
+    },
+    {
+        "name": "Acido",
+        "posxy": "0, 0",
+        "z": 0.0,
+        "texture_path": "ITEM_D_03",
+        "direction": "0, 0",
+        "through": false,
+        "speed": 0.0,
+        "collisionrect": {
+            "X": 0,
+            "Y": 0,
+            "Width": 0,
+            "Height": 0
+        },
+        "inventory": null,
+        "texture": null,
+        "origin": "0, 0"
+    }
 ]

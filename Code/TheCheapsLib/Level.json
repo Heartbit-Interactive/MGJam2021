@@ -10,8 +10,8 @@
     "collisionrect": {
       "X": 0,
       "Y": 0,
-      "Width": 0,
-      "Height": 0
+      "Width": 168,
+      "Height": 64
     },
     "inventory": null,
     "texture": null,
@@ -28,8 +28,8 @@
     "collisionrect": {
       "X": 0,
       "Y": 0,
-      "Width": 0,
-      "Height": 0
+      "Width": 168,
+      "Height": 64
     },
     "inventory": null,
     "texture": null,
@@ -46,8 +46,8 @@
     "collisionrect": {
       "X": 0,
       "Y": 0,
-      "Width": 0,
-      "Height": 0
+      "Width": 168,
+      "Height": 64
     },
     "inventory": null,
     "texture": null,
@@ -64,8 +64,8 @@
     "collisionrect": {
       "X": 0,
       "Y": 0,
-      "Width": 0,
-      "Height": 0
+      "Width": 168,
+      "Height": 64
     },
     "inventory": null,
     "texture": null,
@@ -82,12 +82,13 @@
     "collisionrect": {
       "X": 0,
       "Y": 0,
-      "Width": 0,
-      "Height": 0
+      "Width": 128,
+      "Height": 48
     },
     "inventory": null,
     "texture": null,
-    "origin": "0, 0"
+    "origin": "0, 0",
+    "tags": [ "heap", "Teschio", "Anima", "Sangue" ]
   },
   {
     "name": "RESOURCE_02",
@@ -100,12 +101,13 @@
     "collisionrect": {
       "X": 0,
       "Y": 0,
-      "Width": 0,
-      "Height": 0
+      "Width": 128,
+      "Height": 48
     },
     "inventory": null,
     "texture": null,
-    "origin": "0, 0"
+    "origin": "0, 0",
+    "tags": [ "heap", "Valvola", "Ram", "Router" ]
   },
   {
     "name": "RESOURCE_03",
@@ -118,12 +120,13 @@
     "collisionrect": {
       "X": 0,
       "Y": 0,
-      "Width": 0,
-      "Height": 0
+      "Width": 128,
+      "Height": 48
     },
     "inventory": null,
     "texture": null,
-    "origin": "0, 0"
+    "origin": "0, 0",
+    "tags": [ "heap", "Trave", "Bobina", "Mattone" ]
   },
   {
     "name": "RESOURCE_04",
@@ -136,12 +139,13 @@
     "collisionrect": {
       "X": 0,
       "Y": 0,
-      "Width": 0,
-      "Height": 0
+      "Width": 128,
+      "Height": 48
     },
     "inventory": null,
     "texture": null,
-    "origin": "0, 0"
+    "origin": "0, 0",
+    "tags": [ "heap", "Combustibile", "Plutonio", "Acido" ]
   },
   {
     "name": "ITEM_A_01",
