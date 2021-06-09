@@ -48,6 +48,10 @@ namespace TheCheaps
         }
         public void Update(GameTime gameTime)
         {
+            if (Status != LastStatus)
+            {
+                OnStateChanged();
+            }
             ProcessIncomingMessages();
             StepResponseTimeouts();
             switch (network.model.serverState.GamePhase)

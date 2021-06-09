@@ -9,7 +9,6 @@ namespace TheCheapsLib
     {
         public OpType Type;
         public object[] Parameters;
-        private bool ready;
         public NetworkOp()
         {
 
@@ -20,7 +19,7 @@ namespace TheCheapsLib
             this.Parameters = parameters;
         }
 
-        public void BinaryRead(BinaryReader br)
+        public override void BinaryRead(BinaryReader br)
         {
             base.BinaryRead(br);
             Type = (OpType)br.ReadInt32();
