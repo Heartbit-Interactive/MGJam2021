@@ -17,7 +17,7 @@ namespace TheCheaps
         private static NetworkClient _client;
         public static NetworkClient Client { get { return _client; } }
         private static CancellationTokenSource serverCancellation;
-        private static int _port;
+        private static int _port = 12345;
 
         internal static int Port
         {
@@ -101,7 +101,7 @@ namespace TheCheaps
         public static NetPeerStatus ServerStatus { get { return server != null ? server.Status : NetPeerStatus.NotRunning; } } 
         internal static void BeginJoin(IPAddress ip, int port)
         {
-            if (server != null || _client != null)
+            if (_client != null)
                 throw new InvalidOperationException();
             _client = new NetworkClient(ip,port);
         }
