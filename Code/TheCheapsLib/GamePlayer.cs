@@ -138,6 +138,8 @@ namespace TheCheapsLib
             System.Random random = new System.Random();
             var index_chosen = random.Next(type_list.Count);
             var entity = model.items.Where(x => x.name == type_list[index_chosen]).FirstOrDefault();
+            if(playerEntity.inventory== null)
+                playerEntity.inventory = new Inventory();
             playerEntity.inventory.entities.Add(entity);
             heap_clicked = null;
         }
