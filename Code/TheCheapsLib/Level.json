@@ -87,7 +87,8 @@
     },
     "inventory": null,
     "texture": null,
-    "origin": "0, 0"
+    "origin": "0, 0",
+    "tags": [ "heap", "Teschio", "Anima", "Sangue" ]
   },
   {
     "name": "RESOURCE_02",
@@ -105,7 +106,8 @@
     },
     "inventory": null,
     "texture": null,
-    "origin": "0, 0"
+    "origin": "0, 0",
+    "tags": [ "heap", "Valvola", "Ram", "Router" ]
   },
   {
     "name": "RESOURCE_03",
@@ -124,6 +126,7 @@
     "inventory": null,
     "texture": null,
     "origin": "0, 0"
+    "tags": [ "heap", "Trave", "Bobina", "Mattone" ]
   },
   {
     "name": "RESOURCE_04",
@@ -141,7 +144,8 @@
     },
     "inventory": null,
     "texture": null,
-    "origin": "0, 0"
+    "origin": "0, 0",
+    "tags": [ "heap", "Combustibile", "Plutonio", "Acido" ]
   },
   {
     "name": "ITEM_A_01",
