@@ -56,20 +56,9 @@ namespace TheCheapsLib
 
         private IEnumerable<Entity> updateable_entities { get { return model.entities; } }
 
-        public byte[] GetSerializedState()
+        public SimulationState GetState()
         {
-            using (var memstream = new MemoryStream(128 * 1024))
-            {
-                var bw = new BinaryWriter(memstream);
-                bw.Write(model.entities.Count);
-                foreach (var entity in model.entities)
-                    entity.binarywrite(bw);
-
-                bw.Write(model.player_entities.Count);
-                foreach (var entity in model.player_entities)
-                    entity.binarywrite(bw);
-                return memstream.ToArray();
-            }
+            return new SimulationState(model);
         }
 
         public void Stop()
@@ -77,32 +66,14 @@ namespace TheCheapsLib
             
         }
 
-        public void DeserializeState(byte[] content)
-        {
-            using (var memstream = new MemoryStream(content))
-            {
-                var br = new BinaryReader(memstream);
-                var count = br.ReadInt32();
-                model.entities = new List<Entity>(count);
-                for (int i = 0; i < count; i++)
-                {
-                    var entity = new Entity();
-                    entity.binaryread(br);
-                    model.entities.Add(entity);
-                }
-                count = br.ReadInt32();
-                model.player_entities = new List<PlayerEntity>(count);
-                for (int i = 0; i < count; i++)
-                {
-                    var entity = new PlayerEntity();
-                    entity.binaryread(br);
-                    model.player_entities.Add(entity);
-                }
-            }
-        }
-
         public void Dispose()
         {
+        }
+
+        public void SetState(SimulationState simulationState)
+        {
+            model.entities = simulationState.entities;
+            model.player_entities = simulationState.player_entities;
         }
     }
 }

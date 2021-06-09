@@ -9,6 +9,7 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Text;
 using TheCheapsLib;
+using TheCheapsServer;
 
 namespace TheCheaps
 {
@@ -21,7 +22,7 @@ namespace TheCheaps
 
         private GameInput input;
         public GameSimulation simulation;
-        public NetworkClient(IPAddress ip,int port)
+        public NetworkClient(IPAddress ip, int port)
         {
             config = new NetPeerConfiguration("TheCheaps");
             client = new NetClient(config);
@@ -33,30 +34,17 @@ namespace TheCheaps
         }
         public void Update(GameTime gameTime)
         {
-            ReadSimulationState();
-            var message = client.CreateMessage();
-#if OLD
-
-            var bytes = this.input.serializeInputState();
-#else
-            var bytes = this.input.serializeActionState();
-#endif
-#if VERBOSE
-            System.Diagnostics.Debug.WriteLine("Sent {bytes.Length} bytes to server with GamepadState");
-#endif
-            message.Write(bytes.Length);
-            message.Write(bytes);
-            client.SendMessage(message, NetDeliveryMethod.UnreliableSequenced);
+            ProcessIncomingMessages();
+            SendMessage(ClientMessageType.ActionState, this.input.getActionState());
             num_message++;
         }
-
-        private void ReadSimulationState()
+        private void ProcessIncomingMessages()
         {
             NetIncomingMessage msg = client.ReadMessage();
             while (msg != null)
             {
 #if ECHO
-            Console.WriteLine($"Message received {msg}");
+                Console.WriteLine($"Message received {msg}");
 #endif
                 switch (msg.MessageType)
                 {
@@ -69,11 +57,23 @@ namespace TheCheaps
                         break;
                     case NetIncomingMessageType.Data:
 #if VERBOSE
-                System.Diagnostics.Debug.WriteLine($"{msg} received from server");
+                        System.Diagnostics.Debug.WriteLine($"{msg} received from server");
 #endif
-                        var size = msg.ReadInt32();
-                        var content = msg.ReadBytes(size);
-                        simulation.DeserializeState(content);
+                        var type = (NetworkServer.MessageType)msg.ReadByte();
+                        switch (type)
+                        {
+                            case NetworkServer.MessageType.PeerState:
+                                ReadPeerState(msg);
+                                break;
+                            case NetworkServer.MessageType.SimulationState:
+                                simulation.SetState(msg.Deserialize<SimulationState>());
+                                break;
+                            case NetworkServer.MessageType.PeerUpdate:
+                            case NetworkServer.MessageType.SimulationUpdate:
+                                throw new NotImplementedException();
+                            default:
+                                throw new Exception("Invalid message type");
+                        }
                         break;
                     default:
                         break;
@@ -82,6 +82,32 @@ namespace TheCheaps
                 client.Recycle(msg);
                 msg = client.ReadMessage();
             }
+        }
+
+        private void ReadPeerState(NetIncomingMessage msg)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SendMessage(ClientMessageType messageType, IBinarizable state, NetDeliveryMethod deliveryMethod = NetDeliveryMethod.UnreliableSequenced)
+        {
+            NetOutgoingMessage msg = client.CreateMessage();
+            byte[] array = null;
+            using (var memstream = new MemoryStream(128 * 1024))
+            {
+                using (var bw = new BinaryWriter(memstream))
+                {
+                    state.BinaryWrite(bw);
+                }
+                array = memstream.ToArray();
+            }
+            msg.Write((byte)messageType);
+            msg.Write(array.Length);
+            msg.Write(array);
+            client.SendMessage(msg, deliveryMethod);
+#if VERBOSE
+            System.Diagnostics.Debug.WriteLine("Sent {bytes.Length} bytes to server with GamepadState");
+#endif
         }
     }
 }

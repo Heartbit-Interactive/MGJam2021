@@ -44,8 +44,11 @@ namespace TheCheapsServer
             simulation.Step();
             foreach (var peer in peerConnections)
             {
-                if(peer!=null)
-                    sendState(server, peer);
+                if (peer != null)
+                {
+                    //SENDS SIMULATION STATE
+                    SendMessage(peer, MessageType.SimulationState, simulation.GetState());
+                }
             }
         }
         private void process_message()
@@ -71,19 +74,24 @@ namespace TheCheapsServer
                     Console.WriteLine(msg.ReadString());
                     break;
                 case NetIncomingMessageType.Data:
+#if VERBOSE
+                        System.Diagnostics.Debug.WriteLine($"{msg} received from server");
+#endif
+                    var type = (ClientMessageType)msg.ReadByte();
                     var conn = msg.SenderConnection;
                     var pl_index = 0;
-                    if (!connectionToPlayerMapping.TryGetValue(conn,out pl_index))
+                    if (!connectionToPlayerMapping.TryGetValue(conn, out pl_index))
                     {
                         pl_index = addPeer(msg, conn);
                     }
-                    var count = msg.ReadInt32();
-                    var buffer = msg.ReadBytes(count);
-#if OLD
-                    input.deserializeInputState(buffer, pl_index);
-#else
-                    input.deserializeActionState(buffer,pl_index);
-#endif
+                    switch (type)
+                    {
+                        case ClientMessageType.ActionState:
+                            input.SetActionState(msg.Deserialize<FrameActionState>(),pl_index);
+                            break;
+                        default:
+                            throw new Exception("Invalid message type");
+                    }
                     break;
                 default:
                     break;
@@ -105,10 +113,19 @@ namespace TheCheapsServer
             return pl_index;
         }
 
-        private void sendState(NetServer server, NetConnection destinationConnection)
+        private void SendMessage(NetConnection destinationConnection, MessageType messageType, IBinarizable state)
         {
             NetOutgoingMessage msg = server.CreateMessage();
-            var array = simulation.GetSerializedState();
+            byte[] array = null;
+            using (var memstream = new MemoryStream(128 * 1024))
+            {
+                using (var bw = new BinaryWriter(memstream))
+                {
+                    state.BinaryWrite(bw);
+                }
+                array = memstream.ToArray();
+            }
+            msg.Write((byte)messageType);
             msg.Write(array.Length);
             msg.Write(array);
             server.SendMessage(msg, destinationConnection, NetDeliveryMethod.UnreliableSequenced);
@@ -137,6 +154,14 @@ namespace TheCheapsServer
                 }
             }
             throw new Exception("No network adapters with an IPv4 address in the system!");
+        }
+
+        public enum MessageType
+        {
+            PeerState,
+            SimulationState,
+            PeerUpdate,
+            SimulationUpdate,
         }
     }
 }

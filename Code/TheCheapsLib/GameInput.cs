@@ -20,11 +20,11 @@ namespace TheCheapsLib
         {
             this.model = model;
         }
-        public byte[] serializeActionState()
+        public FrameActionState getActionState()
         {
             gpState = GamePad.GetState(0);
             kbState = Keyboard.GetState();
-            var actionList = new List<ActionModel>();
+            FrameActionState actionList = new FrameActionState();
             Vector2 dir = Vector2.Zero;
             Vector2 dir2 = Vector2.Zero;
             if (gpState.IsConnected)
@@ -55,159 +55,17 @@ namespace TheCheapsLib
                 dir2 += -Vector2.UnitX;
             }
             if (Trigger(Buttons.A) || Trigger(Keys.Z))
-                actionList.Add(new ActionModel() { type = ActionModel.Type.Interact, direction = dir });
+                actionList.Add(ActionModel.Type.Interact, dir);
             if (Trigger(Buttons.RightTrigger) || Trigger(Keys.C))
-                actionList.Add(new ActionModel() { type = ActionModel.Type.Throw, direction = dir2 });
+                actionList.Add(ActionModel.Type.Throw, dir2);
             if (Trigger(Buttons.B) || Trigger(Keys.X))
-                actionList.Add(new ActionModel() { type = ActionModel.Type.Dash, direction = dir });
+                actionList.Add(ActionModel.Type.Dash, dir);
             else if(dir.Length()>=0.25f)
-                actionList.Add(new ActionModel() { type = ActionModel.Type.Move, direction = dir });
+                actionList.Add(ActionModel.Type.Move, dir);
             oldGpState = gpState;
             oldKbState = kbState;
-
-            using (var memstream = new MemoryStream(32 * 1024))
-            {
-                using (var bw = new BinaryWriter(memstream))
-                {
-                    bw.Write(actionList.Count);
-                    foreach (var action in actionList)
-                        action.binary_write(bw);
-                }
-                return memstream.ToArray();
-            }
+            return actionList;
         }
-        public void deserializeActionState(byte[] buffer, int playerIndex)
-        {
-            using (var memstream = new MemoryStream(buffer))
-            {
-                using (var br = new BinaryReader(memstream))
-                {
-                    var count = br.ReadInt32();
-                    var list = new List<ActionModel>(count);
-                    for (int i = 0; i < count; i++)
-                    {
-                        var action = new ActionModel();
-                        action.binary_read(br);
-                        list.Add(action);
-                    }
-                    if (model.actions[playerIndex] == null)
-                        model.actions[playerIndex] = new List<ActionModel>();
-                    model.actions[playerIndex].AddRange(list);
-                }
-            }
-        }
-#if OLD
-        public byte[] serializeInputState()
-        {
-            //System.Diagnostics.Debug.WriteLine("write gamepad state");
-            var gpState = GamePad.GetState(0);
-            var kbState = Keyboard.GetState();
-            using (var memstream = new MemoryStream(32 * 1024))
-            {
-                using (var bw = new BinaryWriter(memstream))
-                {
-                    writeGamePadState(gpState, bw);
-                    writeGamePadState(oldGpState, bw);
-                    writeKeyboardState(kbState, bw);
-                    writeKeyboardState(oldKbState, bw);
-                }
-                oldGpState = gpState;
-                oldKbState = kbState;
-                return memstream.ToArray();
-            }
-        }
-
-        private void writeGamePadState(GamePadState gpState, BinaryWriter bw)
-        {
-            bw.Write(gpState.ThumbSticks.Left.X);
-            bw.Write(gpState.ThumbSticks.Left.Y);
-
-            bw.Write(gpState.ThumbSticks.Right.X);
-            bw.Write(gpState.ThumbSticks.Right.Y);
-
-            bw.Write(gpState.Triggers.Left);
-            bw.Write(gpState.Triggers.Right);
-
-            bw.Write(gpState.Buttons.A == ButtonState.Pressed);
-            bw.Write(gpState.Buttons.B == ButtonState.Pressed);
-            bw.Write(gpState.Buttons.X == ButtonState.Pressed);
-            bw.Write(gpState.Buttons.Y == ButtonState.Pressed);
-            bw.Write(gpState.Buttons.LeftShoulder == ButtonState.Pressed);
-            bw.Write(gpState.Buttons.RightShoulder == ButtonState.Pressed);
-        }
-        private void writeKeyboardState(KeyboardState kbState, BinaryWriter bw)
-        {
-            var keys = kbState.GetPressedKeys();
-            bw.Write(keys.Length);
-            for (int i = 0; i < keys.Length; i++)
-                bw.Write((int)keys[i]);
-        }
-
-        public void deserializeInputState(byte[] buffer,int playerIndex)
-        {
-            using (var memstream = new MemoryStream(buffer))
-            {
-                GamePadState gamePadState,oldGamePadState;
-                KeyboardState kbState, oldKbState;
-                using (var br = new BinaryReader(memstream))
-                {
-                    //System.Diagnostics.Debug.WriteLine("read gamepad state");
-                    gamePadState = readGamePadState(br);
-                    oldGamePadState = readGamePadState(br);
-                    kbState = readKeyboardState(br);
-                    oldKbState = readKeyboardState(br);
-                }
-                model.gamepads[playerIndex] = gamePadState;
-                model.oldGamepads[playerIndex] = oldGamePadState;
-                model.keyboards[playerIndex] = kbState;
-                model.oldKeyboards[playerIndex] = oldKbState;
-            }
-        }
-        private GamePadState readGamePadState(BinaryReader br)
-        {
-            GamePadState gamePadState;
-            var left = Vector2.Zero;
-            left.X = br.ReadSingle();
-            left.Y = br.ReadSingle();
-            var right = Vector2.Zero;
-            right.X = br.ReadSingle();
-            right.Y = br.ReadSingle();
-            var trigger_left = br.ReadSingle();
-            var trigger_right = br.ReadSingle();
-
-            var buttonA = br.ReadBoolean();
-            var buttonB = br.ReadBoolean();
-            var buttonX = br.ReadBoolean();
-            var buttonY = br.ReadBoolean(); 
-            var buttonLS = br.ReadBoolean();
-            var buttonRS = br.ReadBoolean();
-            var button_list = new List<Buttons>();
-            if (buttonA)
-                button_list.Add(Buttons.A);
-            if (buttonB)
-                button_list.Add(Buttons.B);
-            if (buttonX)
-                button_list.Add(Buttons.X);
-            if (buttonY)
-                button_list.Add(Buttons.Y);
-            if (buttonLS)
-                button_list.Add(Buttons.LeftShoulder);
-            if (buttonRS)
-                button_list.Add(Buttons.RightShoulder);
-
-            gamePadState = new GamePadState(left, right, trigger_left, trigger_right, button_list.ToArray());
-            return gamePadState;
-        }
-
-        private KeyboardState readKeyboardState(BinaryReader br)
-        {
-            var l = br.ReadInt32();
-            var keys = new Keys[l];
-            for (int i = 0; i < l; i++)
-                keys[i] = (Keys)br.ReadInt32();
-            return new KeyboardState(keys);
-        }
-#endif
         public bool Trigger(Keys key)
         {
             return kbState.IsKeyDown(key) && oldKbState.IsKeyUp(key);
@@ -231,6 +89,13 @@ namespace TheCheapsLib
         public bool Press(Buttons button)
         {
             return gpState.IsButtonDown(button);
+        }
+
+        public void SetActionState(FrameActionState actionState, int playerIndex)
+        {
+            if (model.actions[playerIndex] == null)
+                model.actions[playerIndex] = new List<ActionModel>();
+            model.actions[playerIndex].AddRange(actionState.List);
         }
     }
 }
