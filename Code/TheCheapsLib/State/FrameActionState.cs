@@ -40,6 +40,8 @@ namespace TheCheapsLib
 
         internal void Add(ActionModel.Type type, Vector2 dir)
         {
+            if (actionList == null)
+                actionList = new List<ActionModel>();
             actionList.Add(new ActionModel() { type = type, direction = dir });
         }
     }
