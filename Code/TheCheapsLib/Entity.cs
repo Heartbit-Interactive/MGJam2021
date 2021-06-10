@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using System;
@@ -65,14 +66,19 @@ namespace TheCheapsLib
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            var offx = (int)(posxy.X - collisionrect.Width/2);
+            var offy = (int)(posxy.Y - collisionrect.Height);
+            collisionrect.Offset(offx, offy);
+            spriteBatch.Draw(GraphicSettings.DebugSquare, collisionrect, null, GraphicSettings.CollisorColor, 0,Vector2.Zero, SpriteEffects.None, 0);
+            collisionrect.Offset(-offx, -offy);
+
             if (this.sourcerect.Width == 0)
             {
                 //spriteBatch.Draw(this.texture, this.posxy, null, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
-
                 spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, null, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
             }
             else
-                spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, this.sourcerect, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
+                spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, this.sourcerect, Color.White, 0, this.origin, 1, SpriteEffects.None, 0);
         }
 
         public virtual void BinaryRead(BinaryReader br)
@@ -114,6 +120,15 @@ namespace TheCheapsLib
             posz = br.ReadSingle();
             life_time = br.ReadInt32();
             removeable = br.ReadBoolean();
+        }
+
+        public void LoadTexture(ContentManager Content)
+        {
+            texture = Content.Load<Texture2D>(texture_path);
+            if (sourcerect.Width != 0)
+                origin = new Vector2(sourcerect.Width / 2, sourcerect.Height);
+            else
+                origin = new Vector2(texture.Width / 2, texture.Height);
         }
 
         public virtual void BinaryWrite(BinaryWriter bw)

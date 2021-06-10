@@ -24,8 +24,8 @@ namespace TheCheaps
         protected override void Initialize()
         {
             base.Initialize();
-            _graphics.PreferredBackBufferWidth = 1920;
-            _graphics.PreferredBackBufferHeight = 1080;
+            _graphics.PreferredBackBufferWidth = 960;
+            _graphics.PreferredBackBufferHeight = 540;
             _graphics.ApplyChanges();
             GraphicSettings.Bounds = new Rectangle(0, 0, GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight);
         }

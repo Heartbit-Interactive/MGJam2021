@@ -63,6 +63,8 @@ namespace TheCheapsLib
 
         public void Step()
         {
+            updated_entities.Clear();
+            removed_entities.Clear();
             var now = DateTime.UtcNow;
             var elapsedTime = last_time - now;
             foreach(var player in players)
@@ -73,7 +75,8 @@ namespace TheCheapsLib
                 update_entity(elapsedTime,model.entities[i]);
             last_time = now;
         }
-
+        List<Entity> updated_entities = new List<Entity>();
+        List<Entity> removed_entities = new List<Entity>();
         private void update_entity(TimeSpan elapsedTime,Entity entity)
         {
             if(entity.speed > 0)
@@ -88,24 +91,21 @@ namespace TheCheapsLib
                         entity.speed = 0;
                     }
                 }
-
+                updated_entities.Add(entity);
             }
             if (entity.speed == 0 && entity.removeable)
             {
                 if (entity.life_time <= 0)
                 {
                     entity.life_time = Settings.TIME_ON_THE_FLOOR;
+                    removed_entities.Add(entity);
                     model.entities.Remove(entity);
                 }
                 else
                     entity.life_time--;
             }
-
-            
         }
-
-        private IEnumerable<Entity> updateable_entities { get { return model.entities; } }
-
+        
         public SimulationState GetState()
         {
             return new SimulationState(model);

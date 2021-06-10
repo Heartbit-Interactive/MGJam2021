@@ -39,9 +39,10 @@ namespace TheCheaps.Scenes
         private ContentManager Content;
         public override void LoadContent(ContentManager content)
         {
+            this.Content = content;
             var jsontextgui = File.ReadAllText("GUI.json");
             gui_entities = JsonConvert.DeserializeObject<List<PlayerEntity>>(jsontextgui);
-            this.Content = content;
+            GraphicSettings.DebugSquare = Content.Load<Texture2D>("menu/white_square");
         }
         public override void Update(GameTime gameTime)
         {
@@ -83,33 +84,17 @@ namespace TheCheaps.Scenes
             foreach (var entity in NetworkManager.Client.simulation.model.entities)
             {
                 if (entity.texture == null)
-                {
-                    var tex = Content.Load<Texture2D>(entity.texture_path);
-                    entity.texture = tex;
-                    entity.origin = new Vector2(tex.Width / 2, tex.Height);
-                }
+                    entity.LoadTexture(Content);
             }
             foreach (var entity in gui_entities)
             {
                 if (entity.texture == null)
-                {
-                    var tex = Content.Load<Texture2D>(entity.texture_path);
-                    entity.texture = tex;
-                    entity.origin = new Vector2(tex.Width / 2, tex.Height);
-                }
+                    entity.LoadTexture(Content);
             }
             foreach (var entity in NetworkManager.Client.simulation.model.player_entities)
             {
                 if (entity.texture == null)
-                {
-                    var tex = Content.Load<Texture2D>(entity.texture_path);
-                    entity.texture = tex;
-                    if(entity.sourcerect.Width != 0)
-                        entity.origin = new Vector2(entity.sourcerect.Width / 2, entity.sourcerect.Height);
-
-                    else
-                        entity.origin = new Vector2(tex.Width / 2, tex.Height);
-                }
+                    entity.LoadTexture(Content);
             }
         }
         public override void Terminate(ContentManager content)
