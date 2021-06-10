@@ -11,6 +11,7 @@ namespace TheCheapsLib
     public class GamePlayer
     {
         private int id;
+        private GameSimulation sim;
         private SimulationModel model;
         public PlayerEntity playerEntity;
         private bool moving = true;
@@ -25,10 +26,11 @@ namespace TheCheapsLib
         private const int INTERACT_LOST_AFTER = 30;//dopo quanti frame il contatore click_for_interact viene azzerato perchè ho smesso di cliccare
 
 
-        public GamePlayer(int id, SimulationModel model) 
+        public GamePlayer(int id, GameSimulation sim) 
         {
             this.id = id;
-            this.model = model;
+            this.sim = sim;
+            this.model = sim.model;
             this.playerEntity = model.player_entities[id];
         }
         public void Update(TimeSpan elapsedTime)
@@ -129,7 +131,6 @@ namespace TheCheapsLib
                                     entity.direction = action.direction;
                                 entity.speed = 3;
                                 entity.removeable = true;
-                                model.entities.Add(entity);
                             }
                         }
                         break;
@@ -169,6 +170,7 @@ namespace TheCheapsLib
                 playerEntity.inventory.entities.Add(new_entity);
             }
 
+            sim.added_entities.Add(new_entity);
             model.entities.Add(new_entity);
         }
 
