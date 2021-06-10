@@ -1,5 +1,11 @@
-# MGJam2021: The Cheap$
+﻿# MGJam2021: The Cheap$
 ## Descrizione
+Four villains want to conquer the world, they have the means to do it... But they don't want to spend a lot of money to do it!
+Become a cheap villain, search for scraps in the junkyard and race to build your evil empire.
+Dive in pile of junk looking for ingredients to craft what you need to conquer the world and if you dig something you don't need, throw it against your enemies to knock them out!
+You migh
+
+
 I personaggi si ritrovano nella stessa discarica, ognuno di loro deve costruire: un determinato oggetto (Missile/ Macchina de tempo) con lo scopo di distruggere il mondo? oppure costruire una serie di oggetti in diversi round. I giocatori dovranno raggiungere il loro obiettivo frugando tra i cumuli di oggetti nella discarica, scambiando oggetti/denaro tra di loro, o rubando (potrebbe essere facoltativo creare una qualche "fortezza" per rendere difficile entrare agli altri giocatori)
 
 potrebbero esserci diversi modi per costruire l'oggetto?
