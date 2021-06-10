@@ -38,7 +38,7 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Libraries\Lidgren\Lidgren.Network\Lidgren.Network.csproj" />
+    <ProjectReference Include="..\Libraries\Lidgren\Lidgren.Network.MultiTarget\Lidgren.Network.MultiTarget.csproj" />
     <ProjectReference Include="..\TheCheapsLib\TheCheapsLib.csproj" />
     <ProjectReference Include="..\TheCheapsServer\TheCheapsServer.csproj" />
   </ItemGroup>
