@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,13 +25,21 @@ namespace TheCheapsLib
         public List<string> tags = new List<string>();
         //for collision
         public Rectangle collisionrect;
-      
-        public Texture2D texture;
-        public Vector2 origin;
         internal float posz;
+        [JsonIgnore]
+        public Texture2D texture;
+        [JsonIgnore]
+        public Vector2 origin;
+        [JsonIgnore]
+        public int uniqueId;
+        internal static int UniqueCounter;
+		
+
+        internal int life_time = Settings.TIME_ON_THE_FLOOR;
+        internal bool removeable = false;
 
         public Entity() { }
-        public Entity(string texture_path, string name, Vector2 posxy, float z, Rectangle sourcerect, Vector2 direction, bool through, float speed, List<string> tags, Rectangle collisionrect, Texture2D texture, Vector2 origin, float posz) 
+        public Entity(string texture_path, string name, Vector2 posxy, float z, Rectangle sourcerect, Vector2 direction, bool through, float speed, List<string> tags, Rectangle collisionrect, Texture2D texture, Vector2 origin, float posz, bool removeable) 
         {
             this.texture_path = texture_path;
             this.name = name;
@@ -45,13 +54,20 @@ namespace TheCheapsLib
             this.texture = texture;
             this.origin = origin;
             this.posz = posz;
+            this.removeable = removeable;
+            InitializeServer();
+        }
+
+        internal void InitializeServer()
+        {
+            this.uniqueId = UniqueCounter++;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             if (this.sourcerect.Width == 0)
             {
-                spriteBatch.Draw(this.texture, this.posxy, null, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
+                //spriteBatch.Draw(this.texture, this.posxy, null, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
 
                 spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, null, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
             }
@@ -61,6 +77,7 @@ namespace TheCheapsLib
 
         public virtual void BinaryRead(BinaryReader br)
         {
+            uniqueId = br.ReadInt32();
             through = br.ReadBoolean();
 
             name = br.ReadString();
@@ -95,10 +112,13 @@ namespace TheCheapsLib
                 tags.Add(br.ReadString());
 
             posz = br.ReadSingle();
+            life_time = br.ReadInt32();
+            removeable = br.ReadBoolean();
         }
 
         public virtual void BinaryWrite(BinaryWriter bw)
         {
+            bw.Write(uniqueId);
             bw.Write(through);
 
             bw.Write(name ?? "");
@@ -126,6 +146,8 @@ namespace TheCheapsLib
             foreach (var tag in tags)
                 bw.Write(tag);
             bw.Write(posz);
+            bw.Write(life_time);
+            bw.Write(removeable);
         }
     }
 }

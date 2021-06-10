@@ -80,7 +80,7 @@ namespace TheCheaps.Scenes
         }
         private void refresh_entity_textures()
         {
-            foreach (var entity in gui_entities)
+            foreach (var entity in NetworkManager.Client.simulation.model.entities)
             {
                 if (entity.texture == null)
                 {
@@ -89,7 +89,7 @@ namespace TheCheaps.Scenes
                     entity.origin = new Vector2(tex.Width / 2, tex.Height);
                 }
             }
-            foreach (var entity in NetworkManager.Client.simulation.model.entities)
+            foreach (var entity in gui_entities)
             {
                 if (entity.texture == null)
                 {
@@ -104,7 +104,11 @@ namespace TheCheaps.Scenes
                 {
                     var tex = Content.Load<Texture2D>(entity.texture_path);
                     entity.texture = tex;
-                    entity.origin = new Vector2(tex.Width / 2, tex.Height);
+                    if(entity.sourcerect.Width != 0)
+                        entity.origin = new Vector2(entity.sourcerect.Width / 2, entity.sourcerect.Height);
+
+                    else
+                        entity.origin = new Vector2(tex.Width / 2, tex.Height);
                 }
             }
         }

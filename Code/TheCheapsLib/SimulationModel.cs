@@ -11,11 +11,5 @@ namespace TheCheapsLib
         public List<PlayerEntity> player_entities = new List<PlayerEntity>();
         internal List<ActionModel>[] actions = new List<ActionModel>[Settings.maxPlayers];
         internal List<Entity> items = new List<Entity>();
-#if OLD
-        public GamePadState[] gamepads = new GamePadState[Settings.maxPlayers];
-        public GamePadState[] oldGamepads = new GamePadState[Settings.maxPlayers];
-        public KeyboardState[] keyboards = new KeyboardState[Settings.maxPlayers];
-        public KeyboardState[] oldKeyboards = new KeyboardState[Settings.maxPlayers];
-#endif
     }
 }
