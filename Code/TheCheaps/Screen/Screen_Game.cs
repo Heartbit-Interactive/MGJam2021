@@ -56,17 +56,11 @@ namespace TheCheaps.Scenes
             spriteBatch.Begin();
             foreach (var entity in NetworkManager.Client.simulation.model.entities)
             {
-                if (entity.sourcerect.Width == 0)
-                    spriteBatch.Draw(entity.texture, entity.posxy, null, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
-                else
-                    spriteBatch.Draw(entity.texture, entity.posxy, entity.sourcerect, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
+                entity.Draw(spriteBatch);
             }
             foreach (var entity in NetworkManager.Client.simulation.model.player_entities)
             {
-                if (entity.sourcerect.Width == 0)
-                    spriteBatch.Draw(entity.texture, entity.posxy, null, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
-                else
-                    spriteBatch.Draw(entity.texture, entity.posxy, entity.sourcerect, Color.White, 0, entity.origin, 1, SpriteEffects.None, entity.z);
+                entity.Draw(spriteBatch);
             }
             spriteBatch.End();
         }

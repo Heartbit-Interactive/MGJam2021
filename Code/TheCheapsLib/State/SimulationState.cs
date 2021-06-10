@@ -26,7 +26,7 @@ namespace TheCheapsLib
             for (int i = 0; i < count; i++)
             {
                 var entity = new Entity();
-                entity.binaryread(br);
+                entity.BinaryRead(br);
                 entities.Add(entity);
             }
             count = br.ReadInt32();
@@ -34,7 +34,7 @@ namespace TheCheapsLib
             for (int i = 0; i < count; i++)
             {
                 var entity = new PlayerEntity();
-                entity.binaryread(br);
+                entity.BinaryRead(br);
                 player_entities.Add(entity);
             }
         }
@@ -43,11 +43,11 @@ namespace TheCheapsLib
             base.BinaryWrite(bw);
             bw.Write(entities.Count);
             foreach (var entity in entities)
-                entity.binarywrite(bw);
+                entity.BinaryWrite(bw);
 
             bw.Write(player_entities.Count);
             foreach (var entity in player_entities)
-                entity.binarywrite(bw);
+                entity.BinaryWrite(bw);
         }
     }
 }

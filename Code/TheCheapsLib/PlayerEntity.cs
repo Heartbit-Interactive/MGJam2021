@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace TheCheapsLib
@@ -12,8 +13,14 @@ namespace TheCheapsLib
         {
             inventory = new Inventory();
         }
-
-
+        public override void BinaryRead(BinaryReader br)
+        {
+            base.BinaryRead(br);            
+        }
+        public override void BinaryWrite(BinaryWriter bw)
+        {
+            base.BinaryWrite(bw);
+        }
 
 
     }

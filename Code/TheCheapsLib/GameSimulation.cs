@@ -34,6 +34,10 @@ namespace TheCheapsLib
             //File.WriteAllText("Players.json", text);
             var jsontextplayer = File.ReadAllText("Players.json");
             model.player_entities = JsonConvert.DeserializeObject<List<PlayerEntity>>(jsontextplayer);
+            foreach(var player in model.player_entities)
+            {
+                player.inventory = new Inventory();
+            }
             players = new GamePlayer[Settings.maxPlayers];
             for (int i = 0; i < players.Length; i++)
                 players[i] = new GamePlayer(i, model);
