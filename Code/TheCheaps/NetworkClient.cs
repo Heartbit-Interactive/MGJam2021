@@ -75,7 +75,6 @@ namespace TheCheaps
                     break;
                 case NetworkServerState.Phase.Gameplay:
                     SendMessage(ClientMessageType.ActionState, this.input.getActionState());
-                    input.update_times();
                     break;
                 case NetworkServerState.Phase.Lobby:
                     break;

@@ -50,7 +50,11 @@ namespace TheCheapsLib
         public void Draw(SpriteBatch spriteBatch)
         {
             if (this.sourcerect.Width == 0)
+            {
+                spriteBatch.Draw(this.texture, this.posxy, null, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
+
                 spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, null, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
+            }
             else
                 spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, this.sourcerect, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
         }
