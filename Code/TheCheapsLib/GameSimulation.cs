@@ -41,7 +41,7 @@ namespace TheCheapsLib
             players = new GamePlayer[Settings.maxPlayers];
             for (int i = 0; i < players.Length; i++)
             {
-                players[i] = new GamePlayer(i, model);
+                players[i] = new GamePlayer(i, this);
             }
 
             var jsontextitems = File.ReadAllText("Items.json");
@@ -67,18 +67,21 @@ namespace TheCheapsLib
         {
             updated_entities.Clear();
             removed_entities.Clear();
+            added_entities.Clear();
             var now = DateTime.UtcNow;
             var elapsedTime = last_time - now;
             foreach(var player in players)
             {
                 player.Update(elapsedTime);
+                updated_entities.Add(player.playerEntity);
             }
             for (int i = model.entities.Count-1; i>=0; i--)
                 update_entity(elapsedTime,model.entities[i]);
             last_time = now;
         }
-        List<Entity> updated_entities = new List<Entity>();
-        List<Entity> removed_entities = new List<Entity>();
+        public List<Entity> updated_entities = new List<Entity>();
+        public List<Entity> removed_entities = new List<Entity>();
+        public List<Entity> added_entities = new List<Entity>();
         private void update_entity(TimeSpan elapsedTime,Entity entity)
         {
             if(entity.speed > 0)
@@ -106,7 +109,10 @@ namespace TheCheapsLib
                     model.entities.Remove(entity);
                 }
                 else
+                {
                     entity.life_time--;
+                    updated_entities.Add(entity);
+                }
             }
         }
         
@@ -129,6 +135,17 @@ namespace TheCheapsLib
             model.entities = simulationState.entities;
             model.player_entities = simulationState.player_entities;
 
+        }
+
+        internal void AddEntity(Entity entity)
+        {
+            added_entities.Add(entity);
+            model.entities.Add(entity);
+        }
+        internal void RemEntity(Entity entity)
+        {
+            removed_entities.Add(entity);
+            model.entities.Remove(entity);
         }
     }
 }
