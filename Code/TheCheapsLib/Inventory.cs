@@ -7,6 +7,7 @@ namespace TheCheapsLib
     public class Inventory
     {
         public List<Entity> entities = new List<Entity>();//id oggetti posseduti
+        internal int size = 3;
 
         public Inventory() { }
 
@@ -18,5 +19,9 @@ namespace TheCheapsLib
             return entities[lenght - 1];
         }
 
+        internal void update_entities_pos()
+        {
+
+        }
     }
 }

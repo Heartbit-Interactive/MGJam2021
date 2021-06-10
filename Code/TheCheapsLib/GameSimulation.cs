@@ -34,6 +34,10 @@ namespace TheCheapsLib
             //File.WriteAllText("Players.json", text);
             var jsontextplayer = File.ReadAllText("Players.json");
             model.player_entities = JsonConvert.DeserializeObject<List<PlayerEntity>>(jsontextplayer);
+            foreach(var player in model.player_entities)
+            {
+                player.inventory = new Inventory();
+            }
             players = new GamePlayer[Settings.maxPlayers];
             for (int i = 0; i < players.Length; i++)
                 players[i] = new GamePlayer(i, model);
@@ -56,6 +60,20 @@ namespace TheCheapsLib
 
         private void update_entity(Entity entity)
         {
+            if(entity.speed > 0)
+            {
+                entity.posxy += entity.direction * entity.speed;
+                if(entity.posz>0)
+                {
+                    entity.posz -= Settings.fall_speed;
+                    if (entity.posz <= 0)
+                    {
+                        entity.posz = 0;
+                        entity.speed = 0;
+                    }
+                }
+
+            }
         }
 
         private IEnumerable<Entity> updateable_entities { get { return model.entities; } }
