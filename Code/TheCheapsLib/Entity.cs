@@ -63,6 +63,7 @@ namespace TheCheapsLib
         {
             if (z == 0)
                 z = default_z;
+            update_collision_rect();
             this.uniqueId = UniqueCounter++;
         }
 
