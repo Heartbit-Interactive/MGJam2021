@@ -81,7 +81,11 @@ namespace TheCheaps.Scenes
             foreach (var entity in NetworkManager.Client.simulation.model.player_entities)
             {
                 if (entity.texture == null)
-                    entity.texture = Content.Load<Texture2D>(entity.texture_path);
+                {
+                    var tex = Content.Load<Texture2D>(entity.texture_path);
+                    entity.texture = tex;
+                    entity.origin = new Vector2(tex.Width / 2, tex.Height);
+                }
             }
         }
         public override void Terminate(ContentManager content)

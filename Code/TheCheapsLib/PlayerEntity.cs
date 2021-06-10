@@ -9,6 +9,8 @@ namespace TheCheapsLib
     {
         public int index;
         public Inventory inventory;
+        public int TIMER_DASH = 40;
+        public int dash_timer_counter;
         public PlayerEntity():base() 
         {
             inventory = new Inventory();
@@ -21,7 +23,11 @@ namespace TheCheapsLib
         {
             base.BinaryWrite(bw);
         }
-
+        public void update_timer_dash()
+        {
+            if (dash_timer_counter > 0)
+                dash_timer_counter--;
+        }
 
     }
 }
