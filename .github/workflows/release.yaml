@@ -31,9 +31,12 @@ jobs:
       run: |
         TAGVERSION=$(git describe --tags --abbrev=0)
         echo "TAGVERSION=${TAGVERSION:1}" >> $GITHUB_ENV
-    - name: install font
+    - name: Update Submodules
+       run: |
+        git submodule update --init --recursive    
+    - name: Install font
       run: |
-        wget -P /usr/share/fonts/truetype/Pixellari.ttf https://github.com/Heartbit-Interactive/MGJam2021/raw/main/Assets/Pixellari.ttf
+        wget -P /usr/share/fonts/truetype https://github.com/Heartbit-Interactive/MGJam2021/raw/main/Assets/Pixellari.ttf
     - name: Setup Wine
       run: |
         sudo dpkg --add-architecture i386
