@@ -122,7 +122,6 @@ namespace TheCheapsLib
                             var entity = model.player_entities[id].inventory.entities.LastOrDefault();
                             if (entity != null)
                             {
-                                //Entity object_thrown = new Entity(entity.texture_path, entity.name, entity.posxy, entity.z, entity.sourcerect, entity.direction, entity.through, entity.speed, entity.tags, entity.collisionrect, entity.texture, entity.origin, entity.posz);
                                 model.player_entities[id].inventory.entities.Remove(entity);
                                 if (float.IsNaN(action.direction.X) && float.IsNaN(action.direction.Y))
                                     entity.direction = playerEntity.direction;
@@ -133,7 +132,6 @@ namespace TheCheapsLib
                                 model.entities.Add(entity);
                             }
                         }
-                       
                         break;
                     case ActionModel.Type.Move:
                         movement(3,action.direction);
@@ -188,20 +186,33 @@ namespace TheCheapsLib
 
         private void movement(float speedframe, Vector2 vector)
         {
+           
             this.deltaxy += speedframe * vector;
             this.playerEntity.direction = vector;
+            foreach (var entity in model.entities)
+            {
+                
+                var rect = Rectangle.Intersect(new Rectangle((int)entity.posxy.X, (int)entity.posxy.X, entity.collisionrect.Width, entity.collisionrect.Height), new Rectangle((int)playerEntity.posxy.X, (int)playerEntity.posxy.X, playerEntity.collisionrect.Width, playerEntity.collisionrect.Height));
+                if (rect.Width != 0 || rect.Height != 0)
+                {
+                    deltaxy -= new Vector2(rect.Width, rect.Height);
+                }
+            }
         }
 
         private void update_position(TimeSpan elapsedTime)
         {
             this.playerEntity.posxy += deltaxy;
+            playerEntity.update_collision_rect();
 
-            for(int i =0; i <  this.playerEntity.inventory.entities.Count; i++)
+            for (int i = 0; i < this.playerEntity.inventory.entities.Count; i++)
             {
                 var entity = this.playerEntity.inventory.entities[i];
                 entity.posxy = this.playerEntity.posxy;
                 entity.posz = 48 + (i * 24 - 2);
             }
         }
+
+        
     }
 }

@@ -66,11 +66,7 @@ namespace TheCheapsLib
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            var offx = (int)(posxy.X - collisionrect.Width/2);
-            var offy = (int)(posxy.Y - collisionrect.Height);
-            collisionrect.Offset(offx, offy);
             spriteBatch.Draw(GraphicSettings.DebugSquare, collisionrect, null, GraphicSettings.CollisorColor, 0,Vector2.Zero, SpriteEffects.None, 0);
-            collisionrect.Offset(-offx, -offy);
 
             if (this.sourcerect.Width == 0)
             {
@@ -79,6 +75,14 @@ namespace TheCheapsLib
             }
             else
                 spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, this.sourcerect, Color.White, 0, this.origin, 1, SpriteEffects.None, 0);
+        }
+
+        public void update_collision_rect()
+        {
+            var offx = (int)(posxy.X - collisionrect.Width / 2);
+            var offy = (int)(posxy.Y - collisionrect.Height);
+            collisionrect.X = offx;
+            collisionrect.Y = offy;
         }
 
         public virtual void BinaryRead(BinaryReader br)

@@ -82,7 +82,9 @@ namespace TheCheapsLib
             if(entity.speed > 0)
             {
                 entity.posxy += entity.direction * entity.speed;
-                if(entity.posz>0)
+                entity.update_collision_rect();
+
+                if (entity.posz>0)
                 {
                     entity.posz -= Settings.fall_speed;
                     if (entity.posz <= 0)
