@@ -40,7 +40,9 @@ namespace TheCheapsLib
             }
             players = new GamePlayer[Settings.maxPlayers];
             for (int i = 0; i < players.Length; i++)
+            {
                 players[i] = new GamePlayer(i, model);
+            }
 
             var jsontextitems = File.ReadAllText("Items.json");
             model.items = JsonConvert.DeserializeObject<List<Entity>>(jsontextitems);
@@ -56,9 +58,9 @@ namespace TheCheapsLib
         {
             Entity.UniqueCounter = 0;
             foreach (var entity in model.entities)
-                entity.InitializeServer();
+                entity.InitializeServer(0.02f);
             foreach (var entity in model.player_entities)
-                entity.InitializeServer();
+                entity.InitializeServer(0.04f);
         }
 
         public void Step()

@@ -11,5 +11,7 @@ namespace TheCheapsLib
 
         public const int TIME_ON_THE_FLOOR = 180;
         public static float StartGameCountDownMax = 5;
+        public static int LevelWidth = 1920;
+        public static int LevelHeight = 1080;
     }
 }

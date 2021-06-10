@@ -54,22 +54,43 @@ namespace TheCheaps.Scenes
                     NetworkManager.Server.StartMatch();
             }
 #endif
+            player_index = NetworkManager.Client.PlayerIndex;
+            UpdateGUI();
+        }
+
+        private void UpdateGUI()
+        {
         }
 
         Color backgroundColor = new Color(191 ,149 ,77);
+        private int player_index;
+
+        SimulationModel sim { get { return NetworkManager.Client.simulation.model; } }
         public override void Draw(SpriteBatch spriteBatch)
         {
             refresh_entity_textures();
             game.GraphicsDevice.Clear(backgroundColor);
+            if (player_index < 0)
+                return;
+            var pl = sim.player_entities.ElementAtOrDefault(player_index);
+            if (pl == null)
+                return;
+            var posplayer = pl.posxy;
+            var shift_x = Mathf.Clamp(posplayer.X - GraphicSettings.Bounds.Width / 2, 0, Settings.LevelWidth - GraphicSettings.Bounds.Width);
+            var shift_y = Mathf.Clamp(posplayer.Y - GraphicSettings.Bounds.Height / 2, 0, Settings.LevelHeight - GraphicSettings.Bounds.Height);
+            var translation_matrix = Matrix.CreateTranslation(new Vector3(-shift_x, -shift_y, 0));
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, null, null, null, null, null, translation_matrix);
+
+            foreach (var entity in sim.entities)
+            {
+                entity.Draw(spriteBatch);
+            }
+            foreach (var entity in sim.player_entities)
+            {
+                entity.Draw(spriteBatch);
+            }
+            spriteBatch.End();
             spriteBatch.Begin();
-            foreach (var entity in NetworkManager.Client.simulation.model.entities)
-            {
-                entity.Draw(spriteBatch);
-            }
-            foreach (var entity in NetworkManager.Client.simulation.model.player_entities)
-            {
-                entity.Draw(spriteBatch);
-            }
             foreach (var entity in gui_entities)
             {
                 entity.Draw(spriteBatch);

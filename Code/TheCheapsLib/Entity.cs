@@ -56,11 +56,13 @@ namespace TheCheapsLib
             this.origin = origin;
             this.posz = posz;
             this.removeable = removeable;
-            InitializeServer();
+            InitializeServer(0.03f);
         }
 
-        internal void InitializeServer()
+        internal void InitializeServer(float default_z)
         {
+            if (z == 0)
+                z = default_z;
             this.uniqueId = UniqueCounter++;
         }
 
@@ -74,7 +76,7 @@ namespace TheCheapsLib
                 spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, null, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
             }
             else
-                spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, this.sourcerect, Color.White, 0, this.origin, 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, this.sourcerect, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
         }
 
         public void update_collision_rect()
