@@ -44,7 +44,12 @@ namespace TheCheapsLib
 
             var jsontextitems = File.ReadAllText("Items.json");
             model.items = JsonConvert.DeserializeObject<List<Entity>>(jsontextitems);
+
             InitializeEntityIdentifiers();
+            foreach(var item in model.items)
+            {
+                item.tags.Add(Tags.CAN_TAKE_ITEM);
+            }
         }
 
         private void InitializeEntityIdentifiers()
@@ -64,8 +69,8 @@ namespace TheCheapsLib
             {
                 player.Update(elapsedTime);
             }
-            foreach (var entity in updateable_entities)
-                update_entity(elapsedTime,entity);
+            for (int i = model.entities.Count-1; i>=0; i--)
+                update_entity(elapsedTime,model.entities[i]);
             last_time = now;
         }
 
@@ -85,6 +90,18 @@ namespace TheCheapsLib
                 }
 
             }
+            if (entity.speed == 0 && entity.removeable)
+            {
+                if (entity.life_time <= 0)
+                {
+                    entity.life_time = Settings.TIME_ON_THE_FLOOR;
+                    model.entities.Remove(entity);
+                }
+                else
+                    entity.life_time--;
+            }
+
+            
         }
 
         private IEnumerable<Entity> updateable_entities { get { return model.entities; } }

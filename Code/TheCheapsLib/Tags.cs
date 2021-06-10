@@ -7,7 +7,7 @@ namespace TheCheapsLib
     class Tags
     {
         public const string HEAP = "heap";
-      
+        public const string CAN_TAKE_ITEM = "can_take_item";
 
     }
 }

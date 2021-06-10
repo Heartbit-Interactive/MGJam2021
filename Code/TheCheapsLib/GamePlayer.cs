@@ -57,7 +57,8 @@ namespace TheCheapsLib
                 switch (action.type)
                 {
                     case ActionModel.Type.Interact:
-                        if (heap_clicked != null && player_near_entity(heap_clicked)/* playerEntity.collisionrect.Intersects(heap_clicked.collisionrect)*/)
+                        //heap interact
+                        if (heap_clicked != null && player_near_entity(heap_clicked, 64)/* playerEntity.collisionrect.Intersects(heap_clicked.collisionrect)*/)
                         {
                             if(click_for_interact >= CLICK_INTERACT_NEEDS)
                             {
@@ -77,10 +78,15 @@ namespace TheCheapsLib
                             heap_clicked = null;
                             click_for_interact = 0;
                         }
-                        foreach (var entity in model.entities)
+                        for(int i =  model.entities.Count-1; i>=0; i--)
                         {
-                            
-                            if (player_near_entity(entity)/*playerEntity.collisionrect.Intersects(entity.collisionrect)*/ && entity.tags.Contains(Tags.HEAP))
+                            var entity = model.entities[i];
+                            if (player_near_entity(entity,12) && entity.tags.Contains(Tags.CAN_TAKE_ITEM) && playerEntity.inventory.entities.Count<= playerEntity.inventory.size && !playerEntity.inventory.entities.Contains(entity))
+                            {
+                                add_entity_in_inventory(entity);
+                                model.entities.Remove(entity);
+                            }
+                            else if (player_near_entity(entity, 64)/*playerEntity.collisionrect.Intersects(entity.collisionrect)*/ && entity.tags.Contains(Tags.HEAP))
                             {
                                 if (click_for_interact >= CLICK_INTERACT_NEEDS)
                                 {
@@ -123,6 +129,7 @@ namespace TheCheapsLib
                                 else
                                     entity.direction = action.direction;
                                 entity.speed = 3;
+                                entity.removeable = true;
                                 model.entities.Add(entity);
                             }
                         }
@@ -138,8 +145,6 @@ namespace TheCheapsLib
             }
         }
 
-        
-
         private void loot_random_material()
         {
             var type_list = heap_clicked.tags.Where(x => x != Tags.HEAP).ToList();
@@ -147,8 +152,19 @@ namespace TheCheapsLib
             System.Random random = new System.Random();
             var index_chosen = random.Next(type_list.Count);
             var entity = model.items.Where(x => x.name == type_list[index_chosen]).FirstOrDefault();
-            Entity new_entity = new Entity(entity.texture_path, entity.name, heap_clicked.posxy, entity.z, entity.sourcerect, entity.direction, entity.through, entity.speed, entity.tags, entity.collisionrect, entity.texture, entity.origin, entity.posz);
-            if(playerEntity.inventory== null)
+            add_entity_in_inventory(entity);
+            heap_clicked = null;
+        }
+
+        private void add_entity_in_inventory(Entity entity )
+        {
+            Vector2 posxy;
+            if (heap_clicked != null)
+                posxy = heap_clicked.posxy;
+            else
+                posxy = entity.posxy;
+            Entity new_entity = new Entity(entity.texture_path, entity.name, posxy, entity.z, entity.sourcerect, entity.direction, entity.through, entity.speed, entity.tags, entity.collisionrect, entity.texture, entity.origin, entity.posz,false);
+            if (playerEntity.inventory == null)
                 playerEntity.inventory = new Inventory();
             if (playerEntity.inventory.entities.Count < playerEntity.inventory.size)
             {
@@ -156,14 +172,14 @@ namespace TheCheapsLib
             }
 
             model.entities.Add(new_entity);
-            heap_clicked = null;
         }
 
-        private bool player_near_entity(Entity entity)
+        private bool player_near_entity(Entity entity, int radius)
         {
             Vector2 pos_player = playerEntity.posxy;
-            Vector2 pos_entity = entity.posxy;
-            if(Math.Abs(pos_entity.X - pos_player.X)<= 48 && Math.Abs(pos_entity.Y - pos_player.Y) <= 128)
+            Vector2 pos_entity = entity.posxy ;
+
+            if(Math.Abs(pos_entity.X - pos_player.X)<= radius && Math.Abs(pos_entity.Y - pos_player.Y) <= radius)
             {
                 return true;
             }
