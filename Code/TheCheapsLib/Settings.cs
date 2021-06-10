@@ -8,5 +8,7 @@ namespace TheCheapsLib
     {
         public const int maxPlayers = 4;
         internal const float fall_speed = 2/3f;
+
+        public static float StartGameCountDownMax = 5;
     }
 }

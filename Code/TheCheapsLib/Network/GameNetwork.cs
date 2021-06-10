@@ -67,8 +67,22 @@ namespace TheCheapsLib
             return new NetworkResponse(networkOp,NetworkResponse.Type.Ok);
         }
 
-        public void Update()
+        public void Update(TimeSpan elapsedTime)
         {
+            var ss = model.serverState;
+            if (ss.GamePhase == NetworkServerState.Phase.Lobby)
+            {
+                if (!ss.ReadyToStart)
+                    ss.CountDown = -1;
+                if (ss.CountDown > 0)
+                {
+                    ss.CountDown -= (float)elapsedTime.TotalSeconds;
+                    if (ss.CountDown < 0)
+                    {
+                        ss.CountDown = 0;
+                    }
+                }
+            }
             for (int i = peerConnections.Length - 1; i >= 0; i--)
             {
                 if(peerConnections[i] != null)
@@ -77,8 +91,8 @@ namespace TheCheapsLib
                     removePeer(i);
                 }
             }
-            if (model.serverState.GamePhase == NetworkServerState.Phase.Lobby)
-                model.serverState.ReadyToStart = model.players.All(x => x == null || x.Ready);
+            if (ss.GamePhase == NetworkServerState.Phase.Lobby)
+                ss.ReadyToStart = model.players.All(x => x == null || x.Ready);
         }
 
 
@@ -96,5 +110,9 @@ namespace TheCheapsLib
             model.serverState = networkState.serverState;
         }
 
+        public void StartCountDown()
+        {
+            model.serverState.CountDown = (float)Settings.StartGameCountDownMax;
+        }
     }
 }

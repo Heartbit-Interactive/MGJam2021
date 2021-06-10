@@ -46,13 +46,10 @@ namespace TheCheapsServer
             var time = DateTime.UtcNow;
             var elapsedTime = time - lastTime;
             process_message();
-            network.Update();
-            
             foreach (var connection in server.Connections.ToArray())
             {
                 UpdateConnection(elapsedTime, connection);
-            }
-            
+            }            
             switch (network.model.serverState.GamePhase)
             {
                 case NetworkServerState.Phase.Gameplay:
@@ -64,6 +61,11 @@ namespace TheCheapsServer
                     break;
                 default:
                     break;
+            }
+            network.Update(elapsedTime);
+            if (network.model.serverState.CountDown == 0)
+            {
+                StartMatch();
             }
             lastTime = time;
         }
@@ -96,6 +98,12 @@ namespace TheCheapsServer
             network.model.serverState.GamePhase = NetworkServerState.Phase.Gameplay;
             BroadCast(MessageType.PeerState, network.GetState());
         }
+
+        public void StartCountDown()
+        {
+            network.StartCountDown();
+        }
+
         private void process_message()
         {
             NetIncomingMessage msg = server.ReadMessage();
