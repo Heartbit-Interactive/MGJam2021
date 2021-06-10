@@ -1,7 +1,7 @@
 [
   {
     "name": "FACE_ACTOR_01",
-    "posxy": "0,0",
+    "posxy": "48,96",
     "z": 0.9,
     "texture_path": "FACE_ACTOR_01",
     "direction": "0, 0",
