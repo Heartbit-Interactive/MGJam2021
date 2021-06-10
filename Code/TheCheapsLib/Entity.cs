@@ -70,7 +70,7 @@ namespace TheCheapsLib
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(GraphicSettings.DebugSquare, collisionrect, null, GraphicSettings.CollisorColor, 0,Vector2.Zero, SpriteEffects.None, 0);
-
+            if(texture!=null)
             if (this.sourcerect.Width == 0)
             {
                 //spriteBatch.Draw(this.texture, this.posxy, null, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);

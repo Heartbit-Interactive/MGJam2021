@@ -65,6 +65,8 @@ namespace TheCheaps.Scenes
             {
                 textual_gui.Add(player_option[i] = new MenuOption("-", false));
             }
+            isServer = false;
+            isClient = false;
         }
         private void SetClient()
         {
@@ -76,6 +78,8 @@ namespace TheCheaps.Scenes
 
         private void refresh_ClientView()
         {
+            if (isServer)
+                return;
             if (NetworkManager.Client == null)
             {
                 join_option.text = "Joining...";
@@ -94,7 +98,9 @@ namespace TheCheaps.Scenes
                         join_option.text = "Ready [V]";
                     else
                         join_option.text = "Ready [ ]";
+                    join_option.enabled = pi >= 0;
                 }
+
             }
             catch(Exception e)
             {
@@ -118,6 +124,7 @@ namespace TheCheaps.Scenes
                 host_option.text = $"Waiting for {n} players to be ready!";
             }
             join_option.text = "Stop";
+            join_option.enabled = true;
             switch (NetworkManager.ServerStatus)
             {
                 case Lidgren.Network.NetPeerStatus.NotRunning:
@@ -201,6 +208,13 @@ namespace TheCheaps.Scenes
                             NetworkManager.StartCountDown();
                         }
                         break;
+                    case "stop":
+                        {
+                            Disconnect();
+                            NetworkManager.StopServer();
+                            setDefault();
+                        }
+                        break;
                     case "ready [ ]":
                         {
                             SoundManager.PlayDecision();
@@ -217,11 +231,14 @@ namespace TheCheaps.Scenes
             }
             if (isServer)
                 SetServer();
-            if (NetworkManager.Client.network.model.serverState.CountDown >= 0)
-                SetStarting();
-            if (NetworkManager.Client.network.model.serverState.GamePhase == NetworkServerState.Phase.Gameplay)
+            if (NetworkManager.Client != null)
             {
-                ScreenManager.Instance.ChangeScreen("game");
+                if (NetworkManager.Client.network.model.serverState.CountDown > 0)
+                    SetStarting();
+                if (NetworkManager.Client.network.model.serverState.GamePhase == NetworkServerState.Phase.Gameplay)
+                {
+                    ScreenManager.Instance.ChangeScreen("game");
+                }
             }
             for (int i = 0; i < Settings.maxPlayers; i++)
             {
@@ -240,15 +257,9 @@ namespace TheCheaps.Scenes
 
         private void SetStarting()
         {
-            if (isServer)
-            {
                 join_option.enabled = true;
                 join_option.text = $"Cancel";
-            }
-            else
-            { 
-            
-            }
+
             host_option.enabled = false;
             host_option.text = $"Starting in {Math.Ceiling(NetworkManager.Client.network.model.serverState.CountDown)}!";
         }

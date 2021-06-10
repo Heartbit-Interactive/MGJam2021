@@ -21,18 +21,19 @@ namespace TheCheaps.Scenes
         public Screen_Game(Game1 game)
         {
             this.game = game;
-#if TEST
-            NetworkManager.StartServer();
-            NetworkManager.BeginJoin(new System.Net.IPAddress(new byte[] { 127, 0, 0, 1 }), 12345);
-            NetworkManager.Client.StateChanged += Client_StateChanged;
+            if (NetworkManager.Client == null)
+            {
+                NetworkManager.StartServer();
+                NetworkManager.BeginJoin(new System.Net.IPAddress(new byte[] { 127, 0, 0, 1 }), 12345);
+                NetworkManager.Client.StateChanged += Client_StateChanged_Debug;
+            }
             NetworkManager.Client.simulation.EntityAdded += Simulation_EntityAdded;
         }
 
-        private void Client_StateChanged(object sender, EventArgs e)
+        private void Client_StateChanged_Debug(object sender, EventArgs e)
         {
             NetworkManager.Client.SetReady(true);
         }
-
         private void Simulation_EntityAdded(object sender, EventArgs e)
         {
             var entity = (Entity)sender;
@@ -40,9 +41,6 @@ namespace TheCheaps.Scenes
                 entity.LoadTexture(Content);
         }
 
-#else
-        }
-#endif
         private List<PlayerEntity> gui_entities;
         private ContentManager Content;
         public override void LoadContent(ContentManager content)

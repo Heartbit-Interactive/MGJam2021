@@ -54,6 +54,7 @@ namespace TheCheaps
         public static void StopServer()
         {
             ServerThreadManager.Stop();
+            _server = null;
         }
         public static NetPeerStatus ServerStatus { get { return _server != null ? _server.Status : NetPeerStatus.NotRunning; } }
 
