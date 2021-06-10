@@ -16,8 +16,6 @@ namespace TheCheapsLib
         public GameSimulation()
         {
             model = new SimulationModel();
-            
-                
         }
         public void Start()
         {
@@ -36,7 +34,7 @@ namespace TheCheapsLib
             //File.WriteAllText("Players.json", text);
             var jsontextplayer = File.ReadAllText("Players.json");
             model.player_entities = JsonConvert.DeserializeObject<List<PlayerEntity>>(jsontextplayer);
-            foreach(var player in model.player_entities)
+            foreach (var player in model.player_entities)
             {
                 player.inventory = new Inventory();
             }
@@ -46,8 +44,17 @@ namespace TheCheapsLib
 
             var jsontextitems = File.ReadAllText("Items.json");
             model.items = JsonConvert.DeserializeObject<List<Entity>>(jsontextitems);
+            InitializeEntityIdentifiers();
         }
 
+        private void InitializeEntityIdentifiers()
+        {
+            Entity.UniqueCounter = 0;
+            foreach (var entity in model.entities)
+                entity.InitializeServer();
+            foreach (var entity in model.player_entities)
+                entity.InitializeServer();
+        }
 
         public void Step()
         {

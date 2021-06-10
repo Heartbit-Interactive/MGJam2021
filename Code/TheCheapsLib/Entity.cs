@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,11 +25,14 @@ namespace TheCheapsLib
         public List<string> tags = new List<string>();
         //for collision
         public Rectangle collisionrect;
-      
-        public Texture2D texture;
-        public Vector2 origin;
         internal float posz;
-
+        [JsonIgnore]
+        public Texture2D texture;
+        [JsonIgnore]
+        public Vector2 origin;
+        [JsonIgnore]
+        public int uniqueId;
+        internal static int UniqueCounter;
         public Entity() { }
         public Entity(string texture_path, string name, Vector2 posxy, float z, Rectangle sourcerect, Vector2 direction, bool through, float speed, List<string> tags, Rectangle collisionrect, Texture2D texture, Vector2 origin, float posz) 
         {
@@ -45,6 +49,12 @@ namespace TheCheapsLib
             this.texture = texture;
             this.origin = origin;
             this.posz = posz;
+            InitializeServer();
+        }
+
+        internal void InitializeServer()
+        {
+            this.uniqueId = UniqueCounter++;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -61,6 +71,7 @@ namespace TheCheapsLib
 
         public virtual void BinaryRead(BinaryReader br)
         {
+            uniqueId = br.ReadInt32();
             through = br.ReadBoolean();
 
             name = br.ReadString();
@@ -99,6 +110,7 @@ namespace TheCheapsLib
 
         public virtual void BinaryWrite(BinaryWriter bw)
         {
+            bw.Write(uniqueId);
             bw.Write(through);
 
             bw.Write(name ?? "");
