@@ -211,11 +211,14 @@ namespace TheCheaps
 
         internal void SetReady(bool ready)
         {
-            SendMessage(ClientMessageType.NetworkOp, new NetworkOp(NetworkOp.OpType.SetReady, ready), NetDeliveryMethod.ReliableOrdered);
+            if (GetReady(PlayerIndex) != ready)
+                SendMessage(ClientMessageType.NetworkOp, new NetworkOp(NetworkOp.OpType.SetReady, ready), NetDeliveryMethod.ReliableOrdered);
         }
 
         internal bool GetReady(int playerIndex)
         {
+            if (playerIndex < 0)
+                return false;
             return network.model.players[playerIndex].Ready;
         }
 

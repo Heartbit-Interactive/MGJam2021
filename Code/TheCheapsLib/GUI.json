@@ -1,0 +1,128 @@
+[
+  {
+    "name": "FACE_ACTOR_01",
+    "posxy": "0,0",
+    "z": 0.9,
+    "texture_path": "FACE_ACTOR_01",
+    "direction": "0, 0",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "FACE_ACTOR_02",
+    "posxy": "0,0",
+    "z": 0.9,
+    "texture_path": "FACE_ACTOR_02",
+    "direction": "0, 0",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "FACE_ACTOR_03",
+    "posxy": "0,0",
+    "z": 0.9,
+    "texture_path": "FACE_ACTOR_03",
+    "direction": "0, 0",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "FACE_ACTOR_04",
+    "posxy": "0,0",
+    "z": 0.9,
+    "texture_path": "FACE_ACTOR_04",
+    "direction": "0, 0",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "HUD_Ricetta_01",
+    "posxy": "0,0",
+    "z": 0.9,
+    "texture_path": "HUD_Ricetta_01",
+    "direction": "0, 0",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "HUD_Ricetta_01_Mockup",
+    "posxy": "0,0",
+    "z": 0.9,
+    "texture_path": "HUD_Ricetta_01_Mockup",
+    "direction": "0, 0",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  },
+  {
+    "name": "HUD_BarraTelegiornale_01",
+    "posxy": "0,0",
+    "z": 0.9,
+    "texture_path": "HUD_BarraTelegiornale_01",
+    "direction": "0, 0",
+    "through": false,
+    "speed": 0.0,
+    "collisionrect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    },
+    "inventory": null,
+    "texture": null,
+    "origin": "0, 0"
+  }
+]

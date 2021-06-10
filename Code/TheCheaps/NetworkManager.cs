@@ -79,5 +79,10 @@ namespace TheCheaps
             _client.Dispose();
             _client = null;
         }
+
+        internal static void StartCountDown()
+        {
+            _server.StartCountDown();
+        }
     }
 }
