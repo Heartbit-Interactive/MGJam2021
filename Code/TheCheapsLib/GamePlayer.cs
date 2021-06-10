@@ -11,7 +11,6 @@ namespace TheCheapsLib
     public class GamePlayer
     {
         private int id;
-        private bool oldenter;
         private SimulationModel model;
         public PlayerEntity playerEntity;
         private bool moving = true;
