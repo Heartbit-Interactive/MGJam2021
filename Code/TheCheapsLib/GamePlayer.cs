@@ -11,7 +11,6 @@ namespace TheCheapsLib
     public class GamePlayer
     {
         private int id;
-        private bool oldenter;
         private SimulationModel model;
         public PlayerEntity playerEntity;
         private bool moving = true;
@@ -109,12 +108,14 @@ namespace TheCheapsLib
                     case ActionModel.Type.Throw:
                         if(model.player_entities[id].inventory!= null)
                         {
-                            var object_thrown = model.player_entities[id].inventory.last_entity();
-                            if (object_thrown != null)
+                            var entity = model.player_entities[id].inventory.entities.LastOrDefault();
+                            if (entity != null)
                             {
-                                var vt_shoot = action.direction;// vettore 
-                                start_animation_object(vt_shoot, object_thrown);
-
+                                //Entity object_thrown = new Entity(entity.texture_path, entity.name, entity.posxy, entity.z, entity.sourcerect, entity.direction, entity.through, entity.speed, entity.tags, entity.collisionrect, entity.texture, entity.origin, entity.posz);
+                                model.player_entities[id].inventory.entities.Remove(entity);
+                                entity.direction = action.direction;
+                                entity.speed = 2;
+                                model.entities.Add(entity);
                             }
                         }
                        
@@ -129,10 +130,7 @@ namespace TheCheapsLib
             }
         }
 
-        private void start_animation_object(Vector2 vector_dir_shoot, Entity entity)
-        {
-            
-        }
+        
 
         private void loot_random_material()
         {
@@ -177,7 +175,7 @@ namespace TheCheapsLib
             {
                 var entity = this.playerEntity.inventory.entities[i];
                 entity.posxy = this.playerEntity.posxy + new Vector2(24,0);
-                entity.posz = 12/*48*/ + (i * 24 - 2);
+                entity.posz = 12 + (i * 24 - 2);
             }
         }
     }

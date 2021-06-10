@@ -301,6 +301,18 @@
 /processorParam:TextureFormat=Color
 /build:ITEM_D_03.png
 
+#begin ITEM_SCORE.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ITEM_SCORE.png
+
 #begin LEVEL_Barrier_V_01.png
 /importer:TextureImporter
 /processor:TextureProcessor
