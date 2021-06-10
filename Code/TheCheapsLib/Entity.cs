@@ -171,5 +171,17 @@ namespace TheCheapsLib
             bw.Write(life_time);
             bw.Write(removeable);
         }
+
+        internal void CopyChanges(Entity other)
+        {
+            this.posxy = other.posxy;
+            this.z = other.z;
+            this.direction = other.direction;
+            this.through = other.through;
+            this.speed = other.speed;
+            this.tags = other.tags;
+            this.posz = other.posz;
+            this.removeable = other.removeable;
+        }
     }
 }

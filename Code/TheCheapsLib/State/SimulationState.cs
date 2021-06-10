@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace TheCheapsLib
@@ -15,7 +16,7 @@ namespace TheCheapsLib
         }
         public SimulationState(SimulationModel model)
         {
-            entities = model.entities;
+            entities = model.entities.Values.ToList() ;
             player_entities = model.player_entities;
         }
         public override void BinaryRead(BinaryReader br)

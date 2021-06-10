@@ -86,7 +86,7 @@ namespace TheCheapsLib
                             if (player_near_entity(entity,12) && entity.tags.Contains(Tags.CAN_TAKE_ITEM) && playerEntity.inventory.entities.Count<= playerEntity.inventory.size && !playerEntity.inventory.entities.Contains(entity))
                             {
                                 add_entity_in_inventory(entity);
-                                model.entities.Remove(entity);
+                                model.entities.Remove(entity.uniqueId);
                             }
                             else if (player_near_entity(entity, 64)/*playerEntity.collisionrect.Intersects(entity.collisionrect)*/ && entity.tags.Contains(Tags.HEAP))
                             {
@@ -170,8 +170,7 @@ namespace TheCheapsLib
                 playerEntity.inventory.entities.Add(new_entity);
             }
 
-            sim.added_entities.Add(new_entity);
-            model.entities.Add(new_entity);
+            sim.AddEntity(new_entity);
         }
 
         private bool player_near_entity(Entity entity, int radius)
@@ -194,7 +193,7 @@ namespace TheCheapsLib
             int deltax = (int)deltaxy.X;
             int deltay = (int)deltaxy.Y;
             playerEntity.collisionrect.Offset(deltax, deltay);
-            foreach (var entity in model.entities)
+            foreach (var entity in model.entities.Values)
             {
                 var rect = Rectangle.Intersect(entity.collisionrect, playerEntity.collisionrect/*new Rectangle((int)entity.posxy.X, (int)entity.posxy.X, entity.collisionrect.Width, entity.collisionrect.Height), new Rectangle((int)playerEntity.posxy.X, (int)playerEntity.posxy.X, playerEntity.collisionrect.Width, playerEntity.collisionrect.Height)*/);
                 if (rect.Width != 0 || rect.Height != 0)

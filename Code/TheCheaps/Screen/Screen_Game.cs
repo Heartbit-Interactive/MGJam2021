@@ -25,11 +25,19 @@ namespace TheCheaps.Scenes
             NetworkManager.StartServer();
             NetworkManager.BeginJoin(new System.Net.IPAddress(new byte[] { 127, 0, 0, 1 }), 12345);
             NetworkManager.Client.StateChanged += Client_StateChanged;
+            NetworkManager.Client.simulation.EntityAdded += Simulation_EntityAdded;
         }
 
         private void Client_StateChanged(object sender, EventArgs e)
         {
             NetworkManager.Client.SetReady(true);
+        }
+
+        private void Simulation_EntityAdded(object sender, EventArgs e)
+        {
+            var entity = (Entity)sender;
+            if (entity.texture == null)
+                entity.LoadTexture(Content);
         }
 
 #else
@@ -43,6 +51,7 @@ namespace TheCheaps.Scenes
             var jsontextgui = File.ReadAllText("GUI.json");
             gui_entities = JsonConvert.DeserializeObject<List<PlayerEntity>>(jsontextgui);
             GraphicSettings.DebugSquare = Content.Load<Texture2D>("menu/white_square");
+            
         }
         public override void Update(GameTime gameTime)
         {
@@ -75,13 +84,10 @@ namespace TheCheaps.Scenes
             var pl = sim.player_entities.ElementAtOrDefault(player_index);
             if (pl == null)
                 return;
-            var posplayer = pl.posxy;
-            var shift_x = Mathf.Clamp(posplayer.X - GraphicSettings.Bounds.Width / 2, 0, Settings.LevelWidth - GraphicSettings.Bounds.Width);
-            var shift_y = Mathf.Clamp(posplayer.Y - GraphicSettings.Bounds.Height / 2, 0, Settings.LevelHeight - GraphicSettings.Bounds.Height);
-            var translation_matrix = Matrix.CreateTranslation(new Vector3(-shift_x, -shift_y, 0));
+            Matrix translation_matrix = MakeCameraMatrix(pl);
             spriteBatch.Begin(SpriteSortMode.FrontToBack, null, null, null, null, null, translation_matrix);
 
-            foreach (var entity in sim.entities)
+            foreach (var entity in sim.entities.Values)
             {
                 entity.Draw(spriteBatch);
             }
@@ -97,16 +103,21 @@ namespace TheCheaps.Scenes
             }
             spriteBatch.End();
         }
+
+        private static Matrix MakeCameraMatrix(PlayerEntity pl)
+        {
+            var posplayer = pl.posxy;
+            var shift_x = Mathf.Clamp(posplayer.X - GraphicSettings.Bounds.Width / 2, 0, Settings.LevelWidth - GraphicSettings.Bounds.Width);
+            var shift_y = Mathf.Clamp(posplayer.Y - GraphicSettings.Bounds.Height / 2, 0, Settings.LevelHeight - GraphicSettings.Bounds.Height);
+            var translation_matrix = Matrix.CreateTranslation(new Vector3(-shift_x, -shift_y, 0));
+            return translation_matrix;
+        }
+
         public override void EndDraw(SpriteBatch spriteBatch)
         {
         }
         private void refresh_entity_textures()
         {
-            foreach (var entity in NetworkManager.Client.simulation.model.entities)
-            {
-                if (entity.texture == null)
-                    entity.LoadTexture(Content);
-            }
             foreach (var entity in gui_entities)
             {
                 if (entity.texture == null)

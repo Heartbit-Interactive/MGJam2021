@@ -25,7 +25,7 @@ namespace TheCheapsLib
             //var text = JsonConvert.SerializeObject(SimulationModel.entities, Formatting.Indented);
             //File.WriteAllText("Level.json", text);
             var jsontext = File.ReadAllText("Level.json");
-            model.entities = JsonConvert.DeserializeObject<List<Entity>>(jsontext);
+            var entities = JsonConvert.DeserializeObject<List<Entity>>(jsontext);
 
             //SimulationModel.player_entities = new List<PlayerEntity>();
             //SimulationModel.player_entities.Add(new PlayerEntity());
@@ -47,41 +47,41 @@ namespace TheCheapsLib
             var jsontextitems = File.ReadAllText("Items.json");
             model.items = JsonConvert.DeserializeObject<List<Entity>>(jsontextitems);
 
-            InitializeEntityIdentifiers();
+            InitializeEntityIdentifiers(entities);
             foreach(var item in model.items)
             {
                 item.tags.Add(Tags.CAN_TAKE_ITEM);
             }
         }
 
-        private void InitializeEntityIdentifiers()
+        private void InitializeEntityIdentifiers(List<Entity> entities)
         {
             Entity.UniqueCounter = 0;
-            foreach (var entity in model.entities)
+            foreach (var entity in entities)
+            {
                 entity.InitializeServer(0.02f);
+                model.entities[entity.uniqueId] = entity;
+            }
             foreach (var entity in model.player_entities)
                 entity.InitializeServer(0.04f);
         }
 
         public void Step()
         {
-            updated_entities.Clear();
-            removed_entities.Clear();
-            added_entities.Clear();
+            model.updated_entities.Clear();
+            model.removed_entities.Clear();
+            model.added_entities.Clear();
             var now = DateTime.UtcNow;
             var elapsedTime = last_time - now;
             foreach(var player in players)
             {
                 player.Update(elapsedTime);
-                updated_entities.Add(player.playerEntity);
+                model.updated_entities.Add(player.playerEntity.uniqueId);
             }
             for (int i = model.entities.Count-1; i>=0; i--)
                 update_entity(elapsedTime,model.entities[i]);
             last_time = now;
         }
-        public List<Entity> updated_entities = new List<Entity>();
-        public List<Entity> removed_entities = new List<Entity>();
-        public List<Entity> added_entities = new List<Entity>();
         private void update_entity(TimeSpan elapsedTime,Entity entity)
         {
             if(entity.speed > 0)
@@ -98,20 +98,19 @@ namespace TheCheapsLib
                         entity.speed = 0;
                     }
                 }
-                updated_entities.Add(entity);
+                model.updated_entities.Add(entity.uniqueId);
             }
             if (entity.speed == 0 && entity.removeable)
             {
                 if (entity.life_time <= 0)
                 {
                     entity.life_time = Settings.TIME_ON_THE_FLOOR;
-                    removed_entities.Add(entity);
-                    model.entities.Remove(entity);
+                    RemEntity(entity);
                 }
                 else
                 {
                     entity.life_time--;
-                    updated_entities.Add(entity);
+                    model.updated_entities.Add(entity.uniqueId);
                 }
             }
         }
@@ -132,20 +131,44 @@ namespace TheCheapsLib
 
         public void SetState(SimulationState simulationState)
         {
-            model.entities = simulationState.entities;
+            foreach (var freshEntity in simulationState.entities)
+            {
+                if (!model.entities.TryGetValue(freshEntity.uniqueId, out var existingEntity))
+                {
+                    model.entities[freshEntity.uniqueId] = freshEntity;
+                    OnEntityAdded(freshEntity);
+                }
+                else
+                {
+                    existingEntity.CopyChanges(freshEntity);
+                }
+            }
             model.player_entities = simulationState.player_entities;
 
+            OnStateUpdated();
+        }
+        public event EventHandler StateUpdated;
+        private void OnStateUpdated()
+        {
+            if (StateUpdated != null)
+                StateUpdated.Invoke(this, null);
         }
 
+        public event EventHandler EntityAdded;
+        private void OnEntityAdded(Entity freshEntity)
+        {
+            if (EntityAdded != null)
+                EntityAdded.Invoke(freshEntity, null);
+        }
         internal void AddEntity(Entity entity)
         {
-            added_entities.Add(entity);
-            model.entities.Add(entity);
+            model.added_entities.Add(entity.uniqueId);
+            model.entities[entity.uniqueId] = entity;
         }
         internal void RemEntity(Entity entity)
         {
-            removed_entities.Add(entity);
-            model.entities.Remove(entity);
+            model.removed_entities.Add(entity.uniqueId);
+            model.entities.Remove(entity.uniqueId);
         }
     }
 }
