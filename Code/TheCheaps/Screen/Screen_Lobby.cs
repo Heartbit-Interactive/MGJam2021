@@ -353,7 +353,7 @@ namespace TheCheaps.Scenes
         {
             base.Draw(spriteBatch);
             var c = GraphicSettings.Bounds.Center;
-            Vector2 position = new Vector2(c.X,c.Y/2);
+            Vector2 position = new Vector2(c.X,32);
             spriteBatch.Begin();
             for (int index = 0;index<textual_gui.Count;index++)
             {
@@ -361,7 +361,7 @@ namespace TheCheaps.Scenes
                 var text = option.text;
                 if (index == menuIndex)
                     text = $"<{text}>";
-                var pos = position + index * (extra_lineHeight + 48) * Vector2.UnitY;
+                var pos = position + index * (extra_lineHeight + 44) * Vector2.UnitY;
                 View_Base.DrawString(font,spriteBatch,  text, pos, option.enabled ? Color.White : Color.Gray,outline,false);
             }
             spriteBatch.End();
