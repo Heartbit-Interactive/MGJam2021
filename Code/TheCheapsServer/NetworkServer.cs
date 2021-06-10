@@ -22,6 +22,8 @@ namespace TheCheapsServer
         public bool Started { get { return _started; } }
         private bool _started;
         public NetPeerStatus Status { get { return server.Status; } }
+
+
         public NetworkServer(int port)
         {
             config = new Lidgren.Network.NetPeerConfiguration("TheCheaps");

@@ -78,8 +78,12 @@ namespace TheCheapsLib
                 player.Update(elapsedTime);
                 model.updated_entities.Add(player.playerEntity.uniqueId);
             }
-            for (int i = model.entities.Count-1; i>=0; i--)
-                update_entity(elapsedTime,model.entities[i]);
+            foreach (var entity in model.entities.Values)
+                update_entity(elapsedTime,entity);
+            foreach (var entity in model.added_entities)
+                model.entities[entity.uniqueId] = entity;
+            foreach (var id in model.removed_entities)
+                model.entities.Remove(id);
             last_time = now;
         }
         private void update_entity(TimeSpan elapsedTime,Entity entity)
@@ -143,6 +147,8 @@ namespace TheCheapsLib
                     existingEntity.CopyChanges(freshEntity);
                 }
             }
+            foreach (var id in simulationState.removed_entities)
+                model.entities.Remove(id);
             model.player_entities = simulationState.player_entities;
 
             OnStateUpdated();
@@ -162,13 +168,12 @@ namespace TheCheapsLib
         }
         internal void AddEntity(Entity entity)
         {
-            model.added_entities.Add(entity.uniqueId);
-            model.entities[entity.uniqueId] = entity;
+            model.added_entities.Add(entity);
         }
         internal void RemEntity(Entity entity)
         {
             model.removed_entities.Add(entity.uniqueId);
-            model.entities.Remove(entity.uniqueId);
+            //model.entities.Remove(entity.uniqueId);
         }
     }
 }

@@ -80,13 +80,12 @@ namespace TheCheapsLib
                             heap_clicked = null;
                             click_for_interact = 0;
                         }
-                        for(int i =  model.entities.Count-1; i>=0; i--)
+                        foreach(var entity in model.entities.Values)
                         {
-                            var entity = model.entities[i];
                             if (player_near_entity(entity,12) && entity.tags.Contains(Tags.CAN_TAKE_ITEM) && playerEntity.inventory.entities.Count<= playerEntity.inventory.size && !playerEntity.inventory.entities.Contains(entity))
                             {
                                 add_entity_in_inventory(entity);
-                                model.entities.Remove(entity.uniqueId);
+                                sim.RemEntity(entity);
                             }
                             else if (player_near_entity(entity, 64)/*playerEntity.collisionrect.Intersects(entity.collisionrect)*/ && entity.tags.Contains(Tags.HEAP))
                             {

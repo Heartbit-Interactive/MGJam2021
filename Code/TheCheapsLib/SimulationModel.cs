@@ -14,6 +14,6 @@ namespace TheCheapsLib
 
         public List<int> updated_entities = new List<int>();
         public List<int> removed_entities = new List<int>();
-        public List<int> added_entities = new List<int>();
+        public List<Entity> added_entities = new List<Entity>();
     }
 }

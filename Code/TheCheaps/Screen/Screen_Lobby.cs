@@ -36,6 +36,7 @@ namespace TheCheaps.Scenes
         private MenuOption[] player_option;
         private bool isServer;
         private bool isClient;
+        private MenuOption status_option2;
 
         class MenuOption
         {
@@ -56,6 +57,7 @@ namespace TheCheaps.Scenes
         {
             textual_gui.Clear();
             textual_gui.Add(status_option = new MenuOption("-status-", false));
+            textual_gui.Add(status_option2 = new MenuOption("", false));
             textual_gui.Add(host_option = new MenuOption("Host", true));
             textual_gui.Add(join_option = new MenuOption("Join", true));
             textual_gui.Add(new MenuOption("", false));
@@ -135,6 +137,7 @@ namespace TheCheaps.Scenes
                     break;
                 case Lidgren.Network.NetPeerStatus.Running:
                     status_option.text = $"[Hosting] Public Ip: {NetworkManager.PublicIp}:{NetworkManager.Port}";
+                    status_option2.text = $"Local Ip: {NetworkManager.LocalIp}";
                     break;
                 case Lidgren.Network.NetPeerStatus.ShutdownRequested:
                     status_option.text = $"[Hosting] Shutdown Requested";

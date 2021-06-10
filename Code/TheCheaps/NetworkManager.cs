@@ -15,6 +15,9 @@ namespace TheCheaps
     public class NetworkManager
     {
         private static NetworkServer _server;
+
+        public static string LocalIp { get; private set; }
+
         private static NetworkClient _client;
         public static NetworkClient Client { get { return _client; } }
         public static NetworkServer Server { get { return _server; } }
@@ -44,6 +47,7 @@ namespace TheCheaps
         public static void StartServer()
         {
             _server = ServerThreadManager.Start(_port);
+            LocalIp = NetworkServer.GetLocalIPAddress() ;
         }
 
         public static void Update(GameTime time)
