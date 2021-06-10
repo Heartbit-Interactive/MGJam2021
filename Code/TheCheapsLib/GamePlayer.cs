@@ -13,7 +13,7 @@ namespace TheCheapsLib
         private int id;
         private bool oldenter;
         private SimulationModel model;
-        private PlayerEntity playerEntity;
+        public PlayerEntity playerEntity;
         private bool moving = true;
 
         private Entity heap_clicked = null;
@@ -22,6 +22,7 @@ namespace TheCheapsLib
         private const int CLICK_INTERACT_NEEDS = 5;
 
         private int timer_interact = 0;
+        private Vector2 deltaxy;
         private const int INTERACT_LOST_AFTER = 30;//dopo quanti frame il contatore click_for_interact viene azzerato perchè ho smesso di cliccare
 
 
@@ -33,6 +34,7 @@ namespace TheCheapsLib
         }
         public void update()
         {
+            deltaxy = Vector2.Zero;
             update_input();
             if(heap_clicked!= null && click_for_interact > 0)
             {
@@ -41,6 +43,7 @@ namespace TheCheapsLib
                 else
                     timer_interact++;
             }
+            update_position();
         }
         public void update_input()
         {
@@ -54,7 +57,7 @@ namespace TheCheapsLib
                 switch (action.type)
                 {
                     case ActionModel.Type.Interact:
-                        if (heap_clicked != null && playerEntity.collisionrect.Intersects(heap_clicked.collisionrect))
+                        if (heap_clicked != null && player_near_entity(heap_clicked)/* playerEntity.collisionrect.Intersects(heap_clicked.collisionrect)*/)
                         {
                             if(click_for_interact >= CLICK_INTERACT_NEEDS)
                             {
@@ -77,7 +80,7 @@ namespace TheCheapsLib
                         foreach (var entity in model.entities)
                         {
                             
-                            if (playerEntity.collisionrect.Intersects(entity.collisionrect) && entity.tags.Contains(Tags.HEAP))
+                            if (player_near_entity(entity)/*playerEntity.collisionrect.Intersects(entity.collisionrect)*/ && entity.tags.Contains(Tags.HEAP))
                             {
                                 if (click_for_interact >= CLICK_INTERACT_NEEDS)
                                 {
@@ -101,7 +104,7 @@ namespace TheCheapsLib
                     case ActionModel.Type.Dash:
                         
                             //schivata
-                            movement(24, action.direction);                        
+                            movement(48, action.direction);                        
                         break;
                     case ActionModel.Type.Throw:
                         if(model.player_entities[id].inventory!= null)
@@ -117,7 +120,7 @@ namespace TheCheapsLib
                        
                         break;
                     case ActionModel.Type.Move:
-                        movement(1,action.direction);
+                        movement(3,action.direction);
                         break;
 
                 }
@@ -138,9 +141,15 @@ namespace TheCheapsLib
             System.Random random = new System.Random();
             var index_chosen = random.Next(type_list.Count);
             var entity = model.items.Where(x => x.name == type_list[index_chosen]).FirstOrDefault();
+            Entity new_entity = new Entity(entity.texture_path, entity.name, heap_clicked.posxy, entity.z, entity.sourcerect, entity.direction, entity.through, entity.speed, entity.tags, entity.collisionrect, entity.texture, entity.origin, entity.posz);
             if(playerEntity.inventory== null)
                 playerEntity.inventory = new Inventory();
-            playerEntity.inventory.entities.Add(entity);
+            if (playerEntity.inventory.entities.Count < playerEntity.inventory.size)
+            {
+                playerEntity.inventory.entities.Add(new_entity);
+            }
+
+            model.entities.Add(new_entity);
             heap_clicked = null;
         }
 
@@ -148,7 +157,7 @@ namespace TheCheapsLib
         {
             Vector2 pos_player = playerEntity.posxy;
             Vector2 pos_entity = entity.posxy;
-            if(Math.Abs(pos_entity.X - pos_player.X)<= 2 && Math.Abs(pos_entity.Y - pos_player.Y) <= 2)
+            if(Math.Abs(pos_entity.X - pos_player.X)<= 48 && Math.Abs(pos_entity.Y - pos_player.Y) <= 128)
             {
                 return true;
             }
@@ -157,10 +166,19 @@ namespace TheCheapsLib
 
         private void movement(float speedframe, Vector2 vector)
         {
-            var player = model.player_entities[id];
+            this.deltaxy += speedframe * vector;
+        }
 
-            player.posxy = player.posxy + speedframe * vector;
+        private void update_position()
+        {
+            this.playerEntity.posxy += deltaxy;
 
+            for(int i =0; i <  this.playerEntity.inventory.entities.Count; i++)
+            {
+                var entity = this.playerEntity.inventory.entities[i];
+                entity.posxy = this.playerEntity.posxy + new Vector2(24,0);
+                entity.posz = 12/*48*/ + (i * 24 - 2);
+            }
         }
     }
 }

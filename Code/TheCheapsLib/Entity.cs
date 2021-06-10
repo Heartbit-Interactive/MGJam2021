@@ -11,7 +11,7 @@ namespace TheCheapsLib
     //Contiene: posizione, inventario, percorso texture, eventuale rettangolo sorgente, layer z, fisica collisione, direzione, se attraversabile
     //da aggiungere tag(elettronica o altro)
 
-    public class Entity
+    public class Entity: IBinarizable
     {
         public string texture_path="";
         public string name = "default";
@@ -25,49 +25,37 @@ namespace TheCheapsLib
         //for collision
         public Rectangle collisionrect;
       
-        public Inventory inventory;
         public Texture2D texture;
         public Vector2 origin;
+        internal float posz;
 
         public Entity() { }
-        public Entity(Vector2 posxy, int z, string texture, Rectangle sourcerect) 
+        public Entity(string texture_path, string name, Vector2 posxy, float z, Rectangle sourcerect, Vector2 direction, bool through, float speed, List<string> tags, Rectangle collisionrect, Texture2D texture, Vector2 origin, float posz) 
         {
+            this.texture_path = texture_path;
+            this.name = name;
             this.posxy = posxy;
             this.z = z;
-            this.texture_path = texture;
             this.sourcerect = sourcerect;
+            this.direction = direction;
+            this.through = through;
+            this.speed = speed;
+            this.tags = tags;
+            this.collisionrect = collisionrect;
+            this.texture = texture;
+            this.origin = origin;
+            this.posz = posz;
         }
-        public void binarywrite(BinaryWriter bw)
+
+        public void Draw(SpriteBatch spriteBatch)
         {
-            bw.Write(through);
-
-            bw.Write(name ?? "");
-            bw.Write(texture_path);
-
-            bw.Write(z);
-            bw.Write(speed);
-
-            bw.Write(posxy.X);
-            bw.Write(posxy.Y);
-
-            bw.Write(direction.X);
-            bw.Write(direction.Y);
-
-            bw.Write(sourcerect.X);
-            bw.Write(sourcerect.Y);
-            bw.Write(sourcerect.Width);
-            bw.Write(sourcerect.Height);
-
-            bw.Write(collisionrect.X);
-            bw.Write(collisionrect.Y);
-            bw.Write(collisionrect.Width);
-            bw.Write(collisionrect.Height);
-            bw.Write(tags.Count);
-            foreach (var tag in tags)
-                bw.Write(tag);
+            if (this.sourcerect.Width == 0)
+                spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, null, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
+            else
+                spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, this.sourcerect, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
         }
 
-        public void binaryread(BinaryReader br)
+        public virtual void BinaryRead(BinaryReader br)
         {
             through = br.ReadBoolean();
 
@@ -99,8 +87,41 @@ namespace TheCheapsLib
 
             var count = br.ReadInt32();
             tags = new List<string>(count);
-            for(int i =0; i< count; i++)
+            for (int i = 0; i < count; i++)
                 tags.Add(br.ReadString());
+
+            posz = br.ReadSingle();
+        }
+
+        public virtual void BinaryWrite(BinaryWriter bw)
+        {
+            bw.Write(through);
+
+            bw.Write(name ?? "");
+            bw.Write(texture_path);
+
+            bw.Write(z);
+            bw.Write(speed);
+
+            bw.Write(posxy.X);
+            bw.Write(posxy.Y);
+
+            bw.Write(direction.X);
+            bw.Write(direction.Y);
+
+            bw.Write(sourcerect.X);
+            bw.Write(sourcerect.Y);
+            bw.Write(sourcerect.Width);
+            bw.Write(sourcerect.Height);
+
+            bw.Write(collisionrect.X);
+            bw.Write(collisionrect.Y);
+            bw.Write(collisionrect.Width);
+            bw.Write(collisionrect.Height);
+            bw.Write(tags.Count);
+            foreach (var tag in tags)
+                bw.Write(tag);
+            bw.Write(posz);
         }
     }
 }
