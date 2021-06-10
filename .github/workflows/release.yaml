@@ -8,7 +8,7 @@ on:
 env:
   ITCH_USER_NAME: heartbitinteractive
   ITCH_GAME_NAME: the-cheaps
-  PROJECT_PATH: Code\TheCheaps
+  PROJECT_PATH: Code/TheCheaps
 
 jobs:
   build:
