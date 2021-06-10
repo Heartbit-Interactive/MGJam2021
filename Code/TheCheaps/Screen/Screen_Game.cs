@@ -84,7 +84,11 @@ namespace TheCheaps.Scenes
                 {
                     var tex = Content.Load<Texture2D>(entity.texture_path);
                     entity.texture = tex;
-                    entity.origin = new Vector2(tex.Width / 2, tex.Height);
+                    if(entity.sourcerect.Width != 0)
+                        entity.origin = new Vector2(entity.sourcerect.Width / 2, entity.sourcerect.Height);
+
+                    else
+                        entity.origin = new Vector2(tex.Width / 2, tex.Height);
                 }
             }
         }

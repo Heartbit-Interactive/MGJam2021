@@ -123,6 +123,7 @@ namespace TheCheapsLib
                                 else
                                     entity.direction = action.direction;
                                 entity.speed = 3;
+                                entity.removeable = true;
                                 model.entities.Add(entity);
                             }
                         }
@@ -138,8 +139,6 @@ namespace TheCheapsLib
             }
         }
 
-        
-
         private void loot_random_material()
         {
             var type_list = heap_clicked.tags.Where(x => x != Tags.HEAP).ToList();
@@ -147,7 +146,7 @@ namespace TheCheapsLib
             System.Random random = new System.Random();
             var index_chosen = random.Next(type_list.Count);
             var entity = model.items.Where(x => x.name == type_list[index_chosen]).FirstOrDefault();
-            Entity new_entity = new Entity(entity.texture_path, entity.name, heap_clicked.posxy, entity.z, entity.sourcerect, entity.direction, entity.through, entity.speed, entity.tags, entity.collisionrect, entity.texture, entity.origin, entity.posz);
+            Entity new_entity = new Entity(entity.texture_path, entity.name, heap_clicked.posxy, entity.z, entity.sourcerect, entity.direction, entity.through, entity.speed, entity.tags, entity.collisionrect, entity.texture, entity.origin, entity.posz, entity.removeable);
             if(playerEntity.inventory== null)
                 playerEntity.inventory = new Inventory();
             if (playerEntity.inventory.entities.Count < playerEntity.inventory.size)
@@ -162,8 +161,9 @@ namespace TheCheapsLib
         private bool player_near_entity(Entity entity)
         {
             Vector2 pos_player = playerEntity.posxy;
-            Vector2 pos_entity = entity.posxy;
-            if(Math.Abs(pos_entity.X - pos_player.X)<= 48 && Math.Abs(pos_entity.Y - pos_player.Y) <= 128)
+            Vector2 pos_entity = entity.posxy ;
+
+            if(Math.Abs(pos_entity.X - pos_player.X)<= 64 && Math.Abs(pos_entity.Y - pos_player.Y) <= 64)
             {
                 return true;
             }
