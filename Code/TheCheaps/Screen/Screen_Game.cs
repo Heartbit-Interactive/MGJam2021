@@ -2,12 +2,15 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TheCheapsLib;
 using TheCheapsServer;
 
 namespace TheCheaps.Scenes
@@ -28,12 +31,16 @@ namespace TheCheaps.Scenes
         {
             NetworkManager.Client.SetReady(true);
         }
+
 #else
         }
 #endif
+        private List<PlayerEntity> gui_entities;
         private ContentManager Content;
         public override void LoadContent(ContentManager content)
         {
+            var jsontextgui = File.ReadAllText("GUI.json");
+            gui_entities = JsonConvert.DeserializeObject<List<PlayerEntity>>(jsontextgui);
             this.Content = content;
         }
         public override void Update(GameTime gameTime)
@@ -62,6 +69,10 @@ namespace TheCheaps.Scenes
             {
                 entity.Draw(spriteBatch);
             }
+            foreach (var entity in gui_entities)
+            {
+                entity.Draw(spriteBatch);
+            }
             spriteBatch.End();
         }
         public override void EndDraw(SpriteBatch spriteBatch)
@@ -69,6 +80,15 @@ namespace TheCheaps.Scenes
         }
         private void refresh_entity_textures()
         {
+            foreach (var entity in gui_entities)
+            {
+                if (entity.texture == null)
+                {
+                    var tex = Content.Load<Texture2D>(entity.texture_path);
+                    entity.texture = tex;
+                    entity.origin = new Vector2(tex.Width / 2, tex.Height);
+                }
+            }
             foreach (var entity in NetworkManager.Client.simulation.model.entities)
             {
                 if (entity.texture == null)
