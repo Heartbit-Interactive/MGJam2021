@@ -191,15 +191,28 @@ namespace TheCheapsLib
            
             this.deltaxy += speedframe * vector;
             this.playerEntity.direction = vector;
+            int deltax = (int)deltaxy.X;
+            int deltay = (int)deltaxy.Y;
+            playerEntity.collisionrect.Offset(deltax, deltay);
             foreach (var entity in model.entities)
             {
-                
-                var rect = Rectangle.Intersect(new Rectangle((int)entity.posxy.X, (int)entity.posxy.X, entity.collisionrect.Width, entity.collisionrect.Height), new Rectangle((int)playerEntity.posxy.X, (int)playerEntity.posxy.X, playerEntity.collisionrect.Width, playerEntity.collisionrect.Height));
+                var rect = Rectangle.Intersect(entity.collisionrect, playerEntity.collisionrect/*new Rectangle((int)entity.posxy.X, (int)entity.posxy.X, entity.collisionrect.Width, entity.collisionrect.Height), new Rectangle((int)playerEntity.posxy.X, (int)playerEntity.posxy.X, playerEntity.collisionrect.Width, playerEntity.collisionrect.Height)*/);
                 if (rect.Width != 0 || rect.Height != 0)
                 {
-                    //deltaxy -= new Vector2(rect.Width, rect.Height);
+                    bool with_less_height = rect.Width <= rect.Height;
+                    if(with_less_height)
+                    {
+                        deltaxy -= new Vector2(deltaxy.X, 0);
+
+                    }
+                    else
+                    {
+                        deltaxy -= new Vector2(0, deltaxy.Y);
+                    }
                 }
             }
+            playerEntity.collisionrect.Offset(-deltax, -deltay);
+
         }
 
         private void update_position(TimeSpan elapsedTime)
