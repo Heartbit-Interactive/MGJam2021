@@ -39,10 +39,20 @@ namespace TheCheapsServer
             Console.WriteLine($"Server for {config.AppIdentifier} starting... Listening on IP:{GetLocalIPAddress()} on port {server.Port}");
             this._started = true;
         }
+        private DateTime lastTime;
+
         public void Tick()
         {
+            var time = DateTime.UtcNow;
+            var elapsedTime = time - lastTime;
             process_message();
             network.Update();
+            
+            foreach (var connection in server.Connections.ToArray())
+            {
+                UpdateConnection(elapsedTime, connection);
+            }
+            
             switch (network.model.serverState.GamePhase)
             {
                 case NetworkServerState.Phase.Gameplay:
@@ -55,7 +65,32 @@ namespace TheCheapsServer
                 default:
                     break;
             }
+            lastTime = time;
         }
+
+        Dictionary<NetConnection, ConnectionInfo> temp_connection_infos = new Dictionary<NetConnection, ConnectionInfo>();
+        private void UpdateConnection(TimeSpan elapsedTime, NetConnection connection)
+        {
+            if (!network.ConnectionInfos.TryGetValue(connection, out var info))
+            {
+                if (!temp_connection_infos.TryGetValue(connection, out info))
+                {
+                    info = new ConnectionInfo(-1);
+                }
+                info.Timeout -= elapsedTime.TotalSeconds;
+                if (info.Timeout < 0)
+                {
+                    connection.Disconnect("Client did not handshake before timeout");
+                }
+            }
+            //info.Heartbeat -= elapsedTime.TotalSeconds;
+            //if (info.Heartbeat)
+            //    SendMessage(connection, MessageType.HeartBeat,
+            //info.Timeout -= elapsedTime.TotalSeconds;
+            //if (info.Timeout < 0)
+            //    connection.Disconnect("Client disconnected due to missing infos");
+        }
+
         public void StartMatch()
         {
             network.model.serverState.GamePhase = NetworkServerState.Phase.Gameplay;
