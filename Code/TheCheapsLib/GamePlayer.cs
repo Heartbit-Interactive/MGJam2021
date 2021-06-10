@@ -199,17 +199,27 @@ namespace TheCheapsLib
                 var rect = Rectangle.Intersect(entity.collisionrect, playerEntity.collisionrect/*new Rectangle((int)entity.posxy.X, (int)entity.posxy.X, entity.collisionrect.Width, entity.collisionrect.Height), new Rectangle((int)playerEntity.posxy.X, (int)playerEntity.posxy.X, playerEntity.collisionrect.Width, playerEntity.collisionrect.Height)*/);
                 if (rect.Width != 0 || rect.Height != 0)
                 {
-                    bool with_less_height = rect.Width <= rect.Height;
-                    if(with_less_height)
-                    {
-                        deltaxy -= new Vector2(deltaxy.X, 0);
-
-                    }
-                    else
-                    {
-                        deltaxy -= new Vector2(0, deltaxy.Y);
-                    }
+                    deltaxy = Vector2.Zero;
+                    break;
                 }
+                //{
+                ////    if (rect == playerEntity.collisionrect)
+                ////        deltaxy = Vector2.Zero;
+                //    else
+                //    {
+                //        bool with_less_height = rect.Width <= rect.Height;
+                //        if (with_less_height)
+                //        {
+                //            deltaxy -= new Vector2(deltaxy.X, 0);
+
+                //        }
+                //        else
+                //        {
+                //            deltaxy -= new Vector2(0, deltaxy.Y);
+                //        }
+                //    }
+
+                //}
             }
             playerEntity.collisionrect.Offset(-deltax, -deltay);
 
