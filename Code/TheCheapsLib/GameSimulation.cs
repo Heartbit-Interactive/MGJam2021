@@ -11,6 +11,8 @@ namespace TheCheapsLib
     {
         public SimulationModel model;
         public GamePlayer[] players;
+        private DateTime last_time;
+
         public GameSimulation()
         {
             model = new SimulationModel();
@@ -49,16 +51,18 @@ namespace TheCheapsLib
 
         public void Step()
         {
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
+            var elapsedTime = last_time - now;
             foreach(var player in players)
             {
-                player.update();
+                player.Update(elapsedTime);
             }
             foreach (var entity in updateable_entities)
-                update_entity(entity);
+                update_entity(elapsedTime,entity);
+            last_time = now;
         }
 
-        private void update_entity(Entity entity)
+        private void update_entity(TimeSpan elapsedTime,Entity entity)
         {
             if(entity.speed > 0)
             {

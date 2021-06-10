@@ -103,8 +103,8 @@ namespace TheCheaps.Scenes
 
         private void SetServer()
         {
-            isServer = false;
-            isClient = true;
+            isServer = true;
+            isClient = false;
             host_option.text = "Waiting Ready";
             join_option.text = "Stop";
             switch (NetworkManager.ServerStatus)
@@ -198,6 +198,9 @@ namespace TheCheaps.Scenes
                         break;
                 }
             }
+            NetworkModel model = NetworkManager.Client.network.model;
+            if (isServer)
+                SetServer();
             for (int i = 0; i < Settings.maxPlayers; i++)
             {
                 if (NetworkManager.Client == null)
@@ -205,7 +208,7 @@ namespace TheCheaps.Scenes
                     player_option[i].text = "-";
                     continue;
                 }
-                var pl = NetworkManager.Client.network.model.players[i];
+                var pl = model.players[i];
                 if (pl == null)
                     player_option[i].text = "-";
                 else
@@ -259,6 +262,8 @@ namespace TheCheaps.Scenes
                 System.Threading.Thread.Sleep(1);
             }
             WhatsMyIp.GetMyIpAsync().ContinueWith(publicIpReceived);
+            NetworkManager.BeginJoin(new IPAddress(new byte[] { 127, 0, 0, 1 }), NetworkManager.Port);
+            NetworkManager.Client.StateChanged += Client_StateChanged;
         }
         private void publicIpReceived(Task<IPAddress> task)
         {
