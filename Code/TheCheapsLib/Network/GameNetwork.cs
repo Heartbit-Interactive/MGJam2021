@@ -1,6 +1,7 @@
 ﻿using Lidgren.Network;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace TheCheapsLib
@@ -76,7 +77,11 @@ namespace TheCheapsLib
                     removePeer(i);
                 }
             }
+            if (model.serverState.GamePhase == NetworkServerState.Phase.Lobby)
+                model.serverState.ReadyToStart = model.players.All(x => x == null || x.Ready);
         }
+
+
 
         private void removePeer(int i)
         {

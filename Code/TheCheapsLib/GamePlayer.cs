@@ -31,7 +31,7 @@ namespace TheCheapsLib
             this.model = model;
             this.playerEntity = model.player_entities[id];
         }
-        public void update()
+        public void Update(TimeSpan elapsedTime)
         {
             deltaxy = Vector2.Zero;
             update_input();
@@ -42,7 +42,7 @@ namespace TheCheapsLib
                 else
                     timer_interact++;
             }
-            update_position();
+            update_position(elapsedTime);
         }
         public void update_input()
         {
@@ -167,7 +167,7 @@ namespace TheCheapsLib
             this.deltaxy += speedframe * vector;
         }
 
-        private void update_position()
+        private void update_position(TimeSpan elapsedTime)
         {
             this.playerEntity.posxy += deltaxy;
 
