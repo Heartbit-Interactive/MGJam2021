@@ -46,7 +46,10 @@ namespace TheCheapsLib
 
             var jsontextitems = File.ReadAllText("Items.json");
             model.items = JsonConvert.DeserializeObject<List<Entity>>(jsontextitems);
-         
+            foreach(var item in model.items)
+            {
+                item.tags.Add(Tags.CAN_TAKE_ITEM);
+            }
         }
 
 
