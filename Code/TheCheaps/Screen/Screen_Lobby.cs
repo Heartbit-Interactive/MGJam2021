@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -105,7 +106,17 @@ namespace TheCheaps.Scenes
         {
             isServer = true;
             isClient = false;
-            host_option.text = "Waiting Ready";
+            if (NetworkManager.Client.network.model.serverState.ReadyToStart)
+            {
+                host_option.enabled = true;
+                host_option.text = "Start!";
+            }
+            else
+            {
+                var n = NetworkManager.Client.network.model.players.Count(x => x != null && !x.Ready);
+                host_option.enabled = false;
+                host_option.text = $"Waiting for {n} players to be ready!";
+            }
             join_option.text = "Stop";
             switch (NetworkManager.ServerStatus)
             {
@@ -184,6 +195,12 @@ namespace TheCheaps.Scenes
                             AddView(view);
                         }
                         break;
+                    case "start!":
+                        {
+                            SoundManager.PlayDecision();
+                            NetworkManager.StartCountDown();
+                        }
+                        break;
                     case "ready [ ]":
                         {
                             SoundManager.PlayDecision();
@@ -198,9 +215,14 @@ namespace TheCheaps.Scenes
                         break;
                 }
             }
-            NetworkModel model = NetworkManager.Client.network.model;
             if (isServer)
                 SetServer();
+            if (NetworkManager.Client.network.model.serverState.CountDown >= 0)
+                SetStarting();
+            if (NetworkManager.Client.network.model.serverState.GamePhase == NetworkServerState.Phase.Gameplay)
+            {
+                ScreenManager.Instance.ChangeScreen("game");
+            }
             for (int i = 0; i < Settings.maxPlayers; i++)
             {
                 if (NetworkManager.Client == null)
@@ -208,12 +230,27 @@ namespace TheCheaps.Scenes
                     player_option[i].text = "-";
                     continue;
                 }
-                var pl = model.players[i];
+                var pl = NetworkManager.Client.network.model.players[i];
                 if (pl == null)
                     player_option[i].text = "-";
                 else
                     player_option[i].text = pl.ToString();
             }
+        }
+
+        private void SetStarting()
+        {
+            if (isServer)
+            {
+                join_option.enabled = true;
+                join_option.text = $"Cancel";
+            }
+            else
+            { 
+            
+            }
+            host_option.enabled = false;
+            host_option.text = $"Starting in {Math.Ceiling(NetworkManager.Client.network.model.serverState.CountDown)}!";
         }
 
         private void Disconnect()
@@ -263,7 +300,7 @@ namespace TheCheaps.Scenes
             }
             WhatsMyIp.GetMyIpAsync().ContinueWith(publicIpReceived);
             NetworkManager.BeginJoin(new IPAddress(new byte[] { 127, 0, 0, 1 }), NetworkManager.Port);
-            NetworkManager.Client.StateChanged += Client_StateChanged;
+            NetworkManager.Client.StateChanged += Client_StateChanged;            
         }
         private void publicIpReceived(Task<IPAddress> task)
         {
@@ -291,6 +328,11 @@ namespace TheCheaps.Scenes
         private void Client_StateChanged(object sender, EventArgs e)
         {
             refresh_ClientView();
+            if (NetworkManager.Client == null)
+                return;
+            if (!isServer)
+                return;
+            NetworkManager.Client.SetReady(true);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

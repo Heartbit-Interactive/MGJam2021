@@ -10,5 +10,6 @@ namespace TheCheapsLib
         internal const float fall_speed = 2/3f;
 
         public const int TIME_ON_THE_FLOOR = 120;
+        public static float StartGameCountDownMax = 5;
     }
 }

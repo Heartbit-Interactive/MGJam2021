@@ -5,7 +5,8 @@ namespace TheCheapsLib
     public class NetworkServerState : NetworkMessageBase
     {
         public Phase GamePhase = Phase.Unset;
-        internal bool ReadyToStart;
+        public bool ReadyToStart;
+        public float CountDown;
 
         public NetworkServerState()
         {
@@ -20,6 +21,7 @@ namespace TheCheapsLib
         {
             base.BinaryRead(br);
             GamePhase = (Phase)br.ReadInt32();
+            CountDown = br.ReadSingle();
             ReadyToStart = br.ReadBoolean();
         }
 
@@ -27,6 +29,7 @@ namespace TheCheapsLib
         {
             base.BinaryWrite(bw);
             bw.Write((int)GamePhase);
+            bw.Write(CountDown);
             bw.Write(ReadyToStart);
         }
     }
