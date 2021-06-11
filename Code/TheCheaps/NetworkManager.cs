@@ -21,7 +21,6 @@ namespace TheCheaps
         private static NetworkClient _client;
         public static NetworkClient Client { get { return _client; } }
         public static NetworkServer Server { get { return _server; } }
-        private static int _port = 12345;
         public static int ThisPeerUnique = Rand.Generator.Next();
         public static string ThisPlayerName = Rand.GeneratePlayerName();
 
@@ -29,16 +28,16 @@ namespace TheCheaps
         {
             get;
             private set;
-        }
+        } = 12345;
 
         public static IPAddress PublicIp { get; internal set; }
         public static bool ServerRunning { get { return _server != null && _server.Started; } }
 
         public static void StartServer(bool use_upnp)
         {
-            _server = ServerThreadManager.Start(_port, use_upnp);
+            _server = ServerThreadManager.Start(Port, use_upnp);
             LocalIp = NetworkServer.GetLocalIPAddress();
-            _port = _server.CurrentPort;
+            Port = _server.CurrentPort;
         }
 
         public static void Update(GameTime time)
@@ -65,7 +64,7 @@ namespace TheCheaps
         {
             if (_server != null || _client!=null)
                 throw new InvalidOperationException();
-            _port = port;
+            Port = port;
             StartServer(use_upnp);
         }
 

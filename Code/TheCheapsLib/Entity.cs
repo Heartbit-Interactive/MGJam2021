@@ -216,10 +216,10 @@ namespace TheCheapsLib
             through = br.ReadBoolean();
             speed = br.ReadSingle();
 
-            //var count = br.ReadInt32();
-            //tags = new List<string>(count);
-            //for (int i = 0; i < count; i++)
-            //    tags.Add(br.ReadString());
+            var count = br.ReadInt32();
+            tags = new List<string>(count);
+            for (int i = 0; i < count; i++)
+                tags.Add(br.ReadString());
 
             posz = br.ReadSingle();
             removeable = br.ReadBoolean();
@@ -237,9 +237,9 @@ namespace TheCheapsLib
 
             bw.Write(through);
             bw.Write(speed);
-            //bw.Write(tags.Count);
-            //foreach (var tag in tags)
-            //    bw.Write(tag);
+            bw.Write(tags.Count);
+            foreach (var tag in tags)
+                bw.Write(tag);
             bw.Write(posz);
             bw.Write(removeable);
         }
