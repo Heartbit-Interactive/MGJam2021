@@ -42,7 +42,7 @@ namespace TheCheaps.Screen.View
             for (int index = 0; index < texts.Length; index++)
             {
                 var pos = position + Vector2.UnitY * 64 * (index+1);
-                View_Base.DrawString(font, spriteBatch, texts[index], pos, Color.Gray, true, false);
+                spriteBatch.DrawString(font, texts[index], pos, Color.Gray, true, false);
             }
             spriteBatch.End();
         }
