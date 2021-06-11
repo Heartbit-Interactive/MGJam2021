@@ -135,8 +135,8 @@ namespace TheCheaps.Scenes
         private void draw_hud(SpriteBatch spriteBatch)
         {
             hud_ricetta.Draw(spriteBatch);
-            spriteBatch.DrawString(spriteFont18, player, hud_ricetta.posxy, Color.White, true, false);
-            spriteBatch.DrawString(spriteFont18, "Bla bla", hud_ricetta.posxy, Color.White, true, false);
+            //spriteBatch.DrawString(spriteFont18, player, hud_ricetta.posxy, Color.White, true, false);
+            //spriteBatch.DrawString(spriteFont18, "Bla bla", hud_ricetta.posxy, Color.White, true, false);
         }
 
         private static Matrix MakeCameraMatrix(PlayerEntity pl)
