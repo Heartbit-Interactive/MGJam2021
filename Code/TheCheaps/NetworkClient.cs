@@ -100,7 +100,7 @@ namespace TheCheaps
                     var actionState = this.input.getActionState();
                     if (actionState.Count > 0)
                     {
-                        SendMessage(ClientMessageType.ActionState, actionState);
+                        SendMessage(ClientMessageType.ActionState, actionState, NetDeliveryMethod.Unreliable);
                     }
                     break;
                 case NetworkServerState.Phase.Lobby:
