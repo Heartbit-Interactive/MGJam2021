@@ -366,7 +366,7 @@ namespace TheCheaps.Scenes
                 if (index == menuIndex)
                     text = $"<{text}>";
                 var pos = position + index * (extra_lineHeight + 44) * Vector2.UnitY;
-                View_Base.DrawString(font,spriteBatch,  text, pos, option.enabled ? Color.White : Color.Gray,outline,false);
+                spriteBatch.DrawString(font,  text, pos, option.enabled ? Color.White : Color.Gray,outline,false);
             }
             spriteBatch.End();
         }
