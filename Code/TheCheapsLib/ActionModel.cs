@@ -11,7 +11,7 @@ namespace TheCheapsLib
         public enum Type { Move, Throw, Dash, Interact }
         public Type type;
         public Vector2 direction;
-        public ActionModel() { }
+        private ActionModel() { }
         public void binary_write(BinaryWriter bw)
         {
             bw.Write((int)type);
@@ -23,6 +23,22 @@ namespace TheCheapsLib
             type = (Type)br.ReadInt32();
             direction.X = br.ReadSingle();
             direction.Y = br.ReadSingle();
+        }
+
+        protected bool disposed;
+        public virtual void Dispose()
+        {
+            if (this.disposed)
+                return;
+            Pool.Push(this);
+            this.disposed = true;
+        }
+        private static Stack<ActionModel> Pool = new Stack<ActionModel>();
+        public static ActionModel Create()
+        {
+            if (Pool.Count == 0)
+                return new ActionModel();
+            return Pool.Pop();
         }
     }
 }

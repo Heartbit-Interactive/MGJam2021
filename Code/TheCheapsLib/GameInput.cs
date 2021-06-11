@@ -15,6 +15,8 @@ namespace TheCheapsLib
         public SimulationModel model;
         private GamePadState gpState;
         private KeyboardState kbState;
+        //Reused
+        private FrameActionState actionList = new FrameActionState();
 
         public GameInput(SimulationModel model)
         {
@@ -24,7 +26,7 @@ namespace TheCheapsLib
         {
             gpState = GamePad.GetState(0);
             kbState = Keyboard.GetState();
-            FrameActionState actionList = new FrameActionState();
+            actionList.Clear();
             Vector2 dir = Vector2.Zero;
             Vector2 dir2 = Vector2.Zero;
             if (gpState.IsConnected)

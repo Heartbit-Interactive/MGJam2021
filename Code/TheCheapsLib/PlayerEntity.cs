@@ -11,7 +11,8 @@ namespace TheCheapsLib
         public Inventory inventory;
         public int TIMER_DASH = 40;
         public int dash_timer_counter;
-        public PlayerEntity():base() 
+
+        private PlayerEntity():base() 
         {
             inventory = new Inventory();
         }
@@ -28,6 +29,23 @@ namespace TheCheapsLib
             if (dash_timer_counter > 0)
                 dash_timer_counter--;
         }
-
+        internal override void CopyChanges(Entity other)
+        {
+            base.CopyChanges(other);
+        }
+        public override void Dispose()
+        {
+            if (this.disposed)
+                return;
+            Pool.Push(this);
+            this.disposed = true;
+        }
+        private static Stack<PlayerEntity> Pool = new Stack<PlayerEntity>();
+        public static new PlayerEntity Create()
+        {
+            if (Pool.Count == 0)
+                return new PlayerEntity();
+            return Pool.Pop();
+        }
     }
 }

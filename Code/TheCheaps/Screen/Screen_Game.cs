@@ -23,8 +23,8 @@ namespace TheCheaps.Scenes
             this.game = game;
             if (NetworkManager.Client == null)
             {
-                NetworkManager.StartServer();
-                NetworkManager.BeginJoin(new System.Net.IPAddress(new byte[] { 127, 0, 0, 1 }), 12345);
+                NetworkManager.StartServer(false);
+                NetworkManager.BeginJoin(new System.Net.IPAddress(new byte[] { 127, 0, 0, 1 }), 12345,false);
                 NetworkManager.Client.StateChanged += Client_StateChanged_Debug;
             }
             NetworkManager.Client.simulation.EntityAdded += Simulation_EntityAdded;

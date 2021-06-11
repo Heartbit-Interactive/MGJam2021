@@ -38,26 +38,8 @@ namespace TheCheapsLib
 
         internal int life_time = Settings.TIME_ON_THE_FLOOR;
         internal bool removeable = false;
-
-        public Entity() { }
-        public Entity(string texture_path, string name, Vector2 posxy, float z, Rectangle sourcerect, Vector2 direction, bool through, float speed, List<string> tags, Rectangle collisionrect, Texture2D texture, Vector2 origin, float posz, bool removeable) 
-        {
-            this.texture_path = texture_path;
-            this.name = name;
-            this.posxy = posxy;
-            this.z = z;
-            this.sourcerect = sourcerect;
-            this.direction = direction;
-            this.through = through;
-            this.speed = speed;
-            this.tags = tags;
-            this.collisionrect = collisionrect;
-            this.texture = texture;
-            this.origin = origin;
-            this.posz = posz;
-            this.removeable = removeable;
-            InitializeServer(0.03f);
-        }
+        /// PRIVATE: usa Entity.Create
+        protected Entity() { }
 
         internal void InitializeServer(float default_z)
         {
@@ -172,7 +154,7 @@ namespace TheCheapsLib
             bw.Write(removeable);
         }
 
-        internal void CopyChanges(Entity other)
+        internal virtual void CopyChanges(Entity other)
         {
             this.posxy = other.posxy;
             this.z = other.z;
@@ -182,6 +164,42 @@ namespace TheCheapsLib
             this.tags = other.tags;
             this.posz = other.posz;
             this.removeable = other.removeable;
+        }
+        protected bool disposed;
+        public virtual void Dispose()
+        {
+            if (this.disposed)
+                return;
+            Pool.Push(this);
+            this.disposed = true;
+        }
+        private static Stack<Entity> Pool = new Stack<Entity>();
+        public static Entity Create()
+        {
+            if (Pool.Count == 0)
+                return new Entity();
+            return Pool.Pop();
+        }
+
+        internal Entity Clone()
+        {
+            var result = Create();
+            result.texture_path = texture_path;
+            result.name = name;
+            result.posxy = posxy;
+            result.z = z;
+            result.sourcerect = sourcerect;
+            result.direction = direction;
+            result.through = through;
+            result.speed = speed;
+            result.tags = tags;
+            result.collisionrect = collisionrect;
+            result.texture = texture;
+            result.origin = origin;
+            result.posz = posz;
+            result.removeable = removeable;
+            result.InitializeServer(0.03f);
+            return result;
         }
     }
 }

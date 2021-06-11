@@ -35,7 +35,7 @@ namespace TheCheaps
 
         public NetPeerStatus Status { get { return client == null ? NetPeerStatus.NotRunning : client.Status; } }
 
-        public NetworkClient(IPAddress ip, int server_port)
+        public NetworkClient(IPAddress ip, int server_port, bool use_upnp)
         {
             int client_port = server_port+1;
             while (client_port < server_port + 10)
@@ -43,15 +43,18 @@ namespace TheCheaps
                 try
                 {
                     config = new NetPeerConfiguration("TheCheaps");
-                    config.EnableUPnP = true;
+                    config.EnableUPnP = use_upnp;
                     config.MaximumConnections = 4;
                     //config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
                     config.Port = client_port;
                     client = new NetClient(config);
                     client.Start();
-                    bool success = client.UPnP.ForwardPort(client_port, "TheCheaps");
-                    if (!success)
-                        throw new Exception($"UPnP could not forward port {client_port}");
+                    if (use_upnp)
+                    {
+                        bool success = client.UPnP.ForwardPort(client_port, "TheCheaps");
+                        if (!success)
+                            throw new Exception($"UPnP could not forward port {client_port}");
+                    }
                     break;
                 }
                 catch
@@ -94,7 +97,11 @@ namespace TheCheaps
                 case NetworkServerState.Phase.Unset:
                     break;
                 case NetworkServerState.Phase.Gameplay:
-                    SendMessage(ClientMessageType.ActionState, this.input.getActionState());
+                    var actionState = this.input.getActionState();
+                    if (actionState.Count > 0)
+                    {
+                        SendMessage(ClientMessageType.ActionState, actionState);
+                    }
                     break;
                 case NetworkServerState.Phase.Lobby:
                     break;

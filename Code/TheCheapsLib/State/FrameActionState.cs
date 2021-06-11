@@ -8,9 +8,9 @@ namespace TheCheapsLib
 {
     public class FrameActionState : State
     {
-        List<ActionModel> actionList;
-
+        List<ActionModel> actionList = new List<ActionModel>();
         public IEnumerable<ActionModel> List { get { return actionList; } }
+        public int Count { get { return actionList.Count; } }
         public FrameActionState() { }
         public override void BinaryRead(BinaryReader br)
         {
@@ -19,7 +19,7 @@ namespace TheCheapsLib
             actionList = new List<ActionModel>(count);
             for (int i = 0; i < count; i++)
             {
-                var action = new ActionModel();
+                var action = ActionModel.Create();
                 action.binary_read(br);
                 actionList.Add(action);
             }            
@@ -38,11 +38,21 @@ namespace TheCheapsLib
                 action.binary_write(bw);
         }
 
+        internal void Clear()
+        {
+            foreach (var action in actionList)
+                action.Dispose();
+            actionList.Clear();
+        }
+
         internal void Add(ActionModel.Type type, Vector2 dir)
         {
             if (actionList == null)
                 actionList = new List<ActionModel>();
-            actionList.Add(new ActionModel() { type = type, direction = dir });
+            var item = ActionModel.Create();
+            item.type = type;
+            item.direction = dir;
+            actionList.Add(item);
         }
     }
 }

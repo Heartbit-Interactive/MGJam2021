@@ -17,24 +17,24 @@ namespace TheCheapsServer
         static NetworkServer server;
         private static CancellationTokenSource serverCancellation;
 
-        public static NetworkServer Start(int port)
+        public static NetworkServer Start(int port, bool use_upnp)
         {
             serverCancellation = new CancellationTokenSource();
             var ct = serverCancellation.Token;
-            System.Threading.Tasks.Task.Factory.StartNew(() => runServer(port,serverCancellation.Token), ct);
+            System.Threading.Tasks.Task.Factory.StartNew(() => runServer(port,serverCancellation.Token, use_upnp), ct);
             while (server == null || !server.Started)
             {
                 System.Threading.Thread.Sleep(1);
             }
             return server;
         }
-        public static void runServer(int port,CancellationToken ctoken)
+        public static void runServer(int port,CancellationToken ctoken, bool use_upnp)
         {
             if (ctoken.IsCancellationRequested)
             {
                 throw new TaskCanceledException();
             }
-            server = new TheCheapsServer.NetworkServer(port);
+            server = new TheCheapsServer.NetworkServer(port, use_upnp);
             server.Start();
 
             var msperstep = 1000/(float)Settings.ServerTicksPerSecond;

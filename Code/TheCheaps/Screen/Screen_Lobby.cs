@@ -312,13 +312,13 @@ namespace TheCheaps.Scenes
             host_option.text = "Starting Up";
             if (NetworkManager.ServerRunning)
                 NetworkManager.StopServer();
-            NetworkManager.BeginHost(port);
+            NetworkManager.BeginHost(port,true);
             while (NetworkManager.ServerStatus == Lidgren.Network.NetPeerStatus.Starting)
             {
                 System.Threading.Thread.Sleep(1);
             }
             WhatsMyIp.GetMyIpAsync().ContinueWith(publicIpReceived);
-            NetworkManager.BeginJoin(new IPAddress(new byte[] { 127, 0, 0, 1 }), NetworkManager.Port);
+            NetworkManager.BeginJoin(new IPAddress(new byte[] { 127, 0, 0, 1 }), NetworkManager.Port, true);
             NetworkManager.Client.StateChanged += Client_StateChanged;            
         }
         private void publicIpReceived(Task<IPAddress> task)
@@ -340,7 +340,7 @@ namespace TheCheaps.Scenes
         {
             if (NetworkManager.ServerRunning)
                 NetworkManager.StopServer();
-            NetworkManager.BeginJoin(ip, port);
+            NetworkManager.BeginJoin(ip, port,true);
             NetworkManager.Client.StateChanged += Client_StateChanged;
         }
 

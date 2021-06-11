@@ -145,11 +145,23 @@ namespace TheCheapsLib
                 else
                 {
                     existingEntity.CopyChanges(freshEntity);
+                    freshEntity.Dispose();
                 }
             }
             foreach (var id in simulationState.removed_entities)
                 model.entities.Remove(id);
-            model.player_entities = simulationState.player_entities;
+
+            for(int i=0;i<simulationState.player_entities.Count ;i++)
+            {
+                if (model.player_entities.Count<=i)
+                    model.player_entities.Add(simulationState.player_entities[i]);
+                else
+                {
+                    model.player_entities[i].CopyChanges(simulationState.player_entities[i]);
+                    model.player_entities[i].update_collision_rect();
+                    simulationState.player_entities[i].Dispose();
+                }
+            }
 
             OnStateUpdated();
         }

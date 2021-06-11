@@ -25,7 +25,11 @@ namespace TheCheapsLib
         private Vector2 deltaxy;
         private const int INTERACT_LOST_AFTER = 30;//dopo quanti frame il contatore click_for_interact viene azzerato perchè ho smesso di cliccare
 
-
+        /// <summary>
+        /// PRIVATE: USA LA POOL PER CREARE
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="sim"></param>
         public GamePlayer(int id, GameSimulation sim) 
         {
             this.id = id;
@@ -138,7 +142,7 @@ namespace TheCheapsLib
                         break;
 
                 }
-
+                action.Dispose();
                 model.actions[id].RemoveAt(model.actions[id].Count - 1);
             }
         }
@@ -161,7 +165,8 @@ namespace TheCheapsLib
                 posxy = heap_clicked.posxy;
             else
                 posxy = entity.posxy;
-            Entity new_entity = new Entity(entity.texture_path, entity.name, posxy, entity.z, entity.sourcerect, entity.direction, entity.through, entity.speed, entity.tags, entity.collisionrect, entity.texture, entity.origin, entity.posz,false);
+            Entity new_entity = entity.Clone();
+            
             if (playerEntity.inventory == null)
                 playerEntity.inventory = new Inventory();
             if (playerEntity.inventory.entities.Count < playerEntity.inventory.size)

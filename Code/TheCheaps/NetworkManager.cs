@@ -27,26 +27,16 @@ namespace TheCheaps
 
         internal static int Port
         {
-            get { return _port; }
-            set
-            {
-                if (value == _port)
-                    return;
-                _port = value;
-                if (_server != null && _server.Started)
-                {
-                    StopServer();
-                    StartServer();
-                }
-            }
+            get;
+            private set;
         }
 
         public static IPAddress PublicIp { get; internal set; }
         public static bool ServerRunning { get { return _server != null && _server.Started; } }
 
-        public static void StartServer()
+        public static void StartServer(bool use_upnp)
         {
-            _server = ServerThreadManager.Start(_port);
+            _server = ServerThreadManager.Start(_port, use_upnp);
             LocalIp = NetworkServer.GetLocalIPAddress();
             _port = _server.CurrentPort;
         }
@@ -64,19 +54,19 @@ namespace TheCheaps
         public static NetPeerStatus ServerStatus { get { return _server != null ? _server.Status : NetPeerStatus.NotRunning; } }
 
 
-        internal static void BeginJoin(IPAddress ip, int port)
+        internal static void BeginJoin(IPAddress ip, int port, bool use_upnp)
         {
             if (_client != null)
                 throw new InvalidOperationException();
-            _client = new NetworkClient(ip,port);
+            _client = new NetworkClient(ip,port,use_upnp);
         }
 
-        internal static void BeginHost(int port)
+        internal static void BeginHost(int port,bool use_upnp)
         {
             if (_server != null || _client!=null)
                 throw new InvalidOperationException();
             _port = port;
-            StartServer();
+            StartServer(use_upnp);
         }
 
         internal static void StopClient()

@@ -30,7 +30,7 @@ namespace TheCheapsLib
             entities = new List<Entity>(count);
             for (int i = 0; i < count; i++)
             {
-                var entity = new Entity();
+                var entity = Entity.Create();
                 entity.BinaryRead(br);
                 entities.Add(entity);
             }
@@ -38,7 +38,7 @@ namespace TheCheapsLib
             player_entities = new List<PlayerEntity>(count);
             for (int i = 0; i < count; i++)
             {
-                var entity = new PlayerEntity();
+                var entity = PlayerEntity.Create();
                 entity.BinaryRead(br);
                 player_entities.Add(entity);
             }
