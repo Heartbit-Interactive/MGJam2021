@@ -162,7 +162,7 @@
         "origin": "0, 0"
     },
     {
-        "name": "Combustibile",
+        "name": "Carburante",
         "posxy": "0, 0",
         "z": 0.0,
         "texture_path": "ITEM_D_01",
