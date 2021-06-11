@@ -69,7 +69,14 @@ namespace TheCheapsLib
             collisionrect.X = offx;
             collisionrect.Y = offy;            
         }
-
+        public void LoadTexture(ContentManager Content)
+        {
+            texture = Content.Load<Texture2D>(texture_path);
+            if (sourcerect.Width != 0)
+                origin = new Vector2(sourcerect.Width / 2, sourcerect.Height);
+            else
+                origin = new Vector2(texture.Width / 2, texture.Height);
+        }
         public virtual void BinaryRead(BinaryReader br)
         {
             uniqueId = br.ReadInt32();
@@ -111,15 +118,6 @@ namespace TheCheapsLib
             removeable = br.ReadBoolean();
         }
 
-        public void LoadTexture(ContentManager Content)
-        {
-            texture = Content.Load<Texture2D>(texture_path);
-            if (sourcerect.Width != 0)
-                origin = new Vector2(sourcerect.Width / 2, sourcerect.Height);
-            else
-                origin = new Vector2(texture.Width / 2, texture.Height);
-        }
-
         public virtual void BinaryWrite(BinaryWriter bw)
         {
             bw.Write(uniqueId);
@@ -154,7 +152,7 @@ namespace TheCheapsLib
             bw.Write(removeable);
         }
 
-        internal virtual void CopyChanges(Entity other)
+        internal virtual void CopyDelta(Entity other)
         {
             this.posxy = other.posxy;
             this.z = other.z;
@@ -201,6 +199,49 @@ namespace TheCheapsLib
             result.removeable = removeable;
             result.InitializeServer(0.03f);
             return result;
+        }
+        public virtual void BinaryReadDelta(BinaryReader br)
+        {
+            uniqueId = br.ReadInt32();
+            posxy = new Vector2(
+            br.ReadSingle(),
+            br.ReadSingle());
+
+            z = br.ReadSingle();
+
+            direction = new Vector2(
+            br.ReadSingle(),
+            br.ReadSingle());
+
+            through = br.ReadBoolean();
+            speed = br.ReadSingle();
+
+            //var count = br.ReadInt32();
+            //tags = new List<string>(count);
+            //for (int i = 0; i < count; i++)
+            //    tags.Add(br.ReadString());
+
+            posz = br.ReadSingle();
+            removeable = br.ReadBoolean();
+        }
+
+        public virtual void BinaryWriteDelta(BinaryWriter bw)
+        {
+            bw.Write(uniqueId);
+            bw.Write(posxy.X);
+            bw.Write(posxy.Y);
+            bw.Write(z);
+
+            bw.Write(direction.X);
+            bw.Write(direction.Y);
+
+            bw.Write(through);
+            bw.Write(speed);
+            //bw.Write(tags.Count);
+            //foreach (var tag in tags)
+            //    bw.Write(tag);
+            bw.Write(posz);
+            bw.Write(removeable);
         }
     }
 }

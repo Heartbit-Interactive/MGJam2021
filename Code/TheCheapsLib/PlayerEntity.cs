@@ -29,9 +29,9 @@ namespace TheCheapsLib
             if (dash_timer_counter > 0)
                 dash_timer_counter--;
         }
-        internal override void CopyChanges(Entity other)
+        internal override void CopyDelta(Entity other)
         {
-            base.CopyChanges(other);
+            base.CopyDelta(other);
         }
         public override void Dispose()
         {
