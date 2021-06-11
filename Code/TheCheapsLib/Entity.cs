@@ -174,6 +174,7 @@ namespace TheCheapsLib
             this.disposed = true;
         }
         private static Stack<Entity> Pool = new Stack<Entity>();
+
         public static Entity Create()
         {
             if (Pool.Count == 0)

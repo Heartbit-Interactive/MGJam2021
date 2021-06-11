@@ -82,10 +82,10 @@ namespace TheCheapsServer
             {
                 case NetworkServerState.Phase.Gameplay:
                     simulation.Step();
-                    BroadCast(MessageType.SimulationState, simulation.GetState());
+                    BroadCast(MessageType.SimulationDelta, simulation.GetDelta(), NetDeliveryMethod.UnreliableSequenced);
                     break;
                 case NetworkServerState.Phase.Lobby:
-                    BroadCast(MessageType.PeerState, network.GetState());
+                    BroadCast(MessageType.PeerState, network.GetState(), NetDeliveryMethod.UnreliableSequenced);
                     break;
                 default:
                     break;
@@ -124,7 +124,8 @@ namespace TheCheapsServer
         public void StartMatch()
         {
             network.model.serverState.GamePhase = NetworkServerState.Phase.Gameplay;
-            BroadCast(MessageType.PeerState, network.GetState());
+            BroadCast(MessageType.PeerState, network.GetState(), NetDeliveryMethod.ReliableOrdered);
+            BroadCast(MessageType.SimulationState, simulation.GetState(), NetDeliveryMethod.ReliableOrdered);
         }
 
         public void StartCountDown()
@@ -198,7 +199,7 @@ namespace TheCheapsServer
             server.SendMessage(msg, destinationConnection, method);
         }
 
-        private void BroadCast(MessageType messageType, IBinarizable state)
+        private void BroadCast(MessageType messageType, IBinarizable state, NetDeliveryMethod method)
         {
             if (server.Connections.Count == 0)
                 return;
@@ -215,7 +216,7 @@ namespace TheCheapsServer
             msg.Write((byte)messageType);
             msg.Write(array.Length);
             msg.Write(array);
-            server.SendToAll(msg, NetDeliveryMethod.UnreliableSequenced);
+            server.SendToAll(msg, method);
         }
 
         public void Stop(string reason)
@@ -249,6 +250,7 @@ namespace TheCheapsServer
             SimulationState,
             Op,
             Response,
+            SimulationDelta,
         }
     }
 }

@@ -14,7 +14,7 @@ namespace TheCheapsLib
         internal List<Entity> items = new List<Entity>();
         internal List<Recipe> recipes = new List<Recipe>();
 
-        public List<int> updated_entities = new List<int>();
+        public HashSet<Entity> updated_entities = new HashSet<Entity>();
         public List<int> removed_entities = new List<int>();
         public List<Entity> added_entities = new List<Entity>();
     }

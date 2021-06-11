@@ -241,6 +241,7 @@ namespace TheCheapsLib
                 var entity = this.playerEntity.inventory.entities[i];
                 entity.posxy = this.playerEntity.posxy;
                 entity.posz = 48 + (i * 24 - 2);
+                model.updated_entities.Add(entity);
 
                 foreach(var ent in model.entities)
                 {

@@ -163,6 +163,9 @@ namespace TheCheaps
                             case NetworkServer.MessageType.SimulationState:
                                 simulation.SetState(msg.Deserialize<SimulationState>());
                                 break;
+                            case NetworkServer.MessageType.SimulationDelta:
+                                simulation.ApplyDelta(msg.Deserialize<SimulationDelta>());
+                                break;
                             default:
                                 throw new Exception("Invalid message type");
                         }

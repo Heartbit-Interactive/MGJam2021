@@ -80,7 +80,6 @@ namespace TheCheapsLib
             foreach(var player in players)
             {
                 player.Update(elapsedTime);
-                model.updated_entities.Add(player.playerEntity.uniqueId);
             }
             foreach (var entity in model.entities.Values)
                 update_entity(elapsedTime,entity);
@@ -90,13 +89,13 @@ namespace TheCheapsLib
                 model.entities.Remove(id);
             last_time = now;
         }
+
         private void update_entity(TimeSpan elapsedTime,Entity entity)
         {
             if(entity.speed > 0)
             {
                 entity.posxy += entity.direction * entity.speed;
                 entity.update_collision_rect();
-
                 if (entity.posz>0)
                 {
                     entity.posz -= Settings.fall_speed;
@@ -106,7 +105,7 @@ namespace TheCheapsLib
                         entity.speed = 0;
                     }
                 }
-                model.updated_entities.Add(entity.uniqueId);
+                model.updated_entities.Add(entity);
             }
             if (entity.speed == 0 && entity.removeable)
             {
@@ -118,7 +117,7 @@ namespace TheCheapsLib
                 else
                 {
                     entity.life_time--;
-                    model.updated_entities.Add(entity.uniqueId);
+                    model.updated_entities.Add(entity);
                 }
             }
         }
@@ -126,6 +125,11 @@ namespace TheCheapsLib
         public SimulationState GetState()
         {
             return new SimulationState(model);
+        }
+
+        public SimulationDelta GetDelta()
+        {
+            return new SimulationDelta(model);
         }
 
         public void Stop()
@@ -155,15 +159,47 @@ namespace TheCheapsLib
             foreach (var id in simulationState.removed_entities)
                 model.entities.Remove(id);
 
-            for(int i=0;i<simulationState.player_entities.Count ;i++)
+            for (int i = 0; i < simulationState.player_entities.Count; i++)
             {
-                if (model.player_entities.Count<=i)
+                if (model.player_entities.Count <= i)
                     model.player_entities.Add(simulationState.player_entities[i]);
                 else
                 {
                     model.player_entities[i].CopyChanges(simulationState.player_entities[i]);
                     model.player_entities[i].update_collision_rect();
                     simulationState.player_entities[i].Dispose();
+                }
+            }
+
+            OnStateUpdated();
+        }
+        public void ApplyDelta(SimulationDelta delta)
+        {
+            foreach (var freshEntity in delta.updated_entities)
+            {
+                if (!model.entities.TryGetValue(freshEntity.uniqueId, out var existingEntity))
+                {
+                    model.entities[freshEntity.uniqueId] = freshEntity;
+                    OnEntityAdded(freshEntity);
+                }
+                else
+                {
+                    existingEntity.CopyChanges(freshEntity);
+                    freshEntity.Dispose();
+                }
+            }
+            foreach (var id in delta.removed_entities)
+                model.entities.Remove(id);
+
+            for (int i = 0; i < delta.player_entities.Count; i++)
+            {
+                if (model.player_entities.Count <= i)
+                    model.player_entities.Add(delta.player_entities[i]);
+                else
+                {
+                    model.player_entities[i].CopyChanges(delta.player_entities[i]);
+                    model.player_entities[i].update_collision_rect();
+                    delta.player_entities[i].Dispose();
                 }
             }
 
