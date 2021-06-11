@@ -37,8 +37,8 @@
     "collisionrect": {
       "X": 0,
       "Y": 0,
-      "Width": 0,
-      "Height": 0
+      "Width": 24,
+      "Height": 24
     },
     "sourcerect": {
       "X": 0,
@@ -62,8 +62,8 @@
     "collisionrect": {
       "X": 0,
       "Y": 0,
-      "Width": 0,
-      "Height": 0
+      "Width": 24,
+      "Height": 24
     },
     "sourcerect": {
       "X": 0,
@@ -87,8 +87,8 @@
     "collisionrect": {
       "X": 0,
       "Y": 0,
-      "Width": 0,
-      "Height": 0
+      "Width": 24,
+      "Height": 24
     },
     "sourcerect": {
       "X": 0,
