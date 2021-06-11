@@ -48,10 +48,6 @@ namespace TheCheapsLib
             model.items = JsonConvert.DeserializeObject<List<Entity>>(jsontextitems);
 
             InitializeEntityIdentifiers(entities);
-            foreach(var item in model.items)
-            {
-                item.tags.Add(Tags.CAN_TAKE_ITEM);
-            }
 
             var jsontextrecipe = File.ReadAllText("Recipes.json");
             model.recipes = JsonConvert.DeserializeObject<List<Recipe>>(jsontextrecipe);
@@ -152,7 +148,7 @@ namespace TheCheapsLib
                 }
                 else
                 {
-                    existingEntity.CopyChanges(freshEntity);
+                    existingEntity.CopyDelta(freshEntity);
                     freshEntity.Dispose();
                 }
             }
@@ -165,7 +161,7 @@ namespace TheCheapsLib
                     model.player_entities.Add(simulationState.player_entities[i]);
                 else
                 {
-                    model.player_entities[i].CopyChanges(simulationState.player_entities[i]);
+                    model.player_entities[i].CopyDelta(simulationState.player_entities[i]);
                     model.player_entities[i].update_collision_rect();
                     simulationState.player_entities[i].Dispose();
                 }
@@ -175,16 +171,20 @@ namespace TheCheapsLib
         }
         public void ApplyDelta(SimulationDelta delta)
         {
+            foreach (var added_entity in delta.added_entities)
+            {
+                model.entities.Add(added_entity.uniqueId, added_entity);
+                OnEntityAdded(added_entity);
+            }
             foreach (var freshEntity in delta.updated_entities)
             {
                 if (!model.entities.TryGetValue(freshEntity.uniqueId, out var existingEntity))
                 {
-                    model.entities[freshEntity.uniqueId] = freshEntity;
-                    OnEntityAdded(freshEntity);
+                    throw new Exception("invalid id on update");
                 }
                 else
                 {
-                    existingEntity.CopyChanges(freshEntity);
+                    existingEntity.CopyDelta(freshEntity);
                     freshEntity.Dispose();
                 }
             }
@@ -197,7 +197,7 @@ namespace TheCheapsLib
                     model.player_entities.Add(delta.player_entities[i]);
                 else
                 {
-                    model.player_entities[i].CopyChanges(delta.player_entities[i]);
+                    model.player_entities[i].CopyDelta(delta.player_entities[i]);
                     model.player_entities[i].update_collision_rect();
                     delta.player_entities[i].Dispose();
                 }

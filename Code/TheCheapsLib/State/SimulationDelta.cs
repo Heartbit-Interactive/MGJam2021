@@ -10,7 +10,7 @@ namespace TheCheapsLib
     {
         public HashSet<Entity> updated_entities { get; private set; }
         public List<PlayerEntity> player_entities { get; private set; }
-        public List<int> added_entities { get; private set; }
+        public List<Entity> added_entities { get; private set; }
         public List<int> removed_entities { get; private set; }
         public SimulationDelta()
         {
@@ -19,12 +19,9 @@ namespace TheCheapsLib
         public SimulationDelta(SimulationModel model)
         {
             player_entities = model.player_entities;
-            added_entities = model.added_entities.Select(x=>x.uniqueId).ToList();
+            added_entities = model.added_entities;
             removed_entities = model.removed_entities;
-
             updated_entities = model.updated_entities;
-            foreach (var id in added_entities)
-                updated_entities.Add(model.entities[id]);
         }
         public override void BinaryRead(BinaryReader br)
         {
@@ -37,7 +34,7 @@ namespace TheCheapsLib
             for (int i = 0; i < count; i++)
             {
                 var entity = Entity.Create();
-                entity.BinaryRead(br);
+                entity.BinaryReadDelta(br);
                 updated_entities.Add(entity);
             }
             count = br.ReadInt32();
@@ -45,14 +42,19 @@ namespace TheCheapsLib
             for (int i = 0; i < count; i++)
             {
                 var entity = PlayerEntity.Create();
-                entity.BinaryRead(br);
+                entity.BinaryReadDelta(br);
                 player_entities.Add(entity);
             }
             count = br.ReadInt32();
-            added_entities = new List<int>(count);
+            if (added_entities == null)
+                added_entities = new List<Entity>();
+            else
+                added_entities.Clear();
             for (int i = 0; i < count; i++)
             {
-                added_entities.Add(br.ReadInt32());
+                var entity = Entity.Create();
+                entity.BinaryRead(br);
+                added_entities.Add(entity);
             }
             count = br.ReadInt32();
             removed_entities = new List<int>(count);
@@ -67,15 +69,15 @@ namespace TheCheapsLib
             base.BinaryWrite(bw);
             bw.Write(updated_entities.Count);
             foreach (var entity in updated_entities)
-                entity.BinaryWrite(bw);
+                entity.BinaryWriteDelta(bw);
 
             bw.Write(player_entities.Count);
             foreach (var entity in player_entities)
-                entity.BinaryWrite(bw);
+                entity.BinaryWriteDelta(bw);
 
             bw.Write(added_entities.Count);
-            foreach (var id in added_entities)
-                bw.Write(id);
+            foreach (var entity in added_entities)
+                entity.BinaryWrite(bw);
             bw.Write(removed_entities.Count);
             foreach (var id in removed_entities)
                 bw.Write(id);
