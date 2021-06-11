@@ -12,6 +12,8 @@ namespace TheCheapsLib
         public int TIMER_DASH = 40;
         public int dash_timer_counter;
 
+        public int score = 0;
+
         private PlayerEntity():base() 
         {
             inventory = new Inventory();
@@ -59,6 +61,7 @@ namespace TheCheapsLib
                 entity.collisionrect.Y = offy;
             }
         }
+       
 
     }
 }

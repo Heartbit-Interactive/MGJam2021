@@ -113,9 +113,9 @@ namespace TheCheapsLib
                         if (Rectangle.Intersect(en.Value.collisionrect, entity.collisionrect).Width != 0)
                         {
                             var a = Int32.Parse(en.Value.tags.Where(x => x != Tags.BASE).FirstOrDefault());
-                            var player = players[a].playerEntity;
+                            var player = players[a];
                             //oggetto aggiunto alle recipe in questa funzione
-                            if (player.inventory.if_player_needs_ingredient_add(entity.name))
+                            if (player.if_player_needs_ingredient_add(entity.name))
                             {
                                 entity.removeable = true;
                                 entity.speed = 0;
