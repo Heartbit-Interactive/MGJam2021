@@ -16,7 +16,7 @@
     "inventory": null,
     "texture": null,
     "origin": "0, 0",
-    "tags": [ "base" ]
+    "tags": [ "base", "0" ]
   },
   {
     "name": "BASE_02",
@@ -34,7 +34,8 @@
     },
     "inventory": null,
     "texture": null,
-    "origin": "0, 0"
+    "origin": "0, 0",
+    "tags": [ "base", "1" ]
   },
   {
     "name": "BASE_03",
@@ -52,7 +53,8 @@
     },
     "inventory": null,
     "texture": null,
-    "origin": "0, 0"
+    "origin": "0, 0",
+    "tags": [ "base", "2" ]
   },
   {
     "name": "BASE_04",
@@ -70,7 +72,8 @@
     },
     "inventory": null,
     "texture": null,
-    "origin": "0, 0"
+    "origin": "0, 0",
+    "tags": [ "base", "3" ]
   },
   {
     "name": "RESOURCE_01",
