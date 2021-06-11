@@ -245,6 +245,57 @@ namespace TheCheapsLib
             }
         }
 
-        
+        public bool if_player_needs_ingredient_add(string entity_name)
+        {
+            for (int j = 0; j < playerEntity.inventory.list_recipes.Count; j++)
+            {
+                var recipe = playerEntity.inventory.list_recipes[j];
+                for (int i = 0; i < recipe.ingredient_and_amount.Count; i++)
+                {
+                    if (recipe.ingredient_and_amount[i].Item1 == entity_name)
+                    {
+                        recipe.owned[i]++;
+                        recipe_completed(j);
+                        return true;
+
+                    }
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        /// elimina la precedente recipe
+        /// </summary>
+        /// <param name="recipe_index"></param>
+        /// <returns></returns>
+        public bool recipe_completed(int recipe_index)
+        {
+            var recipe = playerEntity.inventory.list_recipes[recipe_index];
+            for (int i = 0; i < recipe.ingredient_and_amount.Count; i++)
+            {
+                var ingr = recipe.ingredient_and_amount[i];
+                if (ingr.Item2 != recipe.owned[i])
+                {
+                    return false;
+                }
+            }
+            playerEntity.score += recipe.score;
+            playerEntity.inventory.list_recipes.RemoveAt(recipe_index);
+            generate_new_recipe(recipe_index);
+            return true;
+        }
+
+        /// <summary>
+        /// genera una nuova recipe
+        /// </summary>
+        /// <param name="index_where_add"></param>
+        private void generate_new_recipe(int index_where_add)
+        {
+            System.Random random = new System.Random();
+            var index_recipe = random.Next(model.recipes.Count);
+            var recipe_choosen = model.recipes[index_recipe];
+            playerEntity.inventory.list_recipes[index_where_add] = new Recipe(recipe_choosen.name, recipe_choosen.ingredient_and_amount, recipe_choosen.owned, recipe_choosen.score, recipe_choosen.type, recipe_choosen.sentence_to_show, recipe_choosen.character_associated);
+
+        }
     }
 }
