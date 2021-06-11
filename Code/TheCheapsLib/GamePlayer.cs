@@ -147,6 +147,22 @@ namespace TheCheapsLib
             }
         }
 
+        /// <summary>
+        /// cadono tutti gli oggetti che ha sopra e viene stunnato
+        /// </summary>
+        internal void stun_player()
+        {
+            for(int i=0; i< this.playerEntity.inventory.entities.Count; i++)
+            {
+                var entity = this.playerEntity.inventory.entities[i];
+                var posx = (i - 1)*5;
+                entity.posxy += new Vector2(posx, 0);
+                entity.posz = 0;
+                entity.life_time = Settings.TimeOnTheFloor;
+            }
+
+        }
+
         private void loot_random_material()
         {
             var type_list = heap_clicked.tags.Where(x => x != Tags.HEAP).ToList();
