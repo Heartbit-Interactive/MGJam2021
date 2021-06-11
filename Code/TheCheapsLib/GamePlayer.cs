@@ -42,7 +42,7 @@ namespace TheCheapsLib
                 generate_new_recipe(i);
             }
         }
-        public void Update(TimeSpan elapsedTime)
+        public void Update(float elapsedTimeS)
         {
             deltaxy = Vector2.Zero;
             update_input();
@@ -54,7 +54,7 @@ namespace TheCheapsLib
                 else
                     timer_interact++;
             }
-            update_position(elapsedTime);
+            update_position(elapsedTimeS);
         }
         public void update_input()
         {
@@ -253,7 +253,7 @@ namespace TheCheapsLib
 
         }
 
-        private void update_position(TimeSpan elapsedTime)
+        private void update_position(float elapsedTime)
         {
             this.playerEntity.posxy += deltaxy;
             playerEntity.update_collision_rect();

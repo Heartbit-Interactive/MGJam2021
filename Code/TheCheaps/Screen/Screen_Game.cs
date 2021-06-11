@@ -75,13 +75,13 @@ namespace TheCheaps.Scenes
                 }
                 else if (entity.name.StartsWith("HUD_Ricetta"))
                 {
-                    hud_ricetta = entity;
+                    hud_recipe = entity;
                     gui_entities.Remove(entity);
                 }
                 else if (entity.name.StartsWith("HUD_BarraTelegiornale"))
                 {
-                    barra_tg = entity;
-                    gui_entities.Remove(barra_tg);
+                    hud_tg_bar = entity;
+                    gui_entities.Remove(hud_tg_bar);
                 }
                 if (entity.texture == null)
                     entity.LoadTexture(Content);
@@ -111,8 +111,8 @@ namespace TheCheaps.Scenes
 
         Color backgroundColor = new Color(191 ,149 ,77);
         private int player_index;
-        private PlayerEntity hud_ricetta;
-        private PlayerEntity barra_tg;
+        private PlayerEntity hud_recipe;
+        private PlayerEntity hud_tg_bar;
         private PlayerEntity player { get { return sim.player_entities[NetworkManager.Client.PlayerIndex]; } }
 
         SimulationModel sim { get { return NetworkManager.Client.simulation.model; } }
@@ -150,9 +150,9 @@ namespace TheCheaps.Scenes
         {
             if (player.inventory.list_recipes.Count > 0)
             {
-                hud_ricetta.Draw(spriteBatch);
-                spriteBatch.DrawString(font18, player.inventory.list_recipes[0].name, hud_ricetta.posxy, Color.White, true, false);
-                spriteBatch.DrawString(font18, "Bla bla", hud_ricetta.posxy, Color.White, true, false);
+                hud_recipe.Draw(spriteBatch);
+                spriteBatch.DrawString(font18, player.inventory.list_recipes[0].name, hud_recipe.posxy, Color.White, true, false);
+                spriteBatch.DrawString(font18, "Bla bla", hud_recipe.posxy, Color.White, true, false);
             }
         }
 

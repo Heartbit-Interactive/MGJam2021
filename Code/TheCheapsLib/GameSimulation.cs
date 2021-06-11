@@ -85,13 +85,13 @@ namespace TheCheapsLib
             model.removed_entities.Clear();
             model.added_entities.Clear();
             var now = DateTime.UtcNow;
-            var elapsedTime = last_time - now;
-            foreach(var player in players)
+            var elapsedSecondsf = (float)(last_time - now).TotalSeconds;
+            foreach (var player in players)
             {
-                player.Update(elapsedTime);
+                player.Update(elapsedSecondsf);
             }
             foreach (var entity in model.entities.Values)
-                update_entity(elapsedTime,entity);
+                update_entity(elapsedSecondsf, entity);
             foreach (var entity in model.added_entities)
                 model.entities.Add(entity.uniqueId,entity);
             foreach (var id in model.removed_entities)
@@ -99,7 +99,7 @@ namespace TheCheapsLib
             last_time = now;
         }
 
-        private void update_entity(TimeSpan elapsedTime,Entity entity)
+        private void update_entity(float elapsedTimeSeconds,Entity entity)
         {
             if(entity.speed > 0)
             {
@@ -107,7 +107,7 @@ namespace TheCheapsLib
                 entity.update_collision_rect();
                 if (entity.posz>0)
                 {
-                    entity.posz -= Settings.fall_speed;
+                    entity.posz -= Settings.fall_speed* elapsedTimeSeconds;
                     if (entity.posz <= 0)
                     {
                         entity.posz = 0;
@@ -170,7 +170,7 @@ namespace TheCheapsLib
                 }
                 else
                 {
-                    entity.life_time--;
+                    entity.life_time -= elapsedTimeSeconds;
                     model.updated_entities.Add(entity);
                 }
             }

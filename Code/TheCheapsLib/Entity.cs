@@ -37,7 +37,7 @@ namespace TheCheapsLib
         internal static int UniqueCounter;
 		
 
-        internal int life_time = Settings.TimeOnTheFloor;
+        internal float life_time = Settings.TimeOnTheFloor;
         internal bool removeable = false;
         /// PRIVATE: usa Entity.Create
         public Entity() { }
@@ -52,8 +52,14 @@ namespace TheCheapsLib
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(GraphicSettings.DebugSquare, collisionrect, null, GraphicSettings.CollisorColor, 0,Vector2.Zero, SpriteEffects.None, 0);
-            if(texture!=null)
+            if (GraphicSettings.ShowCollisions)
+            {
+                if (through)
+                    spriteBatch.Draw(GraphicSettings.DebugSquare, collisionrect, null, GraphicSettings.NonCollidingColor, 0, Vector2.Zero, SpriteEffects.None, 0);
+                else
+                    spriteBatch.Draw(GraphicSettings.DebugSquare, collisionrect, null, GraphicSettings.CollisorColor, 0, Vector2.Zero, SpriteEffects.None, 0);
+            }
+            if (texture!=null)
             if (this.sourcerect.Width == 0)
             {
                 //spriteBatch.Draw(this.texture, this.posxy, null, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
@@ -115,7 +121,7 @@ namespace TheCheapsLib
                 tags.Add(br.ReadString());
 
             posz = br.ReadSingle();
-            life_time = br.ReadInt32();
+            life_time = br.ReadSingle();
             removeable = br.ReadBoolean();
         }
 
