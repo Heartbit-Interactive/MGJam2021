@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TheCheapsLib;
 
 namespace TheCheapsServer
 {
@@ -36,7 +37,7 @@ namespace TheCheapsServer
             server = new TheCheapsServer.NetworkServer(port);
             server.Start();
 
-            var msperstep = 8;
+            var msperstep = 1000/(float)Settings.ServerTicksPerSecond;
             while (true)
             {
                 //GESTIONE DEL CLOCK BASILARE

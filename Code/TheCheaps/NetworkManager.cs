@@ -48,6 +48,7 @@ namespace TheCheaps
         {
             _server = ServerThreadManager.Start(_port);
             LocalIp = NetworkServer.GetLocalIPAddress();
+            _port = _server.CurrentPort;
         }
 
         public static void Update(GameTime time)

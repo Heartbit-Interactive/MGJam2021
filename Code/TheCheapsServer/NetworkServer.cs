@@ -22,20 +22,34 @@ namespace TheCheapsServer
         public bool Started { get { return _started; } }
         private bool _started;
         public NetPeerStatus Status { get { return server.Status; } }
+        public int CurrentPort { get { return server.Configuration.Port; } }
 
-
-        public NetworkServer(int port)
+        public NetworkServer(int port_suggestion)
         {
             config = new Lidgren.Network.NetPeerConfiguration("TheCheaps");
-            config.Port = port;
             config.EnableUPnP = true;
             config.MaximumConnections = 4;
             //config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
-            server = new NetServer(config);
-            server.Start();
-            bool success = server.UPnP.ForwardPort(port, "TheCheaps");
+            int server_port = port_suggestion;
+            bool success = false;
+            while (server_port < port_suggestion + 10)
+            {
+                try
+                {
+                    config.Port = server_port;
+                    server = new NetServer(config);
+                    server.Start();
+                    success = server.UPnP.ForwardPort(port_suggestion, "TheCheaps");
+                    if (!success)
+                        throw new Exception($"UPnP could not forward port {port_suggestion}");
+                    break;
+                }
+                catch {
+                    server_port++;
+                }
+            }
             if (!success)
-                throw new Exception($"UPnP could not forward port {port}");
+                throw new Exception($"UPnP could not forward ANY port in the {port_suggestion}-{port_suggestion+10} range");
         }
         public void Start()
         {
