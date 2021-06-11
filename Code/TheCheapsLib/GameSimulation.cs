@@ -119,6 +119,7 @@ namespace TheCheapsLib
             if (entity.tags.Contains(Tags.CAN_TAKE_ITEM))
             {
                 //Se colpisce un player
+
                 foreach (var player in players)
                 {
                     if (player.playerEntity.inventory.entities.Contains(entity))
@@ -135,6 +136,7 @@ namespace TheCheapsLib
                         player.launched_items.Remove(entity);
                 }
                 //Controllo colpisce una base
+                }
                 foreach (var en in model.entities)
                 {                    
                     if (en.Value.tags.Contains(Tags.BASE))
