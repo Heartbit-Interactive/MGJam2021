@@ -36,6 +36,10 @@ namespace TheCheapsLib
             this.sim = sim;
             this.model = sim.model;
             this.playerEntity = model.player_entities[id];
+            for(int i =0; i< 3; i++)
+            {
+                generate_new_recipe(i);
+            }
         }
         public void Update(TimeSpan elapsedTime)
         {
@@ -310,6 +314,8 @@ namespace TheCheapsLib
             System.Random random = new System.Random();
             var index_recipe = random.Next(model.recipes.Count);
             var recipe_choosen = model.recipes[index_recipe];
+            if (playerEntity.inventory.list_recipes.Count <= index_where_add)
+                playerEntity.inventory.list_recipes.Add(new Recipe());
             playerEntity.inventory.list_recipes[index_where_add] = new Recipe(recipe_choosen.name, recipe_choosen.ingredient_and_amount, recipe_choosen.owned, recipe_choosen.score, recipe_choosen.type, recipe_choosen.sentence_to_show, recipe_choosen.character_associated);
         }
     }

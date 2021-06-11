@@ -36,6 +36,8 @@ namespace TheCheapsLib
             //SimulationModel.player_entities.Add(new PlayerEntity() { posxy = new Microsoft.Xna.Framework.Vector2(0, 0.5f), texture_path = "123", direction = new Microsoft.Xna.Framework.Vector2(0, 1), });
             //var text = JsonConvert.SerializeObject(SimulationModel.player_entities, Formatting.Indented);
             //File.WriteAllText("Players.json", text);
+            StartCommon();
+
             var jsontextplayer = File.ReadAllText("Players.json");
             model.player_entities = JsonConvert.DeserializeObject<List<PlayerEntity>>(jsontextplayer);
             foreach (var player in model.player_entities)
@@ -50,7 +52,6 @@ namespace TheCheapsLib
 
             InitializeEntityIdentifiers(entities);
 
-            StartCommon();
         }
         /// <summary>
         /// This is run on the client and on the server

@@ -18,6 +18,7 @@ namespace TheCheapsLib
         public PlayerEntity():base() 
         {
             inventory = new Inventory();
+          
         }
         public override void BinaryRead(BinaryReader br)
         {
