@@ -4,13 +4,15 @@ Four villains want to conquer the world, they have the means to do it... But the
 
 Become a cheap villain, search for scraps in the junkyard and race to build your evil empire.
 
-Dive in piles of junk looking for ingredients, bring them back to your base and craft what you need to conquer the world and if you dig something you don't want, throw it against your enemies to knock them out! You might be on a budget, but that doesn't mean you won't do anything to stop your opponents and on claim the control over the world!
+Dive in piles of junk looking for ingredients, bring them back to your base and craft what you need to raise the stock valute of your evil company and if you dig something you don't want, throw it against your enemies to knock them out! You might be on a budget, but that doesn't mean you won't do anything to stop your opponents and on claim the control over the world!
 ## Durata di una partita
+Each match is 4 minutes long.
 ## Obiettivo
-Raggiungere il proprio obiettivo per primi, se scade il tempo e nessuno ha raggiunto l'obiettivo si vince in base ai punti accumulati?
+Be the villain with the highest stock value at the end of the game. To gain stock value, complete projects using the scraps you dig from four different pile of junk scattered across the map. Throw the screaps you collect into your base to automatically start crafting the projects. All the ingredients not needed for your evil plans are autamically sold to slighty increase your stock value.
 ## Ambientazione 
-Discarica
+An epic junk yard full of scraps! And everything is FREE!
 ## Meccaniche di gioco
+Move your villain toward the piles of junk and start digging. The item you collect are stored on the top of your head. You can carry up to three items at the same time. Then, you can go back to your base and throw your item
 ### Frugare nella discarica
 Il giocatore cerca gli oggetti tra i cumuli nella discarica, in modo randomico, e può caricarne al massimo 3? mentre torna alla base questi potrebbero cadere. 
 ### Lanciare oggetti
