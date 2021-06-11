@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.ObjectPool;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -14,7 +15,7 @@ namespace TheCheapsLib
 
         public int score = 0;
 
-        private PlayerEntity():base() 
+        public PlayerEntity():base() 
         {
             inventory = new Inventory();
         }
@@ -59,17 +60,13 @@ namespace TheCheapsLib
         {
             if (this.disposed)
                 return;
-            Pool.Push(this);
+            Pool.Return(this);
             this.disposed = true;
         }
-        private static Stack<PlayerEntity> Pool = new Stack<PlayerEntity>();
-        private List<int[]> temp_recipe;
-
-        public static new PlayerEntity Create()
+        private static ObjectPool<PlayerEntity> Pool = ObjectPool.Create<PlayerEntity>();
+        public static PlayerEntity Create()
         {
-            if (Pool.Count == 0)
-                return new PlayerEntity();
-            return Pool.Pop();
+            return Pool.Get();
         }
         public override void update_collision_rect()
         {

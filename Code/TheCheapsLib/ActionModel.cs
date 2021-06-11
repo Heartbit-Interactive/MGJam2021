@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.Extensions.ObjectPool;
+using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -11,7 +13,7 @@ namespace TheCheapsLib
         public enum Type { Move, Throw, Dash, Interact }
         public Type type;
         public Vector2 direction;
-        private ActionModel() { }
+        public ActionModel() { }
         public void binary_write(BinaryWriter bw)
         {
             bw.Write((int)type);
@@ -30,15 +32,13 @@ namespace TheCheapsLib
         {
             if (this.disposed)
                 return;
-            Pool.Push(this);
+            Pool.Return(this);
             this.disposed = true;
         }
-        private static Stack<ActionModel> Pool = new Stack<ActionModel>();
+        private static ObjectPool<ActionModel> Pool = ObjectPool.Create<ActionModel>();
         public static ActionModel Create()
         {
-            if (Pool.Count == 0)
-                return new ActionModel();
-            return Pool.Pop();
+            return Pool.Get();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.Extensions.ObjectPool;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
@@ -39,7 +40,7 @@ namespace TheCheapsLib
         internal int life_time = Settings.TimeOnTheFloor;
         internal bool removeable = false;
         /// PRIVATE: usa Entity.Create
-        protected Entity() { }
+        public Entity() { }
 
         internal void InitializeServer(float default_z)
         {
@@ -164,20 +165,18 @@ namespace TheCheapsLib
             this.removeable = other.removeable;
         }
         protected bool disposed;
+
         public virtual void Dispose()
         {
             if (this.disposed)
                 return;
-            Pool.Push(this);
+            Pool.Return(this);
             this.disposed = true;
         }
-        private static Stack<Entity> Pool = new Stack<Entity>();
-
+        private static ObjectPool<Entity> Pool = ObjectPool.Create<Entity>();
         public static Entity Create()
         {
-            if (Pool.Count == 0)
-                return new Entity();
-            return Pool.Pop();
+            return Pool.Get();
         }
 
         internal Entity Clone()
