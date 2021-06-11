@@ -47,5 +47,18 @@ namespace TheCheapsLib
                 return new PlayerEntity();
             return Pool.Pop();
         }
+        public override void update_collision_rect()
+        {
+            base.update_collision_rect();
+            for (int i = 0; i < inventory.entities.Count; i++)
+            {
+                var entity = inventory.entities[i];
+                var offx = (int)(entity.posxy.X - entity.collisionrect.Width / 2);
+                var offy = (int)(entity.posxy.Y - entity.collisionrect.Height);
+                entity.collisionrect.X = offx;
+                entity.collisionrect.Y = offy;
+            }
+        }
+
     }
 }

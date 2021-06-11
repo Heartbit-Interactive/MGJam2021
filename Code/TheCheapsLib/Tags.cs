@@ -9,5 +9,6 @@ namespace TheCheapsLib
         public const string HEAP = "heap";
         public const string CAN_TAKE_ITEM = "can_take_item";
 
+        public const string BASE = "base";
     }
 }

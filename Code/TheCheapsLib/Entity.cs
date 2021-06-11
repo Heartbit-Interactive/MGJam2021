@@ -62,12 +62,12 @@ namespace TheCheapsLib
                 spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, this.sourcerect, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
         }
 
-        public void update_collision_rect()
+        public virtual void update_collision_rect()
         {
             var offx = (int)(posxy.X - collisionrect.Width / 2);
             var offy = (int)(posxy.Y - collisionrect.Height);
             collisionrect.X = offx;
-            collisionrect.Y = offy;
+            collisionrect.Y = offy;            
         }
 
         public virtual void BinaryRead(BinaryReader br)
