@@ -73,7 +73,7 @@ namespace TheCheapsServer
         {
             var time = DateTime.UtcNow;
             var elapsedTime = time - lastTime;
-            process_message();
+            process_messages();
             foreach (var connection in server.Connections.ToArray())
             {
                 UpdateConnection(elapsedTime, connection);
@@ -82,7 +82,7 @@ namespace TheCheapsServer
             {
                 case NetworkServerState.Phase.Gameplay:
                     simulation.Step();
-                    BroadCast(MessageType.SimulationDelta, simulation.GetDelta(), NetDeliveryMethod.UnreliableSequenced);
+                    BroadCast(MessageType.SimulationDelta, simulation.GetDelta(), NetDeliveryMethod.ReliableOrdered);
                     break;
                 case NetworkServerState.Phase.Lobby:
                     BroadCast(MessageType.PeerState, network.GetState(), NetDeliveryMethod.ReliableOrdered);
@@ -134,54 +134,52 @@ namespace TheCheapsServer
             network.StartCountDown();
         }
 
-        private void process_message()
+        private void process_messages()
         {
             NetIncomingMessage msg = server.ReadMessage();
-            if (msg == null)
+
+            while (msg != null)
             {
-#if VERBOSE
-                Console.WriteLine($"No messages recevied for 1s, time is {DateTime.Now.ToShortTimeString()}, Status is : {server.Status}");
-#endif
-                return;
-            }
 #if ECHO
             Console.WriteLine($"Message received {msg}");
 #endif
-            switch (msg.MessageType)
-            {
+                switch (msg.MessageType)
+                {
 
-                case NetIncomingMessageType.VerboseDebugMessage:
-                case NetIncomingMessageType.DebugMessage:
-                case NetIncomingMessageType.WarningMessage:
-                case NetIncomingMessageType.ErrorMessage:
-                    Console.WriteLine(msg.ReadString());
-                    break;
-                case NetIncomingMessageType.Data:
+                    case NetIncomingMessageType.VerboseDebugMessage:
+                    case NetIncomingMessageType.DebugMessage:
+                    case NetIncomingMessageType.WarningMessage:
+                    case NetIncomingMessageType.ErrorMessage:
+                        Console.WriteLine(msg.ReadString());
+                        break;
+                    case NetIncomingMessageType.Data:
 #if VERBOSE
                     System.Diagnostics.Debug.WriteLine($"{msg} received from server");
 #endif
-                    PerformanceAnalyzer.OnMessageReceived(msg, false);
-                    var type = (ClientMessageType)msg.ReadByte();
-                    switch (type)
-                    {
-                        case ClientMessageType.ActionState:
-                            var pl_index = network.GetPlayerIndex(msg.SenderConnection);
-                            if(pl_index>=0)
-                                input.SetActionState(msg.Deserialize<FrameActionState>(), pl_index);
-                            break;
-                        case ClientMessageType.NetworkOp:                            
-                            var response = network.ProcessOp(msg.SenderConnection,msg.Deserialize<NetworkOp>());
-                            SendMessage(msg.SenderConnection,MessageType.Response, response, NetDeliveryMethod.ReliableOrdered);
-                            break;
-                        default:
-                            throw new Exception("Invalid message type");
-                    }
-                    break;
-                default:
-                    break;
+                        PerformanceAnalyzer.OnMessageReceived(msg, false);
+                        var type = (ClientMessageType)msg.ReadByte();
+                        switch (type)
+                        {
+                            case ClientMessageType.ActionState:
+                                var pl_index = network.GetPlayerIndex(msg.SenderConnection);
+                                if (pl_index >= 0)
+                                    input.SetActionState(msg.Deserialize<FrameActionState>(), pl_index);
+                                break;
+                            case ClientMessageType.NetworkOp:
+                                var response = network.ProcessOp(msg.SenderConnection, msg.Deserialize<NetworkOp>());
+                                SendMessage(msg.SenderConnection, MessageType.Response, response, NetDeliveryMethod.ReliableOrdered);
+                                break;
+                            default:
+                                throw new Exception("Invalid message type");
+                        }
+                        break;
+                    default:
+                        break;
 
+                }
+                server.Recycle(msg);
+                msg = server.ReadMessage();
             }
-            server.Recycle(msg);
         }
         private void SendMessage(NetConnection destinationConnection, MessageType messageType, IBinarizable state, NetDeliveryMethod method = NetDeliveryMethod.UnreliableSequenced)
         {
@@ -195,7 +193,7 @@ namespace TheCheapsServer
                 }
                 array = memstream.ToArray();
             }
-            PerformanceAnalyzer.PrepMessageFromServer(msg);
+            PerformanceAnalyzer.PrepMessage(msg);
             msg.Write((byte)messageType);
             msg.Write(array.Length);
             msg.Write(array);
@@ -216,7 +214,7 @@ namespace TheCheapsServer
                 }
                 array = memstream.ToArray();
             }
-            PerformanceAnalyzer.PrepMessageFromServer(msg);
+            PerformanceAnalyzer.PrepMessage(msg);
             msg.Write((byte)messageType);
             msg.Write(array.Length);
             msg.Write(array);

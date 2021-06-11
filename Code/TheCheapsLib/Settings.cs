@@ -20,6 +20,6 @@ namespace TheCheapsLib
         public static int LevelWidth = 1920;
         public static int LevelHeight = 1080;
 
-        public static float ServerTicksPerSecond { get { return 60; } }
+        public static float ServerTicksPerSecond { get { return 90; } }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Lidgren.Network;
+﻿#define _PERFORMANCE
+using Lidgren.Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,13 @@ namespace TheCheapsLib
     {
         public static void PrepMessage(NetOutgoingMessage msg)
         {
+#if PERFORMANCE
             msg.Write(DateTime.Now.Ticks);
+#endif
         }
         public static void OnMessageReceived(NetIncomingMessage msg, bool server2client)
         {
+#if PERFORMANCE
             var sent_ticks = msg.ReadInt64();
             var sent = new DateTime(sent_ticks);
             var received = msg.ReceiveTime;
@@ -44,12 +48,15 @@ namespace TheCheapsLib
                     c2s_process_delay.Clear();
                 }
             }
+#endif
         }
+#if PERFORMANCE
         static List<double> s2c_total_delay = new List<double>();
         static List<double> s2c_process_delay = new List<double>();
         private static int s2c_count;
         static List<double> c2s_total_delay = new List<double>();
         static List<double> c2s_process_delay = new List<double>();
         private static int c2s_count;
+#endif
     }
 }
