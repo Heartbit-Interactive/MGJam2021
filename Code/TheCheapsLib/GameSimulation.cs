@@ -120,18 +120,18 @@ namespace TheCheapsLib
             {
                 foreach (var en in model.entities)
                 {
-                    //foreach (var player in players)
-                    //{
-                    //    if (player.playerEntity.inventory.entities.Contains(entity))
-                    //        continue;
-                    //    if (Rectangle.Intersect(player.playerEntity.collisionrect, entity.collisionrect).Width != 0)
-                    //    {
-                    //        entity.posz = 0;
-                    //        entity.speed = 0;
-                    //        player.stun_player();
-                    //    }
+                    foreach (var player in players)
+                    {
+                        if (player.playerEntity.inventory.entities.Contains(entity))
+                            continue;
+                        if (Rectangle.Intersect(player.playerEntity.collisionrect, entity.collisionrect).Width != 0)
+                        {
+                            entity.posz = 0;
+                            entity.speed = 0;
+                            player.stun_player();
+                        }
 
-                    //}
+                    }
                     if (en.Value.tags.Contains(Tags.BASE))
                     {
                         if (Rectangle.Intersect(en.Value.collisionrect, entity.collisionrect).Width != 0)
