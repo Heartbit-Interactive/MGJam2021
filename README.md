@@ -1,5 +1,5 @@
 ﻿# MGJam2021: The Cheap$
-## Descrizione
+## Description
 Four villains want to conquer the world, they have the means to do it... But they don't want to spend a lot of money doing it!
 
 Become a cheap villain, search for scraps in the junkyard and race to build your evil empire.
