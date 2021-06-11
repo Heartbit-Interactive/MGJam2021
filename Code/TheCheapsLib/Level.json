@@ -5,23 +5,14 @@
     "z": 0.0,
     "texture_path": "BASE_01",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 168,
       "Height": 64
     },
     "sourcerect": {
-      "X": 0,
-      "Y": 0,
       "Width": 336,
       "Height": 168
     },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0",
     "tags": [ "base", "0" ]
   },
   {
@@ -30,23 +21,14 @@
     "z": 0.0,
     "texture_path": "BASE_02",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 168,
       "Height": 64
     },
     "sourcerect": {
-      "X": 0,
-      "Y": 0,
       "Width": 336,
       "Height": 168
     },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0",
     "tags": [ "base", "1" ]
   },
   {
@@ -55,23 +37,14 @@
     "z": 0.0,
     "texture_path": "BASE_03",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 168,
       "Height": 64
     },
     "sourcerect": {
-      "X": 0,
-      "Y": 0,
       "Width": 336,
       "Height": 168
     },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0",
     "tags": [ "base", "2" ]
   },
   {
@@ -80,23 +53,14 @@
     "z": 0.0,
     "texture_path": "BASE_04",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 168,
       "Height": 64
     },
     "sourcerect": {
-      "X": 0,
-      "Y": 0,
       "Width": 336,
       "Height": 168
     },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0",
     "tags": [ "base", "3" ]
   },
   {
@@ -105,17 +69,10 @@
     "z": 0.0,
     "texture_path": "RESOURCE_01",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 128,
       "Height": 48
     },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0",
     "tags": [ "heap", "Teschio", "Anima", "Sangue" ]
   },
   {
@@ -124,17 +81,10 @@
     "z": 0.0,
     "texture_path": "RESOURCE_02",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 128,
       "Height": 48
     },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0",
     "tags": [ "heap", "Valvola", "Ram", "Router" ]
   },
   {
@@ -143,17 +93,10 @@
     "z": 0.0,
     "texture_path": "RESOURCE_03",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 128,
       "Height": 48
     },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0",
     "tags": [ "heap", "Trave", "Bobina", "Mattone" ]
   },
   {
@@ -162,17 +105,10 @@
     "z": 0.0,
     "texture_path": "RESOURCE_04",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 128,
       "Height": 48
     },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0",
     "tags": [ "heap", "Combustibile", "Plutonio", "Acido" ]
   },
   {
@@ -181,17 +117,10 @@
     "z": 0.0,
     "texture_path": "ITEM_A_01",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 0,
       "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "ITEM_A_02",
@@ -199,17 +128,6 @@
     "z": 0.0,
     "texture_path": "ITEM_A_02",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
-    "collisionrect": {
-      "X": 0,
-      "Y": 0,
-      "Width": 0,
-      "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
   },
   {
     "name": "ITEM_A_03",
@@ -217,179 +135,69 @@
     "z": 0.0,
     "texture_path": "ITEM_A_03",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
-    "collisionrect": {
-      "X": 0,
-      "Y": 0,
-      "Width": 0,
-      "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
   },
   {
     "name": "ITEM_B_01",
     "posxy": "84, 408",
     "z": 0.0,
     "texture_path": "ITEM_B_01",
-    "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
-    "collisionrect": {
-      "X": 0,
-      "Y": 0,
-      "Width": 0,
-      "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    "direction": "0, 1"
   },
   {
     "name": "ITEM_B_02",
     "posxy": "108, 408",
     "z": 0.0,
     "texture_path": "ITEM_B_02",
-    "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
-    "collisionrect": {
-      "X": 0,
-      "Y": 0,
-      "Width": 0,
-      "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    "direction": "0, 1"
   },
   {
     "name": "ITEM_B_03",
     "posxy": "132, 408",
     "z": 0.0,
     "texture_path": "ITEM_B_03",
-    "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
-    "collisionrect": {
-      "X": 0,
-      "Y": 0,
-      "Width": 0,
-      "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    "direction": "0, 1"
   },
   {
     "name": "ITEM_C_01",
     "posxy": "156, 408",
     "z": 0.0,
     "texture_path": "ITEM_C_01",
-    "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
-    "collisionrect": {
-      "X": 0,
-      "Y": 0,
-      "Width": 0,
-      "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    "direction": "0, 1"
   },
   {
     "name": "ITEM_C_02",
     "posxy": "180, 408",
     "z": 0.0,
     "texture_path": "ITEM_C_02",
-    "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
-    "collisionrect": {
-      "X": 0,
-      "Y": 0,
-      "Width": 0,
-      "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    "direction": "0, 1"
   },
   {
     "name": "ITEM_C_03",
     "posxy": "204, 408",
     "z": 0.0,
     "texture_path": "ITEM_C_03",
-    "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
-    "collisionrect": {
-      "X": 0,
-      "Y": 0,
-      "Width": 0,
-      "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    "direction": "0, 1"
   },
   {
     "name": "ITEM_D_01",
     "posxy": "228, 408",
     "z": 0.0,
     "texture_path": "ITEM_D_01",
-    "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
-    "collisionrect": {
-      "X": 0,
-      "Y": 0,
-      "Width": 0,
-      "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    "direction": "0, 1"
   },
   {
     "name": "ITEM_D_02",
     "posxy": "252, 408",
     "z": 0.0,
     "texture_path": "ITEM_D_02",
-    "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
-    "collisionrect": {
-      "X": 0,
-      "Y": 0,
-      "Width": 0,
-      "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    "direction": "0, 1"
   },
   {
     "name": "ITEM_D_03",
     "posxy": "276, 408",
     "z": 0.0,
     "texture_path": "ITEM_D_03",
-    "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
-    "collisionrect": {
-      "X": 0,
-      "Y": 0,
-      "Width": 0,
-      "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    "direction": "0, 1"
   },
   {
     "name": "LEVEL_Trash_01 SX",
@@ -397,17 +205,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_01",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_02 SX",
@@ -415,17 +216,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_02",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_A_01",
@@ -433,17 +227,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_A_01",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 48,
       "Height": 96
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_01",
@@ -451,17 +238,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_01",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_02",
@@ -469,17 +249,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_02",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_03",
@@ -487,17 +260,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_03",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Barrier_V_01",
@@ -505,17 +271,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Barrier_V_01",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 48,
       "Height": 156
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_01",
@@ -523,17 +282,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_01",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_02",
@@ -541,17 +293,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_02",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_04",
@@ -559,17 +304,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_04",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_04",
@@ -577,17 +315,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_04",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Barrier_V_01",
@@ -595,17 +326,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Barrier_V_01",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 48,
       "Height": 156
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Barrier_V_02",
@@ -613,17 +337,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Barrier_V_02",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 48,
       "Height": 156
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_04",
@@ -631,17 +348,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_04",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_03",
@@ -649,17 +359,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_03",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_01",
@@ -667,17 +370,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_01",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_04",
@@ -685,17 +381,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_04",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Barrier_V_02",
@@ -703,17 +392,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Barrier_V_02",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 48,
       "Height": 156
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Barrier_V_01",
@@ -721,17 +403,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Barrier_V_01",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 48,
       "Height": 156
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_02",
@@ -739,17 +414,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_02",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_01",
@@ -757,17 +425,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_01",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_01",
@@ -775,17 +436,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_01",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_04",
@@ -793,17 +447,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_04",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_A_01",
@@ -814,13 +461,13 @@
     "through": false,
     "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
+
+
       "Width": 48,
       "Height": 96
     },
-    "inventory": null,
-    "texture": null,
+    
+    
     "origin": "0, 0"
   },
   {
@@ -829,17 +476,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_02",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_02",
@@ -847,17 +487,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_02",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_01",
@@ -865,17 +498,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_01",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Barrier_V_02",
@@ -883,17 +509,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Barrier_V_02",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 48,
       "Height": 156
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_04",
@@ -901,17 +520,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_04",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_03",
@@ -919,17 +531,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_03",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 72,
       "Height": 24
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "GROUND_A_01",
@@ -937,17 +542,10 @@
     "z": 0.0,
     "texture_path": "GROUND_A_01",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 0,
       "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "GROUND_A_02",
@@ -955,17 +553,10 @@
     "z": 0.0,
     "texture_path": "GROUND_A_02",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 0,
       "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "GROUND_A_02",
@@ -973,17 +564,10 @@
     "z": 0.0,
     "texture_path": "GROUND_A_02",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 0,
       "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "GROUND_A_01",
@@ -991,17 +575,10 @@
     "z": 0.0,
     "texture_path": "GROUND_A_01",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 0,
       "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "GROUND_A_04",
@@ -1009,17 +586,10 @@
     "z": 0.0,
     "texture_path": "GROUND_A_04",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 0,
       "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "GROUND_A_04",
@@ -1027,17 +597,10 @@
     "z": 0.0,
     "texture_path": "GROUND_A_04",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 0,
       "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   },
   {
     "name": "GROUND_A_03",
@@ -1045,16 +608,9 @@
     "z": 0.0,
     "texture_path": "GROUND_A_03",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-      "X": 0,
-      "Y": 0,
       "Width": 0,
       "Height": 0
-    },
-    "inventory": null,
-    "texture": null,
-    "origin": "0, 0"
+    }
   }
 ]
