@@ -384,5 +384,299 @@
     "type": "B",
     "sentence_to_show": "is preventing vaccines to mind control the worlds!",
     "character_associated": "Player 2"
+  },
+  {
+    "name": "Reptilian Detector",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Valvola",
+        "Item2": 2
+      },
+      {
+        "Item1": "Ram",
+        "Item2": 1
+      },
+      {
+        "Item1": "Bobina",
+        "Item2": 2
+      }
+    ],
+    "score": 100,
+    "type": "B",
+    "sentence_to_show": "is unmasking Reptilians disguised as humans!",
+    "character_associated": "Player 2"
+  },
+  {
+    "name": "Uber Firewall",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Valvola",
+        "Item2": 2
+      },
+      {
+        "Item1": "Router",
+        "Item2": 1
+      },
+      {
+        "Item1": "Mattone",
+        "Item2": 2
+      }
+    ],
+    "score": 100,
+    "type": "B",
+    "sentence_to_show": "is defending the internet from the Illuminati!",
+    "character_associated": "Player 2"
+  },
+  {
+    "name": "6G Antenna",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Router",
+        "Item2": 2
+      },
+      {
+        "Item1": "Valvola",
+        "Item2": 1
+      },
+      {
+        "Item1": "Trave",
+        "Item2": 2
+      }
+    ],
+    "score": 100,
+    "type": "B",
+    "sentence_to_show": "is interfering with the NWO agenda!",
+    "character_associated": "Player 2"
+  },
+  {
+    "name": "Rig the Election",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Bobina",
+        "Item2": 2
+      },
+      {
+        "Item1": "Ram",
+        "Item2": 1
+      },
+      {
+        "Item1": "Acido",
+        "Item2": 1
+      }
+    ],
+    "score": 75,
+    "type": "B",
+    "sentence_to_show": "rigged the election winning with the 51% of votes!",
+    "character_associated": "Player 3"
+  },
+  {
+    "name": "AT-5000 Autodialer",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Trave",
+        "Item2": 2
+      },
+      {
+        "Item1": "Router",
+        "Item2": 1
+      },
+      {
+        "Item1": "Plutonio",
+        "Item2": 1
+      }
+    ],
+    "score": 75,
+    "type": "B",
+    "sentence_to_show": "has started a telemarketing scam!",
+    "character_associated": "Player 3"
+  },
+  {
+    "name": "R&D department",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Trave",
+        "Item2": 2
+      },
+      {
+        "Item1": "Bobina",
+        "Item2": 1
+      },
+      {
+        "Item1": "Teschio",
+        "Item2": 2
+      }
+    ],
+    "score": 100,
+    "type": "B",
+    "sentence_to_show": "has founded the Research & Destruction department!",
+    "character_associated": "Player 3"
+  },
+  {
+    "name": "Crypto Currency",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Bobina",
+        "Item2": 2
+      },
+      {
+        "Item1": "Mattone",
+        "Item2": 1
+      },
+      {
+        "Item1": "Anima",
+        "Item2": 2
+      }
+    ],
+    "score": 100,
+    "type": "B",
+    "sentence_to_show": "is crushing the Stonk market with Crypto!",
+    "character_associated": "Player 3"
+  },
+  {
+    "name": "Marketing Campaing",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Mattone",
+        "Item2": 2
+      },
+      {
+        "Item1": "Trave",
+        "Item2": 1
+      },
+      {
+        "Item1": "Sangue",
+        "Item2": 2
+      }
+    ],
+    "score": 100,
+    "type": "B",
+    "sentence_to_show": "is going viral on the internet box!",
+    "character_associated": "Player 3"
+  },
+  {
+    "name": "Non-renewable Energy",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Carburante",
+        "Item2": 2
+      },
+      {
+        "Item1": "Mattone",
+        "Item2": 1
+      },
+      {
+        "Item1": "Teschio",
+        "Item2": 1
+      }
+    ],
+    "score": 75,
+    "type": "B",
+    "sentence_to_show": "is pouring gasoline on a solar panel!",
+    "character_associated": "Player 4"
+  },
+  {
+    "name": "Doom Machine",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Plutonio",
+        "Item2": 2
+      },
+      {
+        "Item1": "Trave",
+        "Item2": 1
+      },
+      {
+        "Item1": "Anima",
+        "Item2": 1
+      }
+    ],
+    "score": 75,
+    "type": "B",
+    "sentence_to_show": "is about to end every lifeform for some reason!",
+    "character_associated": "Player 4"
+  },
+  {
+    "name": "Vaccine Microchip",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Acido",
+        "Item2": 2
+      },
+      {
+        "Item1": "Bobina",
+        "Item2": 1
+      },
+      {
+        "Item1": "Sangue",
+        "Item2": 1
+      }
+    ],
+    "score": 75,
+    "type": "B",
+    "sentence_to_show": "is hiding microchips in a syringe!",
+    "character_associated": "Player 4"
+  },
+  {
+    "name": "Nucular Bomb",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Carburante",
+        "Item2": 2
+      },
+      {
+        "Item1": "Plutonio",
+        "Item2": 1
+      },
+      {
+        "Item1": "Valvola",
+        "Item2": 2
+      }
+    ],
+    "score": 100,
+    "type": "B",
+    "sentence_to_show": "has made a big-ass bomb!",
+    "character_associated": "Player 4"
+  },
+  {
+    "name": "Engineered Virus",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Plutonio",
+        "Item2": 2
+      },
+      {
+        "Item1": "Acido",
+        "Item2": 1
+      },
+      {
+        "Item1": "Router",
+        "Item2": 2
+      }
+    ],
+    "score": 100,
+    "type": "B",
+    "sentence_to_show": "is filling 5G antennas with dead bats!",
+    "character_associated": "Player 4"
+  },
+  {
+    "name": "Cloning Device",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Acido",
+        "Item2": 2
+      },
+      {
+        "Item1": "Carburante",
+        "Item2": 1
+      },
+      {
+        "Item1": "Ram",
+        "Item2": 2
+      }
+    ],
+    "score": 100,
+    "type": "B",
+    "sentence_to_show": "is cloning two-headed goats!",
+    "character_associated": "Player 4"
   }
 ]
