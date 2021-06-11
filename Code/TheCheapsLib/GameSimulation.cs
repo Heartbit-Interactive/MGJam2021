@@ -118,20 +118,25 @@ namespace TheCheapsLib
             }
             if (entity.tags.Contains(Tags.CAN_TAKE_ITEM))
             {
-                foreach (var en in model.entities)
+                //Se colpisce un player
+                foreach (var player in players)
                 {
-                    foreach (var player in players)
+                    if (player.playerEntity.inventory.entities.Contains(entity))
+                        continue;
+                    if (Rectangle.Intersect(player.playerEntity.collisionrect, entity.collisionrect).Width != 0)
                     {
-                        if (player.playerEntity.inventory.entities.Contains(entity))
+                        if (player.launched_items.Contains(entity))
                             continue;
-                        if (Rectangle.Intersect(player.playerEntity.collisionrect, entity.collisionrect).Width != 0)
-                        {
-                            entity.posz = 0;
-                            entity.speed = 0;
-                            player.stun_player();
-                        }
-
+                        entity.posz = 0;
+                        entity.speed = 0;
+                        player.stun_player();
                     }
+                    else if (player.launched_items.Contains(entity))
+                        player.launched_items.Remove(entity);
+                }
+                //Controllo colpisce una base
+                foreach (var en in model.entities)
+                {                    
                     if (en.Value.tags.Contains(Tags.BASE))
                     {
                         if (Rectangle.Intersect(en.Value.collisionrect, entity.collisionrect).Width != 0)

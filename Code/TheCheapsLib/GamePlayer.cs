@@ -23,6 +23,7 @@ namespace TheCheapsLib
 
         private int timer_interact = 0;
         private Vector2 deltaxy;
+        internal List<Entity> launched_items = new List<Entity>();
         private const int INTERACT_LOST_AFTER = 30;//dopo quanti frame il contatore click_for_interact viene azzerato perchè ho smesso di cliccare
 
         /// <summary>
@@ -138,6 +139,7 @@ namespace TheCheapsLib
                                     entity.direction = action.direction;
                                 entity.speed = 3;
                                 entity.removeable = true;
+                                launched_items.Add(entity);
                             }
                         }
                         break;
