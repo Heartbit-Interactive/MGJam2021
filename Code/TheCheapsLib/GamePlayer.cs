@@ -215,43 +215,59 @@ namespace TheCheapsLib
 
         private void movement(float speedframe, Vector2 vector)
         {
-            this.deltaxy += speedframe * vector;
+            //+= perchè può succedere più volte nel frame
+            var move_shift = speedframe * vector;
+            var prevdelta = this.deltaxy;
+            this.deltaxy += move_shift;
             this.playerEntity.direction = vector;
 
-            int deltax = (int)deltaxy.X;
-            int deltay = (int)deltaxy.Y;
-            playerEntity.collisionrect.Offset(deltax, deltay);
+            var temprect = playerEntity.collisionrect;
+            temprect.Offset((int)deltaxy.X, (int)deltaxy.Y);
             foreach (var entity in model.entities.Values)
             {
-                if (entity.through)
+                if (entity.through || entity.collisionrect.Width == 0)
                     continue;
-                var rect = Rectangle.Intersect(entity.collisionrect, playerEntity.collisionrect);
+                var rect = Rectangle.Intersect(entity.collisionrect, temprect);
                 if (rect.Width != 0 || rect.Height != 0)
                 {
-                    deltaxy = Vector2.Zero;
-                    break;
+                    if (rect.Height == temprect.Height) //99% collisione horz
+                    {
+                        if (rect.Width == temprect.Width) //Compenetrazione totale
+                        {
+                            deltaxy = prevdelta;
+                            return;
+                        }
+                        else
+                            deltaxy -= new Vector2(move_shift.X, 0);
+                    }
+                    else if (rect.Width == temprect.Width) //99% collisione vert
+                    {
+                        deltaxy -= new Vector2(0, move_shift.Y);
+                    }
+                    else
+                    {
+                        //Provo a fixare in x ma se collido fixo in Y
+                        deltaxy -= new Vector2(move_shift.X, 0);
+                        temprect = playerEntity.collisionrect;
+                        temprect.Offset((int)deltaxy.X, (int)deltaxy.Y);
+                        rect = Rectangle.Intersect(entity.collisionrect, temprect);
+                        if (rect.Width != 0 || rect.Height != 0)
+                        {
+                            deltaxy += new Vector2(move_shift.X, -move_shift.Y);
+                        }
+                    }
+                    //Ultimo test
+                    temprect = playerEntity.collisionrect;
+                    temprect.Offset((int)deltaxy.X, (int)deltaxy.Y);
+                    rect = Rectangle.Intersect(entity.collisionrect, temprect);
+                    //If after removing the component we still collide, cancel the movement completely
+                    if (rect.Width != 0 || rect.Height != 0)
+                    {
+                        deltaxy = prevdelta;
+                        return;
+                    }
                 }
-                //{
-                ////    if (rect == playerEntity.collisionrect)
-                ////        deltaxy = Vector2.Zero;
-                //    else
-                //    {
-                //        bool with_less_height = rect.Width <= rect.Height;
-                //        if (with_less_height)
-                //        {
-                //            deltaxy -= new Vector2(deltaxy.X, 0);
-
-                //        }
-                //        else
-                //        {
-                //            deltaxy -= new Vector2(0, deltaxy.Y);
-                //        }
-                //    }
-
-                //}
             }
-            playerEntity.collisionrect.Offset(-deltax, -deltay);
-
         }
 
         private void update_position(float elapsedTime)
