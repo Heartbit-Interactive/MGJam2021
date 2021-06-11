@@ -1,0 +1,31 @@
+[
+  {
+    "name": null,
+    "ingredient_and_amount": [],
+    "score": 0,
+    "type": null,
+    "sentence_to_show": null,
+    "character_associated": null
+  },
+  {
+    "name": "name_recipe",
+    "ingredient_and_amount": [
+      {
+        "Item1": "ingr1",
+        "Item2": 3
+      },
+      {
+        "Item1": "ingr2",
+        "Item2": 2
+      },
+      {
+        "Item1": "ingr3",
+        "Item2": 1
+      }
+    ],
+    "score": 100,
+    "type": "A",
+    "sentence_to_show": "sentence to show",
+    "character_associated": "name_character_associated"
+  }
+]
