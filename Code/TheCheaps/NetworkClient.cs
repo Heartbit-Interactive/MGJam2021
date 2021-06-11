@@ -152,7 +152,7 @@ namespace TheCheaps
 #if VERBOSE
                         System.Diagnostics.Debug.WriteLine($"{msg} received from server");
 #endif
-                        PerformanceAnalyzer.AddMessageFromServer(msg);
+                        PerformanceAnalyzer.OnMessageReceived(msg,true);
                         var type = (NetworkServer.MessageType)msg.ReadByte();
                         switch (type)
                         {
@@ -233,6 +233,7 @@ namespace TheCheaps
                 }
                 array = memstream.ToArray();
             }
+            PerformanceAnalyzer.PrepMessage(msg);
             msg.Write((byte)messageType);
             msg.Write(array.Length);
             msg.Write(array);

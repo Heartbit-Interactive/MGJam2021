@@ -160,8 +160,6 @@ namespace TheCheapsLib
                 }
             }
             
-           
-               
             if (entity.speed == 0 && entity.removeable)
             {
                 if (entity.life_time <= 0)

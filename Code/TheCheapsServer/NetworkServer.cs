@@ -160,6 +160,7 @@ namespace TheCheapsServer
 #if VERBOSE
                     System.Diagnostics.Debug.WriteLine($"{msg} received from server");
 #endif
+                    PerformanceAnalyzer.OnMessageReceived(msg, false);
                     var type = (ClientMessageType)msg.ReadByte();
                     switch (type)
                     {

@@ -157,6 +157,34 @@
 /processorParam:TextureFormat=Color
 /build:FACE_ACTOR_04.png
 
+#begin Font14.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font14.spritefont
+
+#begin Font18.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font18.spritefont
+
+#begin Font20.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font20.spritefont
+
+#begin Font28.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font28.spritefont
+
 #begin GROUND_A_01.png
 /importer:TextureImporter
 /processor:TextureProcessor

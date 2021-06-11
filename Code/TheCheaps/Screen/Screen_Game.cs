@@ -44,9 +44,18 @@ namespace TheCheaps.Scenes
 
         private List<PlayerEntity> gui_entities;
         private ContentManager Content;
+        private SpriteFont font14;
+        private SpriteFont font18;
+        private SpriteFont font20;
+        private SpriteFont font28;
+
         public override void LoadContent(ContentManager content)
         {
             this.Content = content;
+            font14 = Content.Load<SpriteFont>("Font14");
+            font18 = Content.Load<SpriteFont>("Font18");
+            font20 = Content.Load<SpriteFont>("Font20");
+            font28 = Content.Load<SpriteFont>("Font28");
             var jsontextgui = File.ReadAllText("GUI.json");
             gui_entities = JsonConvert.DeserializeObject<List<PlayerEntity>>(jsontextgui);
             foreach (var entity in gui_entities.ToArray())
@@ -58,7 +67,10 @@ namespace TheCheaps.Scenes
                     {
                         id--;
                         if (id != NetworkManager.Client.PlayerIndex)
+                        {
                             gui_entities.Remove(entity);
+                            continue;
+                        }
                     }
                 }
                 else if (entity.name.StartsWith("HUD_Ricetta"))
@@ -71,6 +83,8 @@ namespace TheCheaps.Scenes
                     barra_tg = entity;
                     gui_entities.Remove(barra_tg);
                 }
+                if (entity.texture == null)
+                    entity.LoadTexture(Content);
             }
             GraphicSettings.DebugSquare = Content.Load<Texture2D>("menu/white_square");
             //Carico le textures degli oggetti già in sim
@@ -134,9 +148,12 @@ namespace TheCheaps.Scenes
 
         private void draw_hud(SpriteBatch spriteBatch)
         {
-            hud_ricetta.Draw(spriteBatch);
-            //spriteBatch.DrawString(spriteFont18, player, hud_ricetta.posxy, Color.White, true, false);
-            //spriteBatch.DrawString(spriteFont18, "Bla bla", hud_ricetta.posxy, Color.White, true, false);
+            if (player.inventory.list_recipes.Count > 0)
+            {
+                hud_ricetta.Draw(spriteBatch);
+                spriteBatch.DrawString(font18, player.inventory.list_recipes[0].name, hud_ricetta.posxy, Color.White, true, false);
+                spriteBatch.DrawString(font18, "Bla bla", hud_ricetta.posxy, Color.White, true, false);
+            }
         }
 
         private static Matrix MakeCameraMatrix(PlayerEntity pl)
@@ -153,11 +170,6 @@ namespace TheCheaps.Scenes
         }
         private void refresh_entity_textures()
         {
-            foreach (var entity in gui_entities)
-            {
-                if (entity.texture == null)
-                    entity.LoadTexture(Content);
-            }
             foreach (var entity in NetworkManager.Client.simulation.model.player_entities)
             {
                 if (entity.texture == null)
