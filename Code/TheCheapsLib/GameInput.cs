@@ -61,7 +61,7 @@ namespace TheCheapsLib
             if (Trigger(Buttons.RightTrigger) || Trigger(Keys.C))
                 actionList.Add(ActionModel.Type.Throw, Vector2.Normalize(dir2));
             if (Trigger(Buttons.B) || Trigger(Keys.X))
-                actionList.Add(ActionModel.Type.Dash, dir);
+                actionList.Add(ActionModel.Type.Dash, Vector2.Normalize(dir));
             else if(dir.Length()>=0.25f)
                 actionList.Add(ActionModel.Type.Move, dir);
             oldGpState = gpState;

@@ -10,8 +10,7 @@ namespace TheCheapsLib
     {
         public int index;
         public Inventory inventory;
-        public int TIMER_DASH = 40;
-        public int dash_timer_counter;
+        public float dash_timer_counter;
 
         public int score = 0;
 
@@ -48,10 +47,10 @@ namespace TheCheapsLib
                     bw.Write(list.owned[j]);
             }
         }
-        public void update_timer_dash()
+        public void update_timer_dash(float elapsedTime)
         {
             if (dash_timer_counter > 0)
-                dash_timer_counter--;
+                dash_timer_counter -= elapsedTime;
         }
         internal override void CopyDelta(Entity other)
         {

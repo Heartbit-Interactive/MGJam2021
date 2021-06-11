@@ -14,17 +14,14 @@ namespace TheCheapsLib
         private GameSimulation sim;
         private SimulationModel model;
         public PlayerEntity playerEntity;
-        private bool moving = true;
 
         private Entity heap_clicked = null;
 
         private int click_for_interact = 0;
-        private const int CLICK_INTERACT_NEEDS = 5;
 
-        private int timer_interact = 0;
+        private float stoppedInteractingTimer = 0;
         private Vector2 deltaxy;
         internal List<Entity> launched_items = new List<Entity>();
-        private const int INTERACT_LOST_AFTER = 30;//dopo quanti frame il contatore click_for_interact viene azzerato perchè ho smesso di cliccare
 
         /// <summary>
         /// PRIVATE: USA LA POOL PER CREARE
@@ -45,20 +42,21 @@ namespace TheCheapsLib
         public void Update(float elapsedTimeS)
         {
             deltaxy = Vector2.Zero;
-            update_input();
-            playerEntity.update_timer_dash();
+            update_input(elapsedTimeS);
+            playerEntity.update_timer_dash(elapsedTimeS);
             if(heap_clicked!= null && click_for_interact > 0)
             {
-                if (timer_interact >= INTERACT_LOST_AFTER)
+                if (stoppedInteractingTimer >= Settings.MaxTimeBetwheenClicksToMineResource)
                     click_for_interact = 0;
                 else
-                    timer_interact++;
+                    stoppedInteractingTimer+=elapsedTimeS;
             }
             update_position(elapsedTimeS);
         }
-        public void update_input()
+        public void update_input(float elapsedTime)
         {
-            if(model.actions[id] == null)
+            var current_speed = Vector2.Zero;
+            if (model.actions[id] == null)
             {
                 return;
             }
@@ -71,7 +69,7 @@ namespace TheCheapsLib
                         //heap interact
                         if (heap_clicked != null && player_near_entity(heap_clicked, 64)/* playerEntity.collisionrect.Intersects(heap_clicked.collisionrect)*/)
                         {
-                            if(click_for_interact >= CLICK_INTERACT_NEEDS)
+                            if(click_for_interact >= Settings.ClicksRequiredToMineResource)
                             {
                                 loot_random_material();
                                 click_for_interact = 0;
@@ -79,7 +77,7 @@ namespace TheCheapsLib
                             else
                             {
                                 click_for_interact++;
-                                timer_interact = 0;
+                                stoppedInteractingTimer = 0;
 
                             }
                             break;
@@ -98,7 +96,7 @@ namespace TheCheapsLib
                             }
                             else if (player_near_entity(entity, 64)/*playerEntity.collisionrect.Intersects(entity.collisionrect)*/ && entity.tags.Contains(Tags.HEAP))
                             {
-                                if (click_for_interact >= CLICK_INTERACT_NEEDS)
+                                if (click_for_interact >= Settings.ClicksRequiredToMineResource)
                                 {
                                     loot_random_material();
                                     click_for_interact = 0;
@@ -106,7 +104,7 @@ namespace TheCheapsLib
                                 else
                                 {
                                     click_for_interact++;
-                                    timer_interact = 0;
+                                    stoppedInteractingTimer = 0;
                                 }
                                 heap_clicked = entity;
                                 break;
@@ -121,7 +119,7 @@ namespace TheCheapsLib
                         {
                             if (playerEntity.dash_timer_counter <= 0)
                             {
-                                playerEntity.dash_timer_counter = playerEntity.TIMER_DASH;
+                                playerEntity.dash_timer_counter = Settings.DashRecoilS;
                                 movement(Settings.DashDistance, action.direction);
                             }
                         }
@@ -137,14 +135,18 @@ namespace TheCheapsLib
                                     entity.direction = playerEntity.direction;
                                 else
                                     entity.direction = action.direction;
-                                entity.speed = Settings.ThrowSpeed;
+                                var speed_vector = Settings.ThrowSpeed * entity.direction;
+                                speed_vector += current_speed;
+                                entity.speed = speed_vector.Length();
+                                entity.direction = Vector2.Normalize(speed_vector);
                                 entity.removeable = true;
                                 launched_items.Add(entity);
                             }
                         }
                         break;
                     case ActionModel.Type.Move:
-                        movement(3,action.direction);
+                        current_speed = Settings.MoveSpeed * Vector2.Normalize(action.direction);
+                        movement(Settings.MoveSpeed*elapsedTime,action.direction);
                         break;
 
                 }
@@ -213,7 +215,6 @@ namespace TheCheapsLib
 
         private void movement(float speedframe, Vector2 vector)
         {
-           
             this.deltaxy += speedframe * vector;
             this.playerEntity.direction = vector;
 
