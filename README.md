@@ -12,15 +12,17 @@ Be the villain with the highest stock value at the end of the game. To gain stoc
 ## Ambientazione 
 An epic junk yard full of scraps! And everything is FREE!
 ## Meccaniche di gioco
-Move your villain toward the piles of junk and start digging. The scrap you collect are stored above your head. You can carry up to three items at the same time. Then, you can go back to your base and use the item you collect to complete your evil plans OR you can throw them at your enemies to knock them down!
+Move your villain toward the piles of junk and start digging. The scrap you collect are stored above your head. You can carry up to three items at the same time. Then, you can go back to your base and use the items you collect to complete your evil plans OR you can throw them at your enemies to knock them down!
 ### Frugare nella discarica
-Your evil plans require different items to be completed. 
+Your evil plans require different items to be completed. There are four pile of junks in the junkyard. Each pile is made of three items, for a total of 12 items. Interact multiple times with the pile of junk to collect an item.
 ### Lanciare oggetti
+Scraps found is collected and shown above your head. You can carry up to three items ad the same time. To use the scraps at your base, you need to throw them at your base and they are autmatically used to complete your plans. If the scrap throw is not needed in any recipe, is automatically sold.
+Since scrap can be thrown anytime,  it can be used as a weapon against other player. You always throw the last item you picked up. If you hit another player, that player drop all the items he is carrying and is stunned for a small period of time.
 ### Scambio tra i giocatori
-I giocatori possono scambiare un oggetto con un altro oppure con delle monete tramite un asta a tempo limitato?
+Item thrown or dropped can be picked up by other players.
 ### Rubare ai giocatori
-Si possono rubare solo le monete? Se vieni beccato dal giocatore mentre rubi un oggetto questo cade?
+(WIP) Currently, you can steal points from other players.
 ### Costruzione dell'oggetto (della base)
-Quando il giocatore porta un oggetto che gli serve alla base questo viene usato automaticamente per costruire l'oggetto. Potrebbe essere possibile creare una base
+(WIP) Some recipe won't give you points but upgrades that will improve your combat and scrap-finding skills!
 ## Tipologia di personaggio
-Ci possono essere diversi tipi di personaggio, ognuno con un carattere diverso, con pregi e difetti. Ad esempio un personaggio può trovare oggetti "preziosi" utili più facilmente, oppure sarà in grado di lanciare gli oggetti più lontano (senza romperli se sono fragili). Potrebbe però essere un alcolista, o un accumulatore. I pregi/difetti potrebbero essere definiti randomicamente così come l'oggetto da realizzare, Il nome del personaggio potrebbe essere composto dai primi due.
+Each villain has his own set of unique plans, linked to his personality. Those plans will predominantly use certain types of scraps over others.
