@@ -104,6 +104,27 @@ namespace TheCheapsLib
                 }
                 model.updated_entities.Add(entity);
             }
+
+            //foreach(var en in model.entities)
+            //{
+            //    if (en.Value.tags.Contains(Tags.BASE))
+            //    {
+            //        if (Rectangle.Intersect(en.Value.collisionrect, entity.collisionrect).Width != 0)
+            //        {
+            //            var a = Int32.Parse(en.Value.tags.Where(x => x != Tags.BASE).FirstOrDefault());
+            //            var player = players[a].playerEntity;
+            //                if (player.inventory.if_player_needs_ingredient_add(entity.name))
+            //            {
+            //                entity.removeable = true;
+            //                entity.speed = 0;
+            //                entity.life_time = 0;
+            //            }
+
+            //        }
+            //    }
+            //}
+           
+               
             if (entity.speed == 0 && entity.removeable)
             {
                 if (entity.life_time <= 0)
