@@ -10,8 +10,8 @@
         "collisionrect": {
             "X": 0,
             "Y": 0,
-            "Width": 0,
-            "Height": 0
+            "Width": 20,
+            "Height": 20
         },
         "inventory": null,
         "texture": null,
@@ -28,8 +28,8 @@
         "collisionrect": {
             "X": 0,
             "Y": 0,
-            "Width": 0,
-            "Height": 0
+            "Width": 20,
+            "Height": 20
         },
         "inventory": null,
         "texture": null,
@@ -46,8 +46,8 @@
         "collisionrect": {
             "X": 0,
             "Y": 0,
-            "Width": 0,
-            "Height": 0
+            "Width": 20,
+            "Height": 20
         },
         "inventory": null,
         "texture": null,
@@ -64,8 +64,8 @@
         "collisionrect": {
             "X": 0,
             "Y": 0,
-            "Width": 0,
-            "Height": 0
+            "Width": 20,
+            "Height": 20
         },
         "inventory": null,
         "texture": null,
@@ -82,8 +82,8 @@
         "collisionrect": {
             "X": 0,
             "Y": 0,
-            "Width": 0,
-            "Height": 0
+            "Width": 20,
+            "Height": 20
         },
         "inventory": null,
         "texture": null,
@@ -100,8 +100,8 @@
         "collisionrect": {
             "X": 0,
             "Y": 0,
-            "Width": 0,
-            "Height": 0
+            "Width": 20,
+            "Height": 20
         },
         "inventory": null,
         "texture": null,
@@ -118,8 +118,8 @@
         "collisionrect": {
             "X": 0,
             "Y": 0,
-            "Width": 0,
-            "Height": 0
+            "Width": 20,
+            "Height": 20
         },
         "inventory": null,
         "texture": null,
@@ -136,8 +136,8 @@
         "collisionrect": {
             "X": 0,
             "Y": 0,
-            "Width": 0,
-            "Height": 0
+            "Width": 20,
+            "Height": 20
         },
         "inventory": null,
         "texture": null,
@@ -154,8 +154,8 @@
         "collisionrect": {
             "X": 0,
             "Y": 0,
-            "Width": 0,
-            "Height": 0
+            "Width": 20,
+            "Height": 20
         },
         "inventory": null,
         "texture": null,
@@ -172,8 +172,8 @@
         "collisionrect": {
             "X": 0,
             "Y": 0,
-            "Width": 0,
-            "Height": 0
+            "Width": 20,
+            "Height": 20
         },
         "inventory": null,
         "texture": null,
@@ -190,8 +190,8 @@
         "collisionrect": {
             "X": 0,
             "Y": 0,
-            "Width": 0,
-            "Height": 0
+            "Width": 20,
+            "Height": 20
         },
         "inventory": null,
         "texture": null,
@@ -208,8 +208,8 @@
         "collisionrect": {
             "X": 0,
             "Y": 0,
-            "Width": 0,
-            "Height": 0
+            "Width": 20,
+            "Height": 20
         },
         "inventory": null,
         "texture": null,
