@@ -33,8 +33,20 @@ jobs:
         echo "TAGVERSION=${TAGVERSION:1}" >> $GITHUB_ENV    
     - name: Checkout repository
       uses: actions/checkout@master
+    - name: Show Working Dir tree BEFORE
+      run: |
+       echo  "Current work dir is : "
+       pwd
+       sudo apt-get install tree
+       tree -d
     - name: Checkout submodules
-      uses: textbook/git-checkout-submodule-action@master
+      uses: textbook/git-checkout-submodule-action@master      
+    - name: Show Working Dir tree AFTER
+      run: |
+       echo  "Current work dir is : "
+       pwd
+       sudo apt-get install tree
+       tree -d
     - name: Install font
       run: |
         wget -P /usr/share/fonts/truetype https://github.com/Heartbit-Interactive/MGJam2021/raw/main/Assets/Pixellari.ttf
