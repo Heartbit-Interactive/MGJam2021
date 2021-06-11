@@ -69,7 +69,17 @@ namespace TheCheaps.Screen.View
             if (ParentScreen.Trigger(Buttons.A) || ParentScreen.Trigger(Keys.Enter))
                 OnAccept();
             else if (ParentScreen.Trigger(Buttons.B) || ParentScreen.Trigger(Keys.Back))
-                OnCancel();
+                OnCancel(); 
+            if (ParentScreen.Press(Keys.LeftControl) && ParentScreen.Trigger(Keys.V))
+            {
+                string pasted_text = new TextCopy.Clipboard().GetText();
+                var split = pasted_text.Split('.', ':');
+                if (split.Length == 5)
+                {
+                    for (int i = 0; i < 5; i++)
+                        int.TryParse(split[i],out numbers[i]);
+                }
+            }
 
             if (menu_index == 0)
                 texts[1] = $"<{numbers[0]}>.{numbers[1]}.{numbers[2]}.{numbers[3]}:{numbers[4]}";

@@ -28,7 +28,14 @@ namespace TheCheapsServer
         {
             config = new Lidgren.Network.NetPeerConfiguration("TheCheaps");
             config.Port = port;
-            server = new Lidgren.Network.NetServer(config);
+            config.EnableUPnP = true;
+            config.MaximumConnections = 4;
+            //config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
+            server = new NetServer(config);
+            server.Start();
+            bool success = server.UPnP.ForwardPort(port, "TheCheaps");
+            if (!success)
+                throw new Exception($"UPnP could not forward port {port}");
         }
         public void Start()
         {

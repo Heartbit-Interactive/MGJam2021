@@ -35,13 +35,33 @@ namespace TheCheaps
 
         public NetPeerStatus Status { get { return client == null ? NetPeerStatus.NotRunning : client.Status; } }
 
-        public NetworkClient(IPAddress ip, int port)
+        public NetworkClient(IPAddress ip, int server_port)
         {
-            config = new NetPeerConfiguration("TheCheaps");
-            client = new NetClient(config);
-            client.Start();
+            int client_port = server_port+1;
+            while (client_port < server_port + 10)
+            {
+                try
+                {
+                    config = new NetPeerConfiguration("TheCheaps");
+                    config.EnableUPnP = true;
+                    config.MaximumConnections = 4;
+                    //config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
+                    config.Port = client_port;
+                    client = new NetClient(config);
+                    client.Start();
+                    bool success = client.UPnP.ForwardPort(client_port, "TheCheaps");
+                    if (!success)
+                        throw new Exception($"UPnP could not forward port {client_port}");
+                    break;
+                }
+                catch
+                {
+                    client_port++;
+                }
+            }
             var string_ip = ip.ToString();
-            connection = client.Connect(host: string_ip, port: port);            
+            connection = client.Connect(host: string_ip, port: server_port);
+
             this.simulation = new GameSimulation();
             this.network = new GameNetwork();
             this.input = new GameInput(simulation.model);

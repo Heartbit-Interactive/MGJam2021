@@ -35,6 +35,7 @@ namespace TheCheapsServer
             }
             server = new TheCheapsServer.NetworkServer(port);
             server.Start();
+
             var msperstep = 8;
             while (true)
             {

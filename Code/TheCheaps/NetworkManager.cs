@@ -47,7 +47,7 @@ namespace TheCheaps
         public static void StartServer()
         {
             _server = ServerThreadManager.Start(_port);
-            LocalIp = NetworkServer.GetLocalIPAddress() ;
+            LocalIp = NetworkServer.GetLocalIPAddress();
         }
 
         public static void Update(GameTime time)

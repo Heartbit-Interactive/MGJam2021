@@ -114,6 +114,7 @@ namespace TheCheaps.Scenes
         {
             isServer = true;
             isClient = false;
+            if(NetworkManager.Client!=null)
             if (NetworkManager.Client.network.model.serverState.ReadyToStart)
             {
                 host_option.enabled = true;
@@ -171,6 +172,10 @@ namespace TheCheaps.Scenes
             {
                 menuIndex = (textual_gui.Count + menuIndex - 1) % textual_gui.Count;
                 SoundManager.PlayCursors();
+            }
+            if (Press(Keys.LeftControl) && Trigger(Keys.C))
+            {
+                new TextCopy.Clipboard().SetText(textual_gui[menuIndex].text);
             }
             if (Trigger(Buttons.A) || Trigger(Keys.Enter))
             {
