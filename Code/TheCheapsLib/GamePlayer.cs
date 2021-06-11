@@ -295,7 +295,6 @@ namespace TheCheapsLib
             var index_recipe = random.Next(model.recipes.Count);
             var recipe_choosen = model.recipes[index_recipe];
             playerEntity.inventory.list_recipes[index_where_add] = new Recipe(recipe_choosen.name, recipe_choosen.ingredient_and_amount, recipe_choosen.owned, recipe_choosen.score, recipe_choosen.type, recipe_choosen.sentence_to_show, recipe_choosen.character_associated);
-
         }
     }
 }

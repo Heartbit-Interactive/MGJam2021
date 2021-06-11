@@ -36,7 +36,7 @@ namespace TheCheapsLib
         internal static int UniqueCounter;
 		
 
-        internal int life_time = Settings.TIME_ON_THE_FLOOR;
+        internal int life_time = Settings.TimeOnTheFloor;
         internal bool removeable = false;
         /// PRIVATE: usa Entity.Create
         protected Entity() { }

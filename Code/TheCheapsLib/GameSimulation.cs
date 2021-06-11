@@ -123,7 +123,8 @@ namespace TheCheapsLib
                             }
                             else
                             {
-                                //oggetto venduto
+                                //oggetto venduto si ottengono punti
+                                player.playerEntity.score += Settings.scoreSellItem;
                             }
                         }
                     }
@@ -136,7 +137,7 @@ namespace TheCheapsLib
             {
                 if (entity.life_time <= 0)
                 {
-                    entity.life_time = Settings.TIME_ON_THE_FLOOR;
+                    entity.life_time = Settings.TimeOnTheFloor;
                     RemEntity(entity);
                 }
                 else

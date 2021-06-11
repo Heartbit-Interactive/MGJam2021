@@ -9,7 +9,9 @@ namespace TheCheapsLib
         public const int maxPlayers = 4;
         internal const float fall_speed = 2/3f;
 
-        public const int TIME_ON_THE_FLOOR = 180;
+        public const int TimeOnTheFloor = 180;
+
+        public const int scoreSellItem = 5;
 #if DEBUG
         public static float StartGameCountDownMax = 3;
 #else
