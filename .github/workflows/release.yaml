@@ -45,17 +45,17 @@ jobs:
       run: |
        echo  "Current work dir is : "
        pwd
-       tree -d
-       ls -ld Code/Libraries/Lidgren
-       chmod -R 777 Code/Libraries/Lidgren
-       ls -ld Code/Libraries/Lidgren/Lidgren.Network.MultiTarget
-       chmod -R 777 Code/Libraries/Lidgren/Lidgren.Network.MultiTarget       
+       #~ tree -d
+       #~ ls -ld Code/Libraries/Lidgren
+       #~ chmod -R 777 Code/Libraries/Lidgren
+       #~ ls -ld Code/Libraries/Lidgren/Lidgren.Network.MultiTarget
+       #~ chmod -R 777 Code/Libraries/Lidgren/Lidgren.Network.MultiTarget       
        mkdir Code/Libraries/Lidgren/Lidgren.Network.MultiTarget/obj 
        mkdir Code/Libraries/Lidgren/Lidgren.Network.MultiTarget/bin
-       ls -ld Code/Libraries/Lidgren/Lidgren.Network.MultiTarget/obj
-       chmod -R 777 Code/Libraries/Lidgren/Lidgren.Network.MultiTarget/obj 
-       ls -ld Code/Libraries/Lidgren/Lidgren.Network.MultiTarget/bin
-       chmod -R 777 Code/Libraries/Lidgren/Lidgren.Network.MultiTarget/bin
+       #~ ls -ld Code/Libraries/Lidgren/Lidgren.Network.MultiTarget/obj
+       #~ chmod -R 777 Code/Libraries/Lidgren/Lidgren.Network.MultiTarget/obj 
+       #~ ls -ld Code/Libraries/Lidgren/Lidgren.Network.MultiTarget/bin
+       #~ chmod -R 777 Code/Libraries/Lidgren/Lidgren.Network.MultiTarget/bin
        tree -d
        tree -ld
     - name: Install font
