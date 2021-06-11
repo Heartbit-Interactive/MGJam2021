@@ -85,15 +85,13 @@ namespace TheCheapsLib
             {
                 if (this.hasShadow)
                 {
-                    spriteBatch.Draw(shadow, this.posxy, null, Color.White, 0, shadowOrigin, 1, SpriteEffects.None, 0.01f);
+                    spriteBatch.Draw(shadow, this.posxy, null, Color.White, 0, shadowOrigin, 1, SpriteEffects.None, 0.1f);
                 }
-                //if (this.sourcerect.Width == 0)
-                //{
-                //    //spriteBatch.Draw(this.texture, this.posxy, null, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
-                //    spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, null, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
-                //}
-                //else
-                    spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, this.sourcerect, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
+                var depth = z;
+                if (collisionrect.Width!=0)
+                    depth += ((posxy.Y-posz) / GraphicSettings.Bounds.Height) * 0.5f;
+
+                spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, this.sourcerect, Color.White, 0, this.origin, 1, SpriteEffects.None, depth);
             }
         }
 

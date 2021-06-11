@@ -28,9 +28,9 @@ namespace TheCheaps.Screen.View
         }
         public override void Update(GameTime gameTime)
         {
-            if (ParentScreen.Trigger(Buttons.A) || ParentScreen.Trigger(Keys.Enter))
+            if (ParentScreen.Trigger(Buttons.A) || ParentScreen.Trigger(Keys.Enter) || ParentScreen.Trigger(Keys.Z))
                 OnAccept();
-            else if (ParentScreen.Trigger(Buttons.B) || ParentScreen.Trigger(Keys.Back))
+            else if (ParentScreen.Trigger(Buttons.B) || ParentScreen.Trigger(Keys.Escape) || ParentScreen.Trigger(Keys.X))
                 OnCancel();
         }
 

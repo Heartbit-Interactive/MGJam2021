@@ -65,11 +65,11 @@ namespace TheCheaps.Screen.View
             }
             else
                 speed = start_speed;
-            
-            if (ParentScreen.Trigger(Buttons.A) || ParentScreen.Trigger(Keys.Enter))
+
+            if (ParentScreen.Trigger(Buttons.A) || ParentScreen.Trigger(Keys.Enter) || ParentScreen.Trigger(Keys.Z))
                 OnAccept();
-            else if (ParentScreen.Trigger(Buttons.B) || ParentScreen.Trigger(Keys.Back))
-                OnCancel(); 
+            else if (ParentScreen.Trigger(Buttons.B) || ParentScreen.Trigger(Keys.Escape) || ParentScreen.Trigger(Keys.X))
+                OnCancel();
             if (ParentScreen.Press(Keys.LeftControl) && ParentScreen.Trigger(Keys.V))
             {
                 string pasted_text = new TextCopy.Clipboard().GetText();

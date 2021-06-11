@@ -38,9 +38,9 @@ namespace TheCheaps.Screen.View
                 numbers[menu_index] = (number_limits[menu_index] + numbers[menu_index] - 1) % number_limits[menu_index];
             else if (ParentScreen.Press(Keys.Up) || ParentScreen.Press(Buttons.LeftThumbstickUp) || ParentScreen.Press(Buttons.DPadUp))
                 numbers[menu_index] = (number_limits[menu_index] + numbers[menu_index] + 1) % number_limits[menu_index];
-            else if (ParentScreen.Trigger(Buttons.A) || ParentScreen.Trigger(Keys.Enter))
+            else if (ParentScreen.Trigger(Buttons.A) || ParentScreen.Trigger(Keys.Enter) || ParentScreen.Trigger(Keys.Z))
                 OnAccept();
-            else if (ParentScreen.Trigger(Buttons.B) || ParentScreen.Trigger(Keys.Back))
+            else if (ParentScreen.Trigger(Buttons.B) || ParentScreen.Trigger(Keys.Escape) || ParentScreen.Trigger(Keys.X))
                 OnCancel();
             texts[1] = $"<{numbers[0]}>";
         }

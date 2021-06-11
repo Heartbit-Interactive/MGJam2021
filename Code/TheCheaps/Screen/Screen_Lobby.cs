@@ -16,7 +16,7 @@ namespace TheCheaps.Scenes
 {
     class Screen_Lobby : Screen_MenuBase
     {
-        int menuIndex = 2;
+        int menuIndex = 1;
         bool shadow = false;
         bool outline = true;
         int extra_lineHeight = 8;
@@ -25,7 +25,8 @@ namespace TheCheaps.Scenes
 #else
         public override string audio_name => "menu/lobby_loop";
 #endif
-        public override string background_name => "menu/lobby_background";        
+        string _bgName = "menu/title_background";
+        public override string background_name { get { return _bgName; } }        
         public override bool audio_loop => true;
 
         SpriteFont font;
@@ -55,6 +56,21 @@ namespace TheCheaps.Scenes
 
         private void setDefault()
         {
+            _bgName = "menu/title_background";
+            refreshBackground();
+            textual_gui.Clear();
+            textual_gui.Add(host_option = new MenuOption("Host", true));
+            textual_gui.Add(join_option = new MenuOption("Join", true));
+            status_option = null;
+            status_option2 = null;
+            player_option = null;
+            isServer = false;
+            isClient = false;
+        }
+        private void setComplete()
+        {
+            _bgName = "menu/lobby_background";
+            refreshBackground();
             textual_gui.Clear();
             textual_gui.Add(status_option = new MenuOption("-status-", false));
             textual_gui.Add(status_option2 = new MenuOption("", false));
@@ -67,11 +83,14 @@ namespace TheCheaps.Scenes
             {
                 textual_gui.Add(player_option[i] = new MenuOption("-", false));
             }
-            isServer = false;
-            isClient = false;
         }
+
         private void SetClient()
         {
+            if (textual_gui.Count == 2)
+            {
+                setComplete();
+            }
             isServer = false;
             isClient = true;
             host_option.text = "Disconnect";
@@ -113,6 +132,10 @@ namespace TheCheaps.Scenes
         {
             isServer = true;
             isClient = false;
+            if (textual_gui.Count == 2)
+            {
+                setComplete();
+            }
             if(NetworkManager.Client!=null)
             if (NetworkManager.Client.network.model.serverState.ReadyToStart)
             {
@@ -176,65 +199,12 @@ namespace TheCheaps.Scenes
             {
                 new TextCopy.Clipboard().SetText(textual_gui[menuIndex].text);
             }
-            if (Trigger(Buttons.A) || Trigger(Keys.Enter))
+            if (Trigger(Buttons.A) || Trigger(Keys.Enter) || Trigger(Keys.Z))
             {
                 var command = textual_gui[menuIndex];
                 if (!command.enabled)
                     SoundManager.PlayBuzzer();
-                switch (command.text.ToLowerInvariant())
-                {
-                    case "join":
-                        {
-                            SoundManager.PlayDecision();
-                            var view = new View_InputIp(this, new Rectangle(0, 0, 640, 256));
-                            view.Center();
-                            view.Accept += Join;
-                            view.Cancel += CloseView;
-                            AddView(view);
-                        }
-                        break;
-                    case "disconnect":
-                        {
-                            SoundManager.PlayDecision();
-                            Disconnect();
-                        }
-                        break;
-                    case "host":
-                        {
-                            SoundManager.PlayDecision();
-                            var view = new View_InputPort(this, new Rectangle(0, 0, 640, 256));
-                            view.Center();
-                            view.Accept += Host;
-                            view.Cancel += CloseView;
-                            AddView(view);
-                        }
-                        break;
-                    case "start!":
-                        {
-                            SoundManager.PlayDecision();
-                            NetworkManager.StartCountDown();
-                        }
-                        break;
-                    case "stop":
-                        {
-                            Disconnect();
-                            NetworkManager.StopServer();
-                            setDefault();
-                        }
-                        break;
-                    case "ready [ ]":
-                        {
-                            SoundManager.PlayDecision();
-                            SetReady(true);
-                        }
-                        break;
-                    case "ready [v]":
-                        {
-                            SoundManager.PlayDecision();
-                            SetReady(false);
-                        }
-                        break;
-                }
+                process_command(command);
             }
             if (isServer)
                 SetServer();
@@ -247,6 +217,70 @@ namespace TheCheaps.Scenes
                     ScreenManager.Instance.ChangeScreen("game");
                 }
             }
+            if (player_option != null)
+                update_player_list();
+        }
+
+        private void process_command(MenuOption command)
+        {
+            switch (command.text.ToLowerInvariant())
+            {
+                case "join":
+                    {
+                        SoundManager.PlayDecision();
+                        var view = new View_InputIp(this, new Rectangle(0, 0, 640, 256));
+                        view.Center();
+                        view.Accept += Join;
+                        view.Cancel += CloseView;
+                        AddView(view);
+                    }
+                    break;
+                case "disconnect":
+                    {
+                        SoundManager.PlayDecision();
+                        Disconnect();
+                    }
+                    break;
+                case "host":
+                    {
+                        SoundManager.PlayDecision();
+                        var view = new View_InputPort(this, new Rectangle(0, 0, 640, 256));
+                        view.Center();
+                        view.Accept += Host;
+                        view.Cancel += CloseView;
+                        AddView(view);
+                    }
+                    break;
+                case "start!":
+                    {
+                        SoundManager.PlayDecision();
+                        NetworkManager.StartCountDown();
+                    }
+                    break;
+                case "stop":
+                    {
+                        Disconnect();
+                        NetworkManager.StopServer();
+                        setDefault();
+                    }
+                    break;
+                case "ready [ ]":
+                    {
+                        SoundManager.PlayDecision();
+                        SetReady(true);
+                    }
+                    break;
+                case "ready [v]":
+                    {
+                        SoundManager.PlayDecision();
+                        SetReady(false);
+                    }
+                    break;
+            }
+        }
+
+        private void update_player_list()
+        {
             for (int i = 0; i < Settings.maxPlayers; i++)
             {
                 if (NetworkManager.Client == null)
@@ -353,22 +387,42 @@ namespace TheCheaps.Scenes
             NetworkManager.Client.SetReady(true);
         }
 
+        Color enabledColor = new Color(57, 38, 9,255);
+        Color disabledColor= new Color(112, 76, 18,255);
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
             var c = GraphicSettings.Bounds.Center;
-            Vector2 position = new Vector2(c.X,32);
-            spriteBatch.Begin();
-            for (int index = 0;index<textual_gui.Count;index++)
+            if (textual_gui.Count == 2)
             {
-                var option = textual_gui[index];
-                var text = option.text;
-                if (index == menuIndex)
-                    text = $"<{text}>";
-                var pos = position + index * (extra_lineHeight + 44) * Vector2.UnitY;
-                spriteBatch.DrawString(font,  text, pos, option.enabled ? Color.White : Color.Gray,outline,false);
+                Vector2 position = new Vector2(c.X, 376 / 540f * GraphicSettings.Bounds.Height);
+                spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
+                for (int index = 0; index < textual_gui.Count; index++)
+                {
+                    var option = textual_gui[index];
+                    var text = option.text;
+                    if (index == menuIndex)
+                        text = $"> {text} <";
+                    var pos = position + index * (extra_lineHeight + 44) * Vector2.UnitY;
+                    spriteBatch.DrawString(font, text, pos, option.enabled ? enabledColor : disabledColor, false, false, 2);
+                }
+                spriteBatch.End();
             }
-            spriteBatch.End();
+            else
+            {
+                Vector2 position = new Vector2(c.X, 64 / 540f * GraphicSettings.Bounds.Height);
+                spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
+                for (int index = 0; index < textual_gui.Count; index++)
+                {
+                    var option = textual_gui[index];
+                    var text = option.text;
+                    if (index == menuIndex)
+                        text = $"> {text} <";
+                    var pos = position + index * (extra_lineHeight + 32) * Vector2.UnitY;
+                    spriteBatch.DrawString(font, text, pos, option.enabled ? enabledColor : disabledColor, false,false , 1);
+                }
+                spriteBatch.End();
+            }
         }
     }
 }

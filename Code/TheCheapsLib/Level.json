@@ -10,7 +10,7 @@
       "Height": 64
     },
     "sourcerect": {
-      "Width": 336,
+      "Width": 168,
       "Height": 168
     },
     "tags": [ "base", "0" ]
@@ -26,7 +26,7 @@
       "Height": 64
     },
     "sourcerect": {
-      "Width": 336,
+      "Width": 168,
       "Height": 168
     },
     "tags": [ "base", "1" ]
@@ -42,7 +42,7 @@
       "Height": 64
     },
     "sourcerect": {
-      "Width": 336,
+      "Width": 168,
       "Height": 168
     },
     "tags": [ "base", "2" ]
@@ -58,7 +58,7 @@
       "Height": 64
     },
     "sourcerect": {
-      "Width": 336,
+      "Width": 168,
       "Height": 168
     },
     "tags": [ "base", "3" ]
@@ -127,7 +127,7 @@
     "posxy": "36, 408",
     "z": 0.0,
     "texture_path": "ITEM_A_02",
-    "direction": "0, 1",
+    "direction": "0, 1"
   },
   {
     "name": "ITEM_A_03",

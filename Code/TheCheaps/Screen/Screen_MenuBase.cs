@@ -22,6 +22,7 @@ namespace TheCheaps.Scenes
         public int input_sleep;
         public override void LoadContent(ContentManager content)
         {
+            this.content = content;
             if (audio_name != null)
             {
                 var se = content.Load<SoundEffect>(audio_name);
@@ -32,7 +33,14 @@ namespace TheCheaps.Scenes
             }
             background = content.Load<Texture2D>(background_name);
         }
+        public void refreshBackground()
+        {
+            if(content!=null)
+            background = content.Load<Texture2D>(background_name);
+        }
         public Stack<View_Base[]> view_stack = new Stack<View_Base[]>();
+        private ContentManager content;
+
         public void AddView(params View_Base[] views)
         {
             foreach (var view in views)

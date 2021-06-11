@@ -36,31 +36,31 @@ namespace TheCheapsLib
                 dir2 = gpState.ThumbSticks.Right;
                 dir2.Y *= -1;
             }
-            if (Press(Keys.Left))
+            if (Press(Keys.Left)|| Press(Keys.A))
             {
                 dir += -Vector2.UnitX;
                 dir2 += -Vector2.UnitX;
             }
-            if (Press(Keys.Right))
+            if (Press(Keys.Right) || Press(Keys.D))
             {
                 dir += Vector2.UnitX;
                 dir2 += -Vector2.UnitX;
             }
-            if (Press(Keys.Up))
+            if (Press(Keys.Up) || Press(Keys.W))
             {
                 dir += -Vector2.UnitY;
                 dir2 += -Vector2.UnitX;
             }
-            if (Press(Keys.Down))
+            if (Press(Keys.Down) || Press(Keys.S))
             {
                 dir += Vector2.UnitY;
                 dir2 += -Vector2.UnitX;
             }
-            if (Trigger(Buttons.A) || Trigger(Keys.Z))
+            if (Trigger(Buttons.A) || Trigger(Keys.Enter) || Trigger(Keys.Z) )
                 actionList.Add(ActionModel.Type.Interact, dir);
-            if (Trigger(Buttons.RightTrigger) || Trigger(Keys.C))
+            if (Trigger(Buttons.RightTrigger) || Trigger(Keys.Space) || Trigger(Keys.C))
                 actionList.Add(ActionModel.Type.Throw, Vector2.Normalize(dir2));
-            if (Trigger(Buttons.B) || Trigger(Keys.X))
+            if (Trigger(Buttons.B) || Trigger(Keys.Back) || Trigger(Keys.X))
                 actionList.Add(ActionModel.Type.Dash, Vector2.Normalize(dir));
             else if(dir.Length()>=0.25f)
                 actionList.Add(ActionModel.Type.Move, dir);
