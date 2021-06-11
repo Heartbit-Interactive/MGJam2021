@@ -118,8 +118,7 @@ namespace TheCheapsLib
             }
             if (entity.tags.Contains(Tags.CAN_TAKE_ITEM))
             {
-                foreach (var en in model.entities)
-                {
+                
                     foreach (var player in players)
                     {
                         if (player.playerEntity.inventory.entities.Contains(entity))
@@ -132,6 +131,8 @@ namespace TheCheapsLib
                         }
 
                     }
+                foreach (var en in model.entities)
+                {
                     if (en.Value.tags.Contains(Tags.BASE))
                     {
                         if (Rectangle.Intersect(en.Value.collisionrect, entity.collisionrect).Width != 0)
