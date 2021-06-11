@@ -247,7 +247,7 @@ namespace TheCheapsLib
                 {
                     if (!ent.Value.tags.Contains(Tags.BASE))
                         continue;
-                    if (Rectangle.Intersect(entity.collisionrect,ent.Value.collisionrect).Width != 0 )
+                    if (Rectangle.Intersect(entity.collisionrect,ent.Value.collisionrect).Width != 0)
                     {
                         if (this.playerEntity.inventory.if_player_needs_ingredient_add(entity.name))
                         {
