@@ -85,7 +85,7 @@ namespace TheCheapsServer
                     BroadCast(MessageType.SimulationDelta, simulation.GetDelta(), NetDeliveryMethod.UnreliableSequenced);
                     break;
                 case NetworkServerState.Phase.Lobby:
-                    BroadCast(MessageType.PeerState, network.GetState(), NetDeliveryMethod.UnreliableSequenced);
+                    BroadCast(MessageType.PeerState, network.GetState(), NetDeliveryMethod.ReliableOrdered);
                     break;
                 default:
                     break;
@@ -93,6 +93,7 @@ namespace TheCheapsServer
             network.Update(elapsedTime);
             if (network.model.serverState.CountDown == 0)
             {
+                network.model.serverState.CountDown = -1;
                 StartMatch();
             }
             lastTime = time;

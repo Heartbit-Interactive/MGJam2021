@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace TheCheapsLib
 {
@@ -80,7 +81,7 @@ namespace TheCheapsLib
             foreach (var entity in model.entities.Values)
                 update_entity(elapsedTime,entity);
             foreach (var entity in model.added_entities)
-                model.entities[entity.uniqueId] = entity;
+                model.entities.Add(entity.uniqueId,entity);
             foreach (var id in model.removed_entities)
                 model.entities.Remove(id);
             last_time = now;
@@ -120,12 +121,22 @@ namespace TheCheapsLib
         
         public SimulationState GetState()
         {
-            return new SimulationState(model);
+            var state = new SimulationState();
+            state.entities = model.entities.Values.ToList();
+            state.player_entities = model.player_entities;
+            state.added_entities = model.added_entities.Select(x => x.uniqueId).ToList();
+            state.removed_entities = model.removed_entities;
+            return state;
         }
 
         public SimulationDelta GetDelta()
         {
-            return new SimulationDelta(model);
+            var delta = new SimulationDelta();
+            delta.player_entities = model.player_entities;
+            delta.added_entities = model.added_entities;
+            delta.removed_entities = model.removed_entities;
+            delta.updated_entities = model.updated_entities;
+            return delta;
         }
 
         public void Stop()

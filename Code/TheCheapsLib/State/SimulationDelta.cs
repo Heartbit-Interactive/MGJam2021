@@ -8,20 +8,13 @@ namespace TheCheapsLib
 {
     public class SimulationDelta:State
     {
-        public HashSet<Entity> updated_entities { get; private set; }
-        public List<PlayerEntity> player_entities { get; private set; }
-        public List<Entity> added_entities { get; private set; }
-        public List<int> removed_entities { get; private set; }
+        public HashSet<Entity> updated_entities   ;
+        public List<PlayerEntity> player_entities;
+        public List<Entity> added_entities        ;
+        public List<int> removed_entities;
         public SimulationDelta()
         {
 
-        }
-        public SimulationDelta(SimulationModel model)
-        {
-            player_entities = model.player_entities;
-            added_entities = model.added_entities;
-            removed_entities = model.removed_entities;
-            updated_entities = model.updated_entities;
         }
         public override void BinaryRead(BinaryReader br)
         {

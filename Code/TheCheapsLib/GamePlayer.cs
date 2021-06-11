@@ -243,20 +243,20 @@ namespace TheCheapsLib
                 entity.posz = 48 + (i * 24 - 2);
                 model.updated_entities.Add(entity);
 
-                foreach(var ent in model.entities)
-                {
-                    if (!ent.Value.tags.Contains(Tags.BASE))
-                        continue;
-                    if (Rectangle.Intersect(entity.collisionrect,ent.Value.collisionrect).Width != 0)
-                    {
-                        if (this.playerEntity.inventory.if_player_needs_ingredient_add(entity.name))
-                        {
-                            entity.removeable = true;
-                            entity.speed = 0;
-                            entity.life_time = 0;
-                        }
-                    }
-                }
+                //foreach(var ent in model.entities)
+                //{
+                //    if (!ent.Value.tags.Contains(Tags.BASE))
+                //        continue;
+                //    if (Rectangle.Intersect(entity.collisionrect,ent.Value.collisionrect).Width != 0)
+                //    {
+                //        if (this.playerEntity.inventory.if_player_needs_ingredient_add(entity.name))
+                //        {
+                //            entity.removeable = true;
+                //            entity.speed = 0;
+                //            entity.life_time = 0;
+                //        }
+                //    }
+                //}
             }
         }
 

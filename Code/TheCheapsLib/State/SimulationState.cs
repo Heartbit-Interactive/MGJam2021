@@ -8,20 +8,13 @@ namespace TheCheapsLib
 {
     public class SimulationState:State
     {
-        public List<Entity> entities { get; private set; }
-        public List<PlayerEntity> player_entities { get; private set; }
-        public List<int> added_entities { get; private set; }
-        public List<int> removed_entities { get; private set; }
+        public List<Entity> entities;
+        public List<PlayerEntity> player_entities;
+        public List<int> added_entities;
+        public List<int> removed_entities;
         public SimulationState()
         {
 
-        }
-        public SimulationState(SimulationModel model)
-        {
-            entities = model.entities.Values.ToList() ;
-            player_entities = model.player_entities;
-            added_entities = model.added_entities.Select(x=>x.uniqueId).ToList();
-            removed_entities = model.removed_entities;
         }
         public override void BinaryRead(BinaryReader br)
         {

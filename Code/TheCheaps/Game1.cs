@@ -18,8 +18,8 @@ namespace TheCheaps
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            this.IsFixedTimeStep = true;
             IsMouseVisible = true;
-            IsFixedTimeStep = true;
         }
 
         protected override void Initialize()

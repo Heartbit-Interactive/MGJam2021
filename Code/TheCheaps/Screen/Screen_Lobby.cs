@@ -102,7 +102,6 @@ namespace TheCheaps.Scenes
                         join_option.text = "Ready [ ]";
                     join_option.enabled = pi >= 0;
                 }
-
             }
             catch(Exception e)
             {

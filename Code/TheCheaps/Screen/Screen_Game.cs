@@ -49,7 +49,8 @@ namespace TheCheaps.Scenes
             var jsontextgui = File.ReadAllText("GUI.json");
             gui_entities = JsonConvert.DeserializeObject<List<PlayerEntity>>(jsontextgui);
             GraphicSettings.DebugSquare = Content.Load<Texture2D>("menu/white_square");
-            
+            foreach (var entity in NetworkManager.Client.simulation.model.entities.Values)
+                Simulation_EntityAdded(entity, null);
         }
         public override void Update(GameTime gameTime)
         {
