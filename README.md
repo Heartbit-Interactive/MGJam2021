@@ -8,13 +8,13 @@ Dive in piles of junk looking for ingredients, bring them back to your base and 
 ## Durata di una partita
 Each match is 4 minutes long.
 ## Obiettivo
-Be the villain with the highest stock value at the end of the game. To gain stock value, complete projects using the scraps you dig from four different pile of junk scattered across the map. Throw the screaps you collect into your base to automatically start crafting the projects. All the ingredients not needed for your evil plans are autamically sold to slighty increase your stock value.
+Be the villain with the highest stock value at the end of the game. To gain stock value, complete projects using the scraps you dig from four different pile of junk scattered across the map. Throw the screaps you collect into your base to automatically start crafting the projects. All the scraps not needed for your evil plans are autamically sold to slighty increase your stock value.
 ## Ambientazione 
 An epic junk yard full of scraps! And everything is FREE!
 ## Meccaniche di gioco
-Move your villain toward the piles of junk and start digging. The item you collect are stored on the top of your head. You can carry up to three items at the same time. Then, you can go back to your base and throw your item
+Move your villain toward the piles of junk and start digging. The scrap you collect are stored above your head. You can carry up to three items at the same time. Then, you can go back to your base and use the item you collect to complete your evil plans OR you can throw them at your enemies to knock them down!
 ### Frugare nella discarica
-Il giocatore cerca gli oggetti tra i cumuli nella discarica, in modo randomico, e può caricarne al massimo 3? mentre torna alla base questi potrebbero cadere. 
+Your evil plans require different items to be completed. 
 ### Lanciare oggetti
 ### Scambio tra i giocatori
 I giocatori possono scambiare un oggetto con un altro oppure con delle monete tramite un asta a tempo limitato?
