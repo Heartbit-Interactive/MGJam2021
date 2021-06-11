@@ -44,7 +44,7 @@ namespace TheCheapsLib
             if (Press(Keys.Right) || Press(Keys.D))
             {
                 dir += Vector2.UnitX;
-                dir2 += -Vector2.UnitX;
+                dir2 += Vector2.UnitX;
             }
             if (Press(Keys.Up) || Press(Keys.W))
             {
