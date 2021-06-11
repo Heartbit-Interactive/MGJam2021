@@ -20,6 +20,10 @@ namespace TheCheapsLib
         /// </summary>
         public const int scoreSellItem = 5;
         /// <summary>
+        /// Number of seconds bethween dash moves
+        /// </summary>
+        public const int InventoryMaxSize = 3;
+        /// <summary>
         /// Time before the start of a match
         /// </summary>
 #if DEBUG
@@ -48,6 +52,18 @@ namespace TheCheapsLib
         /// Exit Speed in pixel per second of a thrown item
         /// </summary>
         public static float ThrowSpeed = 4*60f;
+        /// <summary>
+        /// Distance to pickup an item
+        /// </summary>
+        internal static int DistanceForPickup = 18;
+        /// <summary>
+        /// Distance for interacting with a base
+        /// </summary>
+        internal static int DistanceForMiningTrash = 64;
+        /// <summary>
+        /// Number of recipes that you can complete
+        /// </summary>
+        internal static int RecipesPerPlayer = 1;
         /// <summary>
         /// Number of refeshes per second of the game server
         /// </summary>

@@ -119,7 +119,6 @@ namespace TheCheapsLib
             if (entity.tags.Contains(Tags.CAN_TAKE_ITEM))
             {
                 //Se colpisce un player
-
                 foreach (var player in players)
                 {
                     if (player.playerEntity.inventory.entities.Contains(entity))
@@ -136,9 +135,8 @@ namespace TheCheapsLib
                         player.launched_items.Remove(entity);
                 }
                 //Controllo colpisce una base
-                }
                 foreach (var en in model.entities)
-                {                    
+                {
                     if (en.Value.tags.Contains(Tags.BASE))
                     {
                         if (Rectangle.Intersect(en.Value.collisionrect, entity.collisionrect).Width != 0)
@@ -159,8 +157,8 @@ namespace TheCheapsLib
                             }
                         }
                     }
-                }            
-               
+                }
+            }
             if (entity.speed == 0 && entity.removeable)
             {
                 if (entity.life_time <= 0)
@@ -226,29 +224,37 @@ namespace TheCheapsLib
             for (int i = 0; i < simulationState.player_entities.Count; i++)
             {
                 if (model.player_entities.Count <= i)
+                {
                     model.player_entities.Add(simulationState.player_entities[i]);
+                    applyRecipesToPlayer(simulationState.player_entities[i].inventory.temp_list_deltas, i);
+                }
                 else
                 {
                     model.player_entities[i].CopyDelta(simulationState.player_entities[i]);
                     model.player_entities[i].update_collision_rect();
-                    var inv = model.player_entities[i].inventory;
-                    var list_deltas = simulationState.player_entities[i].inventory.temp_list_deltas;
-                    //Converte i dati delle liste da liste di interi a liste 
-                    if (list_deltas.Count > 0)
-                        foreach (var list_delta in list_deltas)
-                        {
-                            var recipe = model.recipes[list_delta[0]];
-                            if (!inv.list_recipes.Contains(recipe))
-                                inv.list_recipes.Add(recipe);
-                            recipe.owned = new int[list_delta.Length - 1];
-                            Array.Copy(list_delta, 1, recipe.owned, 0, list_delta.Length - 1);
-                        }
+                    applyRecipesToPlayer(simulationState.player_entities[i].inventory.temp_list_deltas, i);
                     simulationState.player_entities[i].Dispose();
                 }
             }
 
             OnStateUpdated();
         }
+
+        private void applyRecipesToPlayer(List<int[]> list_deltas, int i)
+        {
+            var inv = model.player_entities[i].inventory;            
+            //Converte i dati delle liste da liste di interi a liste 
+            if (list_deltas != null && list_deltas.Count > 0)
+                foreach (var list_delta in list_deltas)
+                {
+                    var recipe = model.recipes[list_delta[0]];
+                    if (!inv.list_recipes.Contains(recipe))
+                        inv.list_recipes.Add(recipe);
+                    recipe.owned = new int[list_delta.Length - 1];
+                    Array.Copy(list_delta, 1, recipe.owned, 0, list_delta.Length - 1);
+                }
+        }
+
         public void ApplyDelta(SimulationDelta delta)
         {
             foreach (var added_entity in delta.added_entities)
@@ -274,26 +280,15 @@ namespace TheCheapsLib
             for (int i = 0; i < delta.player_entities.Count; i++)
             {
                 if (model.player_entities.Count <= i)
+                {
                     model.player_entities.Add(delta.player_entities[i]);
+                    applyRecipesToPlayer(delta.player_entities[i].inventory.temp_list_deltas, i);
+                }
                 else
                 {
                     model.player_entities[i].CopyDelta(delta.player_entities[i]);
                     model.player_entities[i].update_collision_rect();
-                    var inv = model.player_entities[i].inventory;
-                    var list_deltas = delta.player_entities[i].inventory.temp_list_deltas;
-                    //Converte i dati delle liste da liste di interi a liste 
-                    if (list_deltas != null)
-                    {
-                        if (list_deltas.Count > 0)
-                            foreach (var list_delta in list_deltas)
-                            {
-                                var recipe = model.recipes[list_delta[0]];
-                                if (!inv.list_recipes.Contains(recipe))
-                                    inv.list_recipes.Add(recipe);
-                                recipe.owned = new int[list_delta.Length - 1];
-                                Array.Copy(list_delta, 1, recipe.owned, 0, list_delta.Length - 1);
-                            }
-                    }
+                    applyRecipesToPlayer(delta.player_entities[i].inventory.temp_list_deltas, i);
                     delta.player_entities[i].Dispose();
                 }
             }

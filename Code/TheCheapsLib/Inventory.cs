@@ -7,7 +7,6 @@ namespace TheCheapsLib
     public class Inventory
     {
         public List<Entity> entities = new List<Entity>();//id oggetti posseduti
-        internal int size = 3;
         public List<Recipe> list_recipes = new List<Recipe>();
         internal List<int[]> temp_list_deltas;
 

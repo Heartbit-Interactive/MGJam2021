@@ -153,7 +153,7 @@ namespace TheCheaps.Scenes
             if (player.inventory.list_recipes.Count > 0)
             {
                 hud_recipe.Draw(spriteBatch);
-                spriteBatch.DrawString(font18, player.inventory.list_recipes[0].name, hud_recipe.posxy, Color.White, true, false);
+                spriteBatch.DrawString(font18, player.inventory.list_recipes[0].name, hud_recipe.posxy+new Vector2(0,-hud_recipe.sourcerect.Height+16), Color.White, true, false);
                 spriteBatch.DrawString(font18, "Bla bla", hud_recipe.posxy, Color.White, true, false);
             }
         }

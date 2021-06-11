@@ -49,12 +49,12 @@ namespace TheCheapsLib
             if (Press(Keys.Up) || Press(Keys.W))
             {
                 dir += -Vector2.UnitY;
-                dir2 += -Vector2.UnitX;
+                dir2 += -Vector2.UnitY;
             }
             if (Press(Keys.Down) || Press(Keys.S))
             {
                 dir += Vector2.UnitY;
-                dir2 += -Vector2.UnitX;
+                dir2 += Vector2.UnitY;
             }
             if (Trigger(Buttons.A) || Trigger(Keys.Enter) || Trigger(Keys.Z) )
                 actionList.Add(ActionModel.Type.Interact, dir);

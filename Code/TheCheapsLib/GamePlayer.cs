@@ -34,7 +34,7 @@ namespace TheCheapsLib
             this.sim = sim;
             this.model = sim.model;
             this.playerEntity = model.player_entities[id];
-            for(int i =0; i< 3; i++)
+            for(int i =0; i< Settings.RecipesPerPlayer; i++)
             {
                 generate_new_recipe(i);
             }
@@ -67,7 +67,7 @@ namespace TheCheapsLib
                 {
                     case ActionModel.Type.Interact:
                         //heap interact
-                        if (heap_clicked != null && player_near_entity(heap_clicked, 64)/* playerEntity.collisionrect.Intersects(heap_clicked.collisionrect)*/)
+                        if (heap_clicked != null && player_near_entity(heap_clicked, Settings.DistanceForMiningTrash)/* playerEntity.collisionrect.Intersects(heap_clicked.collisionrect)*/)
                         {
                             if(click_for_interact >= Settings.ClicksRequiredToMineResource)
                             {
@@ -89,12 +89,12 @@ namespace TheCheapsLib
                         }
                         foreach(var entity in model.entities.Values)
                         {
-                            if (player_near_entity(entity,12) && entity.tags.Contains(Tags.CAN_TAKE_ITEM) && playerEntity.inventory.entities.Count<= playerEntity.inventory.size && !playerEntity.inventory.entities.Contains(entity))
+                            if (entity.tags.Contains(Tags.CAN_TAKE_ITEM) && player_near_entity(entity,Settings.DistanceForPickup) && playerEntity.inventory.entities.Count<= Settings.InventoryMaxSize && !playerEntity.inventory.entities.Contains(entity))
                             {
                                 add_entity_in_inventory(entity);
                                 sim.RemEntity(entity);
                             }
-                            else if (player_near_entity(entity, 64)/*playerEntity.collisionrect.Intersects(entity.collisionrect)*/ && entity.tags.Contains(Tags.HEAP))
+                            else if (entity.tags.Contains(Tags.HEAP) && player_near_entity(entity, Settings.DistanceForMiningTrash))
                             {
                                 if (click_for_interact >= Settings.ClicksRequiredToMineResource)
                                 {
@@ -193,7 +193,7 @@ namespace TheCheapsLib
             new_entity.through = true;
             if (playerEntity.inventory == null)
                 playerEntity.inventory = new Inventory();
-            if (playerEntity.inventory.entities.Count < playerEntity.inventory.size)
+            if (playerEntity.inventory.entities.Count < Settings.InventoryMaxSize)
             {
                 playerEntity.inventory.entities.Add(new_entity);
             }
@@ -333,9 +333,12 @@ namespace TheCheapsLib
             System.Random random = new System.Random();
             var index_recipe = random.Next(model.recipes.Count);
             var recipe_choosen = model.recipes[index_recipe];
+            var new_recipe= new Recipe(recipe_choosen.name, recipe_choosen.ingredient_and_amount, recipe_choosen.owned, recipe_choosen.score, recipe_choosen.type, recipe_choosen.sentence_to_show, recipe_choosen.character_associated);
+            new_recipe.id = recipe_choosen.id;
             if (playerEntity.inventory.list_recipes.Count <= index_where_add)
-                playerEntity.inventory.list_recipes.Add(new Recipe());
-            playerEntity.inventory.list_recipes[index_where_add] = new Recipe(recipe_choosen.name, recipe_choosen.ingredient_and_amount, recipe_choosen.owned, recipe_choosen.score, recipe_choosen.type, recipe_choosen.sentence_to_show, recipe_choosen.character_associated);
+                playerEntity.inventory.list_recipes.Add(new_recipe);
+            else
+                playerEntity.inventory.list_recipes[index_where_add] = new_recipe;
         }
     }
 }
