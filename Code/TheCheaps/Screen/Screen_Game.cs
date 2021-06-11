@@ -87,6 +87,8 @@ namespace TheCheaps.Scenes
                     entity.LoadTexture(Content);
             }
             GraphicSettings.DebugSquare = Content.Load<Texture2D>("menu/white_square");
+            Entity.shadow = Content.Load<Texture2D>("Shadow");
+            Entity.shadowOrigin = new Vector2(Entity.shadow.Width / 2, Entity.shadow.Height / 2);
             //Carico le textures degli oggetti già in sim
             foreach (var entity in NetworkManager.Client.simulation.model.entities.Values)
                 Simulation_EntityAdded(entity, null);

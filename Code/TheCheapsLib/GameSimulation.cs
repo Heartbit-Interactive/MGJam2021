@@ -85,7 +85,7 @@ namespace TheCheapsLib
             model.removed_entities.Clear();
             model.added_entities.Clear();
             var now = DateTime.UtcNow;
-            var elapsedSecondsf = (float)(last_time - now).TotalSeconds;
+            var elapsedSecondsf = (float)(now- last_time).TotalSeconds;
             foreach (var player in players)
             {
                 player.Update(elapsedSecondsf);
@@ -103,7 +103,7 @@ namespace TheCheapsLib
         {
             if(entity.speed > 0)
             {
-                entity.posxy += entity.direction * entity.speed;
+                entity.posxy += entity.direction * entity.speed * elapsedTimeSeconds;
                 entity.update_collision_rect();
                 if (entity.posz>0)
                 {

@@ -35,10 +35,19 @@ namespace TheCheapsLib
         /// Total level size in pixels
         /// </summary>
         public static int LevelHeight = 1080;
+        /// <summary>
+        /// Distance in pixels that the dash move allow to traverse in a single use
+        /// </summary>
+        internal static float DashDistance = 48;
 
+        /// <summary>
+        /// Exit Speed in pixel per second of a thrown item
+        /// </summary>
+        public static float ThrowSpeed = 3*60f;
         /// <summary>
         /// Number of refeshes per second of the game server
         /// </summary>
         public static float ServerTicksPerSecond { get { return 90; } }
+
     }
 }

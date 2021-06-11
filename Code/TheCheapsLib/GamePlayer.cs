@@ -122,7 +122,7 @@ namespace TheCheapsLib
                             if (playerEntity.dash_timer_counter <= 0)
                             {
                                 playerEntity.dash_timer_counter = playerEntity.TIMER_DASH;
-                                movement(48, action.direction);
+                                movement(Settings.DashDistance, action.direction);
                             }
                         }
                         break;
@@ -137,7 +137,7 @@ namespace TheCheapsLib
                                     entity.direction = playerEntity.direction;
                                 else
                                     entity.direction = action.direction;
-                                entity.speed = 3;
+                                entity.speed = Settings.ThrowSpeed;
                                 entity.removeable = true;
                                 launched_items.Add(entity);
                             }

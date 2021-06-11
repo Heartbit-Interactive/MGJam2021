@@ -29,11 +29,33 @@ namespace TheCheapsLib
         public Rectangle collisionrect;
         internal float posz;
         [JsonIgnore]
-        public Texture2D texture;
+        Texture2D _texture;
+        [JsonIgnore]
+        public Texture2D texture
+        {
+            get { return _texture; }
+            set
+            {
+                _texture = value;
+                if (sourcerect.Width == 0)
+                    sourcerect = _texture.Bounds;
+                hasShadow = sourcerect.Width <= 48;
+            }
+        }
         [JsonIgnore]
         public Vector2 origin;
         [JsonIgnore]
         public int uniqueId;
+        /// <summary>
+        /// Non in delta, depends if rect size <48 = true
+        /// </summary>
+        [JsonIgnore]
+        public bool hasShadow;
+        [JsonIgnore]
+        public static Texture2D shadow;
+        [JsonIgnore]
+        public static Vector2 shadowOrigin;
+        [JsonIgnore]
         internal static int UniqueCounter;
 		
 
@@ -59,14 +81,20 @@ namespace TheCheapsLib
                 else
                     spriteBatch.Draw(GraphicSettings.DebugSquare, collisionrect, null, GraphicSettings.CollisorColor, 0, Vector2.Zero, SpriteEffects.None, 0);
             }
-            if (texture!=null)
-            if (this.sourcerect.Width == 0)
+            if (texture != null)
             {
-                //spriteBatch.Draw(this.texture, this.posxy, null, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
-                spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, null, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
+                if (this.hasShadow)
+                {
+                    spriteBatch.Draw(shadow, this.posxy, null, Color.White, 0, shadowOrigin, 1, SpriteEffects.None, 0.01f);
+                }
+                //if (this.sourcerect.Width == 0)
+                //{
+                //    //spriteBatch.Draw(this.texture, this.posxy, null, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
+                //    spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, null, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
+                //}
+                //else
+                    spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, this.sourcerect, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
             }
-            else
-                spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, this.sourcerect, Color.White, 0, this.origin, 1, SpriteEffects.None, this.z);
         }
 
         public virtual void update_collision_rect()
@@ -198,7 +226,6 @@ namespace TheCheapsLib
             result.speed = speed;
             result.tags = tags;
             result.collisionrect = collisionrect;
-            result.texture = texture;
             result.origin = origin;
             result.posz = posz;
             result.removeable = removeable;
