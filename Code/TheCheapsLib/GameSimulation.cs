@@ -159,10 +159,7 @@ namespace TheCheapsLib
                             }
                         }
                     }
-                }
-            }
-            
-           
+                }            
                
             if (entity.speed == 0 && entity.removeable)
             {
