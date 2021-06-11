@@ -38,7 +38,7 @@
     <PackageReference Include="TextCopy" Version="4.3.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Libraries\Lidgren\Lidgren.Network\Lidgren.Network.csproj" />
+    <ProjectReference Include="..\Libraries\Lidgren\Lidgren.Network.MultiTarget\Lidgren.Network.MultiTarget.csproj" />
     <ProjectReference Include="..\TheCheapsLib\TheCheapsLib.csproj" />
     <ProjectReference Include="..\TheCheapsServer\TheCheapsServer.csproj" />
   </ItemGroup>

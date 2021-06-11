@@ -166,7 +166,7 @@ namespace TheCheapsLib
             else
                 posxy = entity.posxy;
             Entity new_entity = entity.Clone();
-            
+            new_entity.through = true;
             if (playerEntity.inventory == null)
                 playerEntity.inventory = new Inventory();
             if (playerEntity.inventory.entities.Count < playerEntity.inventory.size)
@@ -202,7 +202,7 @@ namespace TheCheapsLib
             {
                 if (entity.through)
                     continue;
-                var rect = Rectangle.Intersect(entity.collisionrect, playerEntity.collisionrect/*new Rectangle((int)entity.posxy.X, (int)entity.posxy.X, entity.collisionrect.Width, entity.collisionrect.Height), new Rectangle((int)playerEntity.posxy.X, (int)playerEntity.posxy.X, playerEntity.collisionrect.Width, playerEntity.collisionrect.Height)*/);
+                var rect = Rectangle.Intersect(entity.collisionrect, playerEntity.collisionrect);
                 if (rect.Width != 0 || rect.Height != 0)
                 {
                     deltaxy = Vector2.Zero;
