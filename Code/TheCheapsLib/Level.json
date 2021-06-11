@@ -13,6 +13,12 @@
       "Width": 168,
       "Height": 64
     },
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 168,
+      "Height": 168
+    },
     "inventory": null,
     "texture": null,
     "origin": "0, 0",
@@ -31,6 +37,12 @@
       "Y": 0,
       "Width": 168,
       "Height": 64
+    },
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 168,
+      "Height": 168
     },
     "inventory": null,
     "texture": null,
@@ -51,6 +63,12 @@
       "Width": 168,
       "Height": 64
     },
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 168,
+      "Height": 168
+    },
     "inventory": null,
     "texture": null,
     "origin": "0, 0",
@@ -69,6 +87,12 @@
       "Y": 0,
       "Width": 168,
       "Height": 64
+    },
+    "sourcerect": {
+      "X": 0,
+      "Y": 0,
+      "Width": 168,
+      "Height": 168
     },
     "inventory": null,
     "texture": null,
