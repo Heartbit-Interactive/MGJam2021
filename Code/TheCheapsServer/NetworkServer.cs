@@ -186,7 +186,7 @@ namespace TheCheapsServer
         {
             NetOutgoingMessage msg = server.CreateMessage();
             byte[] array = null;
-            using (var memstream = new MemoryStream(128 * 1024))
+            using (var memstream = new MemoryStream())
             {
                 using (var bw = new BinaryWriter(memstream))
                 {
@@ -206,7 +206,7 @@ namespace TheCheapsServer
                 return;
             NetOutgoingMessage msg = server.CreateMessage();
             byte[] array = null;
-            using (var memstream = new MemoryStream(128 * 1024))
+            using (var memstream = new MemoryStream())
             {
                 using (var bw = new BinaryWriter(memstream))
                 {
