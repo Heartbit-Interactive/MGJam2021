@@ -1,94 +1,178 @@
 [
-    {
-        "name": null,
-        "ingredient_and_amount": [],
-        "score": 0,
-        "type": null,
-        "sentence_to_show": null,
-        "character_associated": null
-    },
-    {
-        "name": "Dark Magic for Dummies",
-        "ingredient_and_amount": [
-            {
-                "Item1": "Teschio",
-                "Item2": 1
-            },
-            {
-                "Item1": "Anima",
-                "Item2": 1
-            },
-            {
-                "Item1": "Sangue",
-                "Item2": 1
-            }
-        ],
-        "score": 50,
-        "type": "A",
-        "sentence_to_show": "is attending night school for becoming a sorcerer...",
-        "character_associated": "Player 1"
-    },
-    {
-        "name": "Conspiracy 101",
-        "ingredient_and_amount": [
-            {
-                "Item1": "Valvola",
-                "Item2": 1
-            },
-            {
-                "Item1": "Ram",
-                "Item2": 1
-            },
-            {
-                "Item1": "Router",
-                "Item2": 1
-            }
-        ],
-        "score": 50,
-        "type": "A",
-        "sentence_to_show": "is opening his eyes and finding the truth...",
-        "character_associated": "Player 2"
-    },
-    {
-        "name": "Marketing for Beginners",
-        "ingredient_and_amount": [
-            {
-                "Item1": "Trave",
-                "Item2": 1
-            },
-            {
-                "Item1": "Bobina",
-                "Item2": 1
-            },
-            {
-                "Item1": "Mattone",
-                "Item2": 1
-            }
-        ],
-        "score": 50,
-        "type": "A",
-        "sentence_to_show": "has learned that money are used to buy goods...",
-        "character_associated": "Player 3"
-    },
-    {
-        "name": "Scienstry 1",
-        "ingredient_and_amount": [
-            {
-                "Item1": "Carburante",
-                "Item2": 1
-            },
-            {
-                "Item1": "Plutonio",
-                "Item2": 1
-            },
-            {
-                "Item1": "Acido",
-                "Item2": 1
-            }
-        ],
-        "score": 50,
-        "type": "A",
-        "sentence_to_show": "just passed his first exam...",
-        "character_associated": "Player 4"
-    }
+  {
+    "name": null,
+    "ingredient_and_amount": [],
+    "score": 0,
+    "type": null,
+    "sentence_to_show": null,
+    "character_associated": null
+  },
+  {
+    "name": "Dark Magic for Dummies",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Teschio",
+        "Item2": 1
+      },
+      {
+        "Item1": "Anima",
+        "Item2": 1
+      },
+      {
+        "Item1": "Sangue",
+        "Item2": 1
+      }
+    ],
+    "score": 50,
+    "type": "A",
+    "sentence_to_show": "is attending night school for becoming a sorcerer...",
+    "character_associated": "Player 1"
+  },
+  {
+    "name": "Conspiracy 101",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Valvola",
+        "Item2": 1
+      },
+      {
+        "Item1": "Ram",
+        "Item2": 1
+      },
+      {
+        "Item1": "Router",
+        "Item2": 1
+      }
+    ],
+    "score": 50,
+    "type": "A",
+    "sentence_to_show": "is opening his eyes and finding the truth...",
+    "character_associated": "Player 2"
+  },
+  {
+    "name": "Marketing for Beginners",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Trave",
+        "Item2": 1
+      },
+      {
+        "Item1": "Bobina",
+        "Item2": 1
+      },
+      {
+        "Item1": "Mattone",
+        "Item2": 1
+      }
+    ],
+    "score": 50,
+    "type": "A",
+    "sentence_to_show": "has learned that money are used to buy goods...",
+    "character_associated": "Player 3"
+  },
+  {
+    "name": "Scienstry 1",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Carburante",
+        "Item2": 1
+      },
+      {
+        "Item1": "Plutonio",
+        "Item2": 1
+      },
+      {
+        "Item1": "Acido",
+        "Item2": 1
+      }
+    ],
+    "score": 50,
+    "type": "A",
+    "sentence_to_show": "just passed his first exam...",
+    "character_associated": "Player 4"
+  },
+  {
+    "name": "Introduction to Anatomy",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Teschio",
+        "Item2": 1
+      },
+      {
+        "Item1": "Valvola",
+        "Item2": 1
+      },
+      {
+        "Item1": "Trave",
+        "Item2": 1
+      }
+    ],
+    "score": 75,
+    "type": "B",
+    "sentence_to_show": "is counting how many bones there are in a human body...",
+    "character_associated": "Player 1"
+  },
+  {
+    "name": "Fake News Detector",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Ram",
+        "Item2": 1
+      },
+      {
+        "Item1": "Bobina",
+        "Item2": 1
+      },
+      {
+        "Item1": "Plutonio",
+        "Item2": 1
+      }
+    ],
+    "score": 75,
+    "type": "B",
+    "sentence_to_show": "doesn't believe everything he reads...",
+    "character_associated": "Player 2"
+  },
+  {
+    "name": "Open Space",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Anima",
+        "Item2": 1
+      },
+      {
+        "Item1": "Mattone",
+        "Item2": 1
+      },
+      {
+        "Item1": "Acido",
+        "Item2": 1
+      }
+    ],
+    "score": 75,
+    "type": "B",
+    "sentence_to_show": "upgraded his office from a garage to the bedroom...",
+    "character_associated": "Player 3"
+  },
+  {
+    "name": "Science Goo",
+    "ingredient_and_amount": [
+      {
+        "Item1": "Sangue",
+        "Item2": 1
+      },
+      {
+        "Item1": "Router",
+        "Item2": 1
+      },
+      {
+        "Item1": "Carburante",
+        "Item2": 1
+      }
+    ],
+    "score": 75,
+    "type": "B",
+    "sentence_to_show": "has melted his lab desk...",
+    "character_associated": "Player 4"
+  }
 ]
