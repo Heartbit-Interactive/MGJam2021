@@ -194,11 +194,14 @@ namespace TheCheapsLib
            
             this.deltaxy += speedframe * vector;
             this.playerEntity.direction = vector;
+
             int deltax = (int)deltaxy.X;
             int deltay = (int)deltaxy.Y;
             playerEntity.collisionrect.Offset(deltax, deltay);
             foreach (var entity in model.entities.Values)
             {
+                if (entity.through)
+                    continue;
                 var rect = Rectangle.Intersect(entity.collisionrect, playerEntity.collisionrect/*new Rectangle((int)entity.posxy.X, (int)entity.posxy.X, entity.collisionrect.Width, entity.collisionrect.Height), new Rectangle((int)playerEntity.posxy.X, (int)playerEntity.posxy.X, playerEntity.collisionrect.Width, playerEntity.collisionrect.Height)*/);
                 if (rect.Width != 0 || rect.Height != 0)
                 {

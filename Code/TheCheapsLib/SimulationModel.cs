@@ -12,6 +12,7 @@ namespace TheCheapsLib
         public List<PlayerEntity> player_entities = new List<PlayerEntity>();
         internal List<ActionModel>[] actions = new List<ActionModel>[Settings.maxPlayers];
         internal List<Entity> items = new List<Entity>();
+        internal List<Recipe> recipes = new List<Recipe>();
 
         public List<int> updated_entities = new List<int>();
         public List<int> removed_entities = new List<int>();

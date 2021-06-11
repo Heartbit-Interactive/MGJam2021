@@ -52,6 +52,10 @@ namespace TheCheapsLib
             {
                 item.tags.Add(Tags.CAN_TAKE_ITEM);
             }
+
+            var jsontextrecipe = File.ReadAllText("Recipes.json");
+            model.recipes = JsonConvert.DeserializeObject<List<Recipe>>(jsontextrecipe);
+
         }
 
         private void InitializeEntityIdentifiers(List<Entity> entities)

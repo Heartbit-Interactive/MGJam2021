@@ -8,16 +8,8 @@ namespace TheCheapsLib
     {
         public List<Entity> entities = new List<Entity>();//id oggetti posseduti
         internal int size = 3;
-
+        public List<Recipe> list_recipes = new List<Recipe>();
         public Inventory() { }
-
-        public Entity last_entity()
-        {
-            int lenght = entities.Count;
-            if (lenght <= 0)
-                return null;
-            return entities[lenght - 1];
-        }
 
         internal void update_entities_pos()
         {
