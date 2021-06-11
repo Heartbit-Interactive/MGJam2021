@@ -20,11 +20,31 @@ namespace TheCheapsLib
         }
         public override void BinaryRead(BinaryReader br)
         {
-            base.BinaryRead(br);            
+            base.BinaryRead(br);
+            var lcount = br.ReadInt32();
+            inventory.temp_list_deltas = new List<int[]>();
+            for (int i = 0; i < lcount; i++)
+            {
+                var list_id = br.ReadInt32();
+                var list = new int[br.ReadInt32()+1];
+                list[0] = list_id;
+                for (int j = 1; j < list.Length; j++)
+                    list[j] = br.ReadInt32() ;
+                inventory.temp_list_deltas.Add(list);
+            }
         }
         public override void BinaryWrite(BinaryWriter bw)
         {
             base.BinaryWrite(bw);
+            bw.Write(this.inventory.list_recipes.Count);
+            for (int i = 0; i < this.inventory.list_recipes.Count; i++)
+            {
+                var list = this.inventory.list_recipes[i];
+                bw.Write(list.id);
+                bw.Write(list.owned.Length);
+                for (int j = 0; j < list.owned.Length; j++)
+                    bw.Write(list.owned[j]);
+            }
         }
         public void update_timer_dash()
         {
@@ -43,6 +63,8 @@ namespace TheCheapsLib
             this.disposed = true;
         }
         private static Stack<PlayerEntity> Pool = new Stack<PlayerEntity>();
+        private List<int[]> temp_recipe;
+
         public static new PlayerEntity Create()
         {
             if (Pool.Count == 0)

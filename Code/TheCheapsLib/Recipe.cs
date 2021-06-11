@@ -6,6 +6,8 @@ namespace TheCheapsLib
 {
     public class Recipe
     {
+        [Newtonsoft.Json.JsonIgnore]
+        public int id;
         public string name;
 
         public List<Tuple<string, int>> ingredient_and_amount = new List<Tuple<string, int>>();

@@ -18,7 +18,10 @@ namespace TheCheapsLib
         {
             model = new SimulationModel();
         }
-        public void Start()
+        /// <summary>
+        /// This is run on the server
+        /// </summary>
+        public void StartServer()
         {
             //SimulationModel.entities = new List<Entity>();
             //SimulationModel.entities.Add(new Entity());
@@ -45,14 +48,22 @@ namespace TheCheapsLib
                 players[i] = new GamePlayer(i, this);
             }
 
+            InitializeEntityIdentifiers(entities);
+
+            StartCommon();
+        }
+        /// <summary>
+        /// This is run on the client and on the server
+        /// </summary>
+        public void StartCommon()
+        {
             var jsontextitems = File.ReadAllText("Items.json");
             model.items = JsonConvert.DeserializeObject<List<Entity>>(jsontextitems);
 
-            InitializeEntityIdentifiers(entities);
-
             var jsontextrecipe = File.ReadAllText("Recipes.json");
             model.recipes = JsonConvert.DeserializeObject<List<Recipe>>(jsontextrecipe);
-
+            for (int i = 0; i < model.recipes.Count; i++)
+                model.recipes[i].id = i;
         }
 
         private void InitializeEntityIdentifiers(List<Entity> entities)
@@ -203,6 +214,18 @@ namespace TheCheapsLib
                 {
                     model.player_entities[i].CopyDelta(simulationState.player_entities[i]);
                     model.player_entities[i].update_collision_rect();
+                    var inv = model.player_entities[i].inventory;
+                    var list_deltas = simulationState.player_entities[i].inventory.temp_list_deltas;
+                    //Converte i dati delle liste da liste di interi a liste 
+                    if (list_deltas.Count > 0)
+                        foreach (var list_delta in list_deltas)
+                        {
+                            var recipe = model.recipes[list_delta[0]];
+                            if (!inv.list_recipes.Contains(recipe))
+                                inv.list_recipes.Add(recipe);
+                            recipe.owned = new int[list_delta.Length - 1];
+                            Array.Copy(list_delta, 1, recipe.owned, 0, list_delta.Length - 1);
+                        }
                     simulationState.player_entities[i].Dispose();
                 }
             }
@@ -239,6 +262,21 @@ namespace TheCheapsLib
                 {
                     model.player_entities[i].CopyDelta(delta.player_entities[i]);
                     model.player_entities[i].update_collision_rect();
+                    var inv = model.player_entities[i].inventory;
+                    var list_deltas = delta.player_entities[i].inventory.temp_list_deltas;
+                    //Converte i dati delle liste da liste di interi a liste 
+                    if (list_deltas != null)
+                    {
+                        if (list_deltas.Count > 0)
+                            foreach (var list_delta in list_deltas)
+                            {
+                                var recipe = model.recipes[list_delta[0]];
+                                if (!inv.list_recipes.Contains(recipe))
+                                    inv.list_recipes.Add(recipe);
+                                recipe.owned = new int[list_delta.Length - 1];
+                                Array.Copy(list_delta, 1, recipe.owned, 0, list_delta.Length - 1);
+                            }
+                    }
                     delta.player_entities[i].Dispose();
                 }
             }

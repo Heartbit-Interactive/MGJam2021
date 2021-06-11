@@ -60,7 +60,7 @@ namespace TheCheapsServer
         {
             this.network = new GameNetwork();
             this.simulation = new GameSimulation();
-            this.simulation.Start();
+            this.simulation.StartServer();
             this.input = new GameInput(simulation.model);
             server.Start();
             network.model.serverState.GamePhase = NetworkServerState.Phase.Lobby;
@@ -194,6 +194,7 @@ namespace TheCheapsServer
                 }
                 array = memstream.ToArray();
             }
+            PerformanceAnalyzer.PrepMessageFromServer(msg);
             msg.Write((byte)messageType);
             msg.Write(array.Length);
             msg.Write(array);
@@ -214,6 +215,7 @@ namespace TheCheapsServer
                 }
                 array = memstream.ToArray();
             }
+            PerformanceAnalyzer.PrepMessageFromServer(msg);
             msg.Write((byte)messageType);
             msg.Write(array.Length);
             msg.Write(array);

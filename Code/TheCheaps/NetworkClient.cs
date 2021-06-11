@@ -66,6 +66,7 @@ namespace TheCheaps
             connection = client.Connect(host: string_ip, port: server_port);
 
             this.simulation = new GameSimulation();
+            simulation.StartCommon();
             this.network = new GameNetwork();
             this.input = new GameInput(simulation.model);
             StateChanged += SendHandshake;
@@ -147,9 +148,11 @@ namespace TheCheaps
                         Console.WriteLine(msg.ReadString());
                         break;
                     case NetIncomingMessageType.Data:
+
 #if VERBOSE
                         System.Diagnostics.Debug.WriteLine($"{msg} received from server");
 #endif
+                        PerformanceAnalyzer.AddMessageFromServer(msg);
                         var type = (NetworkServer.MessageType)msg.ReadByte();
                         switch (type)
                         {
@@ -165,14 +168,6 @@ namespace TheCheaps
                                 break;
                             case NetworkServer.MessageType.SimulationDelta:
                                 simulation.ApplyDelta(msg.Deserialize<SimulationDelta>());
-                                if (delta_received == 0)
-                                    delta_timer = DateTime.Now;
-                                delta_received++;
-                                if (delta_received > 500)
-                                {
-                                    System.Diagnostics.Debug.WriteLine($"{delta_received / (DateTime.Now - delta_timer).TotalSeconds:0.000} updates per second received");
-                                    delta_received = 0;
-                                }
                                 break;
                             default:
                                 throw new Exception("Invalid message type");
@@ -186,8 +181,6 @@ namespace TheCheaps
                 msg = client.ReadMessage();
             }
         }
-        int delta_received = 0;
-        DateTime delta_timer;
         Dictionary<ulong, EventHandler<NetworkResponseEventArgs>> MessagesWaitingResponse = new Dictionary<ulong, EventHandler<NetworkResponseEventArgs>>(); 
         private void processResponse(NetworkResponse networkResponse)
         {
