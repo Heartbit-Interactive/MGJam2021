@@ -1,98 +1,138 @@
 [
-    {
-        "name": "Teschio",
-        "texture_path": "ITEM_A_01",
-        "collisionrect": {
-            "Width": 20,
-            "Height": 20
-        }
-    },
-    {
-        "name": "Anima",
-        "texture_path": "ITEM_A_02",
-        "collisionrect": {
-            "Width": 20,
-            "Height": 20
-        }
-    },
-    {
-        "name": "Sangue",
-        "texture_path": "ITEM_A_03",
-        "collisionrect": {
-            "Width": 20,
-            "Height": 20
-        }
-    },
-    {
-        "name": "Valvola",
-        "texture_path": "ITEM_B_01",
-        "collisionrect": {
-            "Width": 20,
-            "Height": 20
-        }
-    },
-    {
-        "name": "Ram",
-        "texture_path": "ITEM_B_02",
-        "collisionrect": {
-            "Width": 20,
-            "Height": 20
-        }
-    },
-    {
-        "name": "Router",
-        "texture_path": "ITEM_B_03",
-        "collisionrect": {
-            "Width": 20,
-            "Height": 20
-        }
-    },
-    {
-        "name": "Trave",
-        "texture_path": "ITEM_C_01",
-        "collisionrect": {
-            "Width": 20,
-            "Height": 20
-        }
-    },
-    {
-        "name": "Bobina",
-        "texture_path": "ITEM_C_02",
-        "collisionrect": {
-            "Width": 20,
-            "Height": 20
-        }
-    },
-    {
-        "name": "Mattone",
-        "texture_path": "ITEM_C_03",
-        "collisionrect": {
-            "Width": 20,
-            "Height": 20
-        }
-    },
-    {
-        "name": "Carburante",
-        "texture_path": "ITEM_D_01",
-        "collisionrect": {
-            "Width": 20,
-            "Height": 20
-        }
-    },
-    {
-        "name": "Plutonio",
-        "texture_path": "ITEM_D_02",
-        "collisionrect": {
-            "Width": 20,
-            "Height": 20
-        }
-    },
-    {
-        "name": "Acido",
-        "texture_path": "ITEM_D_03",
-        "collisionrect": {
-            "Width": 20,
-            "Height": 20
-        }
+  {
+    "name": "Teschio",
+    "texture_path": "ITEM_A_01",
+    "collisionrect": {
+      "Width": 20,
+      "Height": 20
     }
+  },
+  {
+    "name": "Anima",
+    "texture_path": "ITEM_A_02",
+    "collisionrect": {
+      "Width": 20,
+      "Height": 20
+    }
+  },
+  {
+    "name": "Sangue",
+    "texture_path": "ITEM_A_03",
+    "collisionrect": {
+      "Width": 20,
+      "Height": 20
+    }
+  },
+  {
+    "name": "Valvola",
+    "texture_path": "ITEM_B_01",
+    "collisionrect": {
+      "Width": 20,
+      "Height": 20
+    }
+  },
+  {
+    "name": "Ram",
+    "texture_path": "ITEM_B_02",
+    "collisionrect": {
+      "Width": 20,
+      "Height": 20
+    }
+  },
+  {
+    "name": "Router",
+    "texture_path": "ITEM_B_03",
+    "collisionrect": {
+      "Width": 20,
+      "Height": 20
+    }
+  },
+  {
+    "name": "Trave",
+    "texture_path": "ITEM_C_01",
+    "collisionrect": {
+      "Width": 20,
+      "Height": 20
+    }
+  },
+  {
+    "name": "Bobina",
+    "texture_path": "ITEM_C_02",
+    "collisionrect": {
+      "Width": 20,
+      "Height": 20
+    }
+  },
+  {
+    "name": "Mattone",
+    "texture_path": "ITEM_C_03",
+    "collisionrect": {
+      "Width": 20,
+      "Height": 20
+    }
+  },
+  {
+    "name": "Carburante",
+    "texture_path": "ITEM_D_01",
+    "collisionrect": {
+      "Width": 20,
+      "Height": 20
+    }
+  },
+  {
+    "name": "Plutonio",
+    "texture_path": "ITEM_D_02",
+    "collisionrect": {
+      "Width": 20,
+      "Height": 20
+    }
+  },
+  {
+    "name": "Acido",
+    "texture_path": "ITEM_D_03",
+    "collisionrect": {
+      "Width": 20,
+      "Height": 20
+    }
+  },
+  {
+    "name": "Score",
+    "texture_path": "ITEM_SCORE"
+  },
+  {
+    "name": "UpDown+",
+    "texture_path": "ICON_UpDown_01",
+    "sourcerect": {
+      "X": 0,
+      "Width": 24,
+      "Height": 24
+    }
+  },
+  {
+    "name": "UpDown++",
+    "texture_path": "ICON_UpDown_01",
+    "sourcerect": {
+      "X": 24,
+      "Width": 24,
+      "Height": 24
+    }
+  },
+  {
+    "name": "UpDown--",
+    "texture_path": "ICON_UpDown_01",
+    "sourcerect": {
+      "X": 48,
+      "Width": 24,
+      "Height": 24
+    }
+  },
+  {
+    "name": "UpDown-",
+    "texture_path": "ICON_UpDown_01",
+    "sourcerect": {
+      "X": 72,
+      "Width": 24,
+      "Height": 24
+    }
+  }
 ]

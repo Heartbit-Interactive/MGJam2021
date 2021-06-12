@@ -46,7 +46,7 @@ namespace TheCheaps
                 _client.Update(time);
         }
         public static void StopServer()
-        {
+        {            
             ServerThreadManager.Stop();
             _server = null;
         }

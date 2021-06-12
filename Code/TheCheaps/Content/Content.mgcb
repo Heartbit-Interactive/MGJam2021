@@ -157,6 +157,13 @@
 /processorParam:TextureFormat=Color
 /build:FACE_ACTOR_04.png
 
+#begin Font12.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font12.spritefont
+
 #begin Font14.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

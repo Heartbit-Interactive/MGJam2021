@@ -40,14 +40,12 @@ namespace TheCheaps
             var screenManager = new ScreenManager(this);
             Components.Add(screenManager);
             //screenManager.ChangeScreen("lobby");
-            screenManager.ChangeScreen("lobby");
+            screenManager.ChangeScreen("game");
             // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
             NetworkManager.Update(gameTime);
             base.Update(gameTime);
         }

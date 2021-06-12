@@ -8,10 +8,12 @@ namespace TheCheapsLib
 {
     public class SimulationDelta:State
     {
+        public int timer;
         public HashSet<Entity> updated_entities   ;
         public List<PlayerEntity> player_entities;
         public List<Entity> added_entities        ;
         public List<int> removed_entities;
+        public List<int> broadcasting_news;
         public SimulationDelta()
         {
 
@@ -52,10 +54,13 @@ namespace TheCheapsLib
             count = br.ReadInt32();
             removed_entities = new List<int>(count);
             for (int i = 0; i < count; i++)
-            {
                 removed_entities.Add(br.ReadInt32());
-            }
 
+            count = br.ReadInt32();
+            broadcasting_news = new List<int>(count);
+            for (int i = 0; i < count; i++)
+                broadcasting_news.Add(br.ReadInt32());
+            timer = br.ReadInt32();
         }
         public override void BinaryWrite(BinaryWriter bw)
         {
@@ -74,6 +79,10 @@ namespace TheCheapsLib
             bw.Write(removed_entities.Count);
             foreach (var id in removed_entities)
                 bw.Write(id);
+            bw.Write(broadcasting_news.Count);
+            foreach (var id in broadcasting_news)
+                bw.Write(id);
+            bw.Write(timer);
         }
     }
 }

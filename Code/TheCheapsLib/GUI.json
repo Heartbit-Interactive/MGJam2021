@@ -1,31 +1,31 @@
 [
   {
     "name": "FACE_ACTOR_01",
-    "posxy": "48,96",
+    "posxy": "0,0",
     "z": 0.9,
     "texture_path": "FACE_ACTOR_01"
   },
   {
     "name": "FACE_ACTOR_02",
-    "posxy": "48,96",
+    "posxy": "0,0",
     "z": 0.9,
     "texture_path": "FACE_ACTOR_02"
   },
   {
     "name": "FACE_ACTOR_03",
-    "posxy": "48,96",
+    "posxy": "0,0",
     "z": 0.9,
     "texture_path": "FACE_ACTOR_03"
   },
   {
     "name": "FACE_ACTOR_04",
-    "posxy": "48,96",
+    "posxy": "0,0",
     "z": 0.9,
     "texture_path": "FACE_ACTOR_04"
   },
   {
     "name": "HUD_Ricetta_01",
-    "posxy": "186,120",
+    "posxy": "96,24",
     "z": 0.9,
     "texture_path": "HUD_Ricetta_01"
   },
@@ -51,7 +51,7 @@
   //},
   {
     "name": "HUD_BarraTelegiornale_01",
-    "posxy": "480,528",
+    "posxy": "0,462",
     "z": 0.9,
     "texture_path": "HUD_BarraTelegiornale_01"
   }

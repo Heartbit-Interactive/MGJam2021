@@ -64,6 +64,8 @@ namespace TheCheaps.Scenes
         }
         protected override void Dispose(bool disposing)
         {
+            if (Screen != null)
+                Screen.Terminate(_content);
             base.Dispose(disposing);
         }
     }

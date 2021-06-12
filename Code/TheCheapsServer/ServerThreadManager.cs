@@ -11,7 +11,8 @@ namespace TheCheapsServer
     {
         public static void Stop()
         {
-            serverCancellation.Cancel();
+            if(serverCancellation!=null)
+                serverCancellation.Cancel();
         }
 
         static NetworkServer server;
@@ -32,7 +33,7 @@ namespace TheCheapsServer
         {
             if (ctoken.IsCancellationRequested)
             {
-                throw new TaskCanceledException();
+                return;
             }
             server = new TheCheapsServer.NetworkServer(port, use_upnp);
             server.Start();
@@ -50,7 +51,7 @@ namespace TheCheapsServer
                     server.Stop("Task Cancelled");
                     server.Dispose();
                     server = null;
-                    throw new TaskCanceledException();
+                    return;
                 }
                 while (elapsedms < msperstep)
                 {
@@ -60,7 +61,7 @@ namespace TheCheapsServer
                         server.Stop("Task Cancelled");
                         server.Dispose();
                         server = null;
-                        throw new TaskCanceledException();
+                        return;
                     }
                     newms = DateTime.Now.Ticks / 10000;
                     elapsedms = newms - ms;

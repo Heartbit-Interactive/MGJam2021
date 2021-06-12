@@ -12,7 +12,9 @@ namespace TheCheapsLib
     {
         public SimulationModel model;
         public GamePlayer[] players;
-        private DateTime last_time;
+        private DateTime last_time = DateTime.MinValue;
+        private List<int> currentle_broadcasting;
+        private float currentle_broadcasting_timer;
 
         public GameSimulation()
         {
@@ -85,6 +87,8 @@ namespace TheCheapsLib
             model.removed_entities.Clear();
             model.added_entities.Clear();
             var now = DateTime.UtcNow;
+            if (last_time == DateTime.MinValue)
+                last_time = now;
             var elapsedSecondsf = (float)(now- last_time).TotalSeconds;
             foreach (var player in players)
             {
@@ -96,7 +100,30 @@ namespace TheCheapsLib
                 model.entities.Add(entity.uniqueId,entity);
             foreach (var id in model.removed_entities)
                 model.entities.Remove(id);
+            model.timer -= elapsedSecondsf;
+            if (model.broadcasting_news.Count > 0)
+            {
+                if (currentle_broadcasting != model.broadcasting_news)
+                {
+                    currentle_broadcasting = model.broadcasting_news;
+                    currentle_broadcasting_timer = (float)Settings.BroadCastDuration;
+                }
+                currentle_broadcasting_timer -= elapsedSecondsf;
+                if (currentle_broadcasting_timer < 0)
+                {
+                    model.broadcasting_news.Clear();
+                    currentle_broadcasting.Clear();
+                    currentle_broadcasting = null;
+                }
+            }
+            if (model.timer <= 0)
+                OnGameEnded();
             last_time = now;
+        }
+
+        private void OnGameEnded()
+        {
+            throw new NotImplementedException();
         }
 
         private void update_entity(float elapsedTimeSeconds,Entity entity)
@@ -147,14 +174,14 @@ namespace TheCheapsLib
                             if (player.if_player_needs_ingredient_add(entity.name))
                             {
                                 entity.removeable = true;
-                                entity.speed = 0;
-                                entity.life_time = 0;
                             }
                             else
                             {
                                 //oggetto venduto si ottengono punti
                                 player.playerEntity.score += Settings.scoreSellItem;
                             }
+                            entity.speed = 0;
+                            entity.life_time = 0;
                         }
                     }
                 }
@@ -181,6 +208,8 @@ namespace TheCheapsLib
             state.player_entities = model.player_entities;
             state.added_entities = model.added_entities.Select(x => x.uniqueId).ToList();
             state.removed_entities = model.removed_entities;
+            state.broadcasting_news = model.broadcasting_news;
+            state.timer = (int)model.timer;
             return state;
         }
 
@@ -191,6 +220,8 @@ namespace TheCheapsLib
             delta.added_entities = model.added_entities;
             delta.removed_entities = model.removed_entities;
             delta.updated_entities = model.updated_entities;
+            delta.broadcasting_news = model.broadcasting_news;
+            delta.timer = (int)model.timer;
             return delta;
         }
 
@@ -205,6 +236,7 @@ namespace TheCheapsLib
 
         public void SetState(SimulationState simulationState)
         {
+            model.timer = simulationState.timer;
             foreach (var freshEntity in simulationState.entities)
             {
                 if (!model.entities.TryGetValue(freshEntity.uniqueId, out var existingEntity))
@@ -227,6 +259,7 @@ namespace TheCheapsLib
                 {
                     model.player_entities.Add(simulationState.player_entities[i]);
                     applyRecipesToPlayer(simulationState.player_entities[i].inventory.temp_list_deltas, i);
+                    OnEntityAdded(simulationState.player_entities[i]);
                 }
                 else
                 {
@@ -249,7 +282,10 @@ namespace TheCheapsLib
                 {
                     var recipe = model.recipes[list_delta[0]];
                     if (!inv.list_recipes.Contains(recipe))
+                    {
+                        inv.list_recipes.Clear();
                         inv.list_recipes.Add(recipe);
+                    }
                     recipe.owned = new int[list_delta.Length - 1];
                     Array.Copy(list_delta, 1, recipe.owned, 0, list_delta.Length - 1);
                 }
@@ -257,6 +293,8 @@ namespace TheCheapsLib
 
         public void ApplyDelta(SimulationDelta delta)
         {
+            model.timer = delta.timer;
+            model.broadcasting_news = delta.broadcasting_news;
             foreach (var added_entity in delta.added_entities)
             {
                 model.entities.Add(added_entity.uniqueId, added_entity);
@@ -292,7 +330,6 @@ namespace TheCheapsLib
                     delta.player_entities[i].Dispose();
                 }
             }
-
             OnStateUpdated();
         }
         public event EventHandler StateUpdated;

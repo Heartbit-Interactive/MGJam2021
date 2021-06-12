@@ -109,96 +109,96 @@
       "Width": 128,
       "Height": 48
     },
-    "tags": [ "heap", "Combustibile", "Plutonio", "Acido" ]
+    "tags": [ "heap", "Carburante", "Plutonio", "Acido" ]
   },
-  {
-    "name": "ITEM_A_01",
-    "posxy": "12, 408",
-    "z": 0.0,
-    "texture_path": "ITEM_A_01",
-    "direction": "0, 1",
-    "collisionrect": {
-      "Width": 0,
-      "Height": 0
-    }
-  },
-  {
-    "name": "ITEM_A_02",
-    "posxy": "36, 408",
-    "z": 0.0,
-    "texture_path": "ITEM_A_02",
-    "direction": "0, 1"
-  },
-  {
-    "name": "ITEM_A_03",
-    "posxy": "60, 408",
-    "z": 0.0,
-    "texture_path": "ITEM_A_03",
-    "direction": "0, 1",
-  },
-  {
-    "name": "ITEM_B_01",
-    "posxy": "84, 408",
-    "z": 0.0,
-    "texture_path": "ITEM_B_01",
-    "direction": "0, 1"
-  },
-  {
-    "name": "ITEM_B_02",
-    "posxy": "108, 408",
-    "z": 0.0,
-    "texture_path": "ITEM_B_02",
-    "direction": "0, 1"
-  },
-  {
-    "name": "ITEM_B_03",
-    "posxy": "132, 408",
-    "z": 0.0,
-    "texture_path": "ITEM_B_03",
-    "direction": "0, 1"
-  },
-  {
-    "name": "ITEM_C_01",
-    "posxy": "156, 408",
-    "z": 0.0,
-    "texture_path": "ITEM_C_01",
-    "direction": "0, 1"
-  },
-  {
-    "name": "ITEM_C_02",
-    "posxy": "180, 408",
-    "z": 0.0,
-    "texture_path": "ITEM_C_02",
-    "direction": "0, 1"
-  },
-  {
-    "name": "ITEM_C_03",
-    "posxy": "204, 408",
-    "z": 0.0,
-    "texture_path": "ITEM_C_03",
-    "direction": "0, 1"
-  },
-  {
-    "name": "ITEM_D_01",
-    "posxy": "228, 408",
-    "z": 0.0,
-    "texture_path": "ITEM_D_01",
-    "direction": "0, 1"
-  },
-  {
-    "name": "ITEM_D_02",
-    "posxy": "252, 408",
-    "z": 0.0,
-    "texture_path": "ITEM_D_02",
-    "direction": "0, 1"
-  },
-  {
-    "name": "ITEM_D_03",
-    "posxy": "276, 408",
-    "z": 0.0,
-    "texture_path": "ITEM_D_03",
-    "direction": "0, 1"
-  },
+  //{
+  //  "name": "ITEM_A_01",
+  //  "posxy": "12, 408",
+  //  "z": 0.0,
+  //  "texture_path": "ITEM_A_01",
+  //  "direction": "0, 1",
+  //  "collisionrect": {
+  //    "Width": 0,
+  //    "Height": 0
+  //  }
+  //},
+  //{
+  //  "name": "ITEM_A_02",
+  //  "posxy": "36, 408",
+  //  "z": 0.0,
+  //  "texture_path": "ITEM_A_02",
+  //  "direction": "0, 1"
+  //},
+  //{
+  //  "name": "ITEM_A_03",
+  //  "posxy": "60, 408",
+  //  "z": 0.0,
+  //  "texture_path": "ITEM_A_03",
+  //  "direction": "0, 1",
+  //},
+  //{
+  //  "name": "ITEM_B_01",
+  //  "posxy": "84, 408",
+  //  "z": 0.0,
+  //  "texture_path": "ITEM_B_01",
+  //  "direction": "0, 1"
+  //},
+  //{
+  //  "name": "ITEM_B_02",
+  //  "posxy": "108, 408",
+  //  "z": 0.0,
+  //  "texture_path": "ITEM_B_02",
+  //  "direction": "0, 1"
+  //},
+  //{
+  //  "name": "ITEM_B_03",
+  //  "posxy": "132, 408",
+  //  "z": 0.0,
+  //  "texture_path": "ITEM_B_03",
+  //  "direction": "0, 1"
+  //},
+  //{
+  //  "name": "ITEM_C_01",
+  //  "posxy": "156, 408",
+  //  "z": 0.0,
+  //  "texture_path": "ITEM_C_01",
+  //  "direction": "0, 1"
+  //},
+  //{
+  //  "name": "ITEM_C_02",
+  //  "posxy": "180, 408",
+  //  "z": 0.0,
+  //  "texture_path": "ITEM_C_02",
+  //  "direction": "0, 1"
+  //},
+  //{
+  //  "name": "ITEM_C_03",
+  //  "posxy": "204, 408",
+  //  "z": 0.0,
+  //  "texture_path": "ITEM_C_03",
+  //  "direction": "0, 1"
+  //},
+  //{
+  //  "name": "ITEM_D_01",
+  //  "posxy": "228, 408",
+  //  "z": 0.0,
+  //  "texture_path": "ITEM_D_01",
+  //  "direction": "0, 1"
+  //},
+  //{
+  //  "name": "ITEM_D_02",
+  //  "posxy": "252, 408",
+  //  "z": 0.0,
+  //  "texture_path": "ITEM_D_02",
+  //  "direction": "0, 1"
+  //},
+  //{
+  //  "name": "ITEM_D_03",
+  //  "posxy": "276, 408",
+  //  "z": 0.0,
+  //  "texture_path": "ITEM_D_03",
+  //  "direction": "0, 1"
+  //},
   {
     "name": "LEVEL_Trash_01 SX",
     "posxy": "36, 740",
@@ -458,17 +458,10 @@
     "z": 0.0,
     "texture_path": "LEVEL_Trash_A_01",
     "direction": "0, 1",
-    "through": false,
-    "speed": 0.0,
     "collisionrect": {
-
-
       "Width": 48,
       "Height": 96
-    },
-    
-    
-    "origin": "0, 0"
+    }
   },
   {
     "name": "LEVEL_Trash_02",

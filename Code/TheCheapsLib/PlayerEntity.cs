@@ -17,26 +17,49 @@ namespace TheCheapsLib
         public PlayerEntity():base() 
         {
             inventory = new Inventory();
-          
+
         }
         public override void BinaryRead(BinaryReader br)
         {
             base.BinaryRead(br);
+            BinaryReadPlayer(br);
+        }
+        public override void BinaryReadDelta(BinaryReader br)
+        {
+            base.BinaryReadDelta(br);
+            BinaryReadPlayer(br);
+        }
+
+        private void BinaryReadPlayer(BinaryReader br)
+        {
+            score = br.ReadInt32();
             var lcount = br.ReadInt32();
             inventory.temp_list_deltas = new List<int[]>();
             for (int i = 0; i < lcount; i++)
             {
                 var list_id = br.ReadInt32();
-                var list = new int[br.ReadInt32()+1];
+                var list = new int[br.ReadInt32() + 1];
                 list[0] = list_id;
                 for (int j = 1; j < list.Length; j++)
-                    list[j] = br.ReadInt32() ;
+                    list[j] = br.ReadInt32();
                 inventory.temp_list_deltas.Add(list);
             }
         }
+
         public override void BinaryWrite(BinaryWriter bw)
         {
             base.BinaryWrite(bw);
+            BinaryWritePlayer(bw);
+        }
+        public override void BinaryWriteDelta(BinaryWriter bw)
+        {
+            base.BinaryWriteDelta(bw);
+            BinaryWritePlayer(bw);
+        }
+
+        private void BinaryWritePlayer(BinaryWriter bw)
+        {
+            bw.Write(score);
             bw.Write(this.inventory.list_recipes.Count);
             for (int i = 0; i < this.inventory.list_recipes.Count; i++)
             {
@@ -47,6 +70,7 @@ namespace TheCheapsLib
                     bw.Write(list.owned[j]);
             }
         }
+
         public void update_timer_dash(float elapsedTime)
         {
             if (dash_timer_counter > 0)
@@ -55,6 +79,9 @@ namespace TheCheapsLib
         internal override void CopyDelta(Entity other)
         {
             base.CopyDelta(other);
+            var othp = (PlayerEntity)other;
+            this.score = othp.score;
+            //this.inventory.temp_list_deltas = othp.inventory.temp_list_deltas;
         }
         public override void Dispose()
         {

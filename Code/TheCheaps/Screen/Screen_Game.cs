@@ -1,5 +1,4 @@
-﻿#define TEST
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
@@ -26,9 +25,11 @@ namespace TheCheaps.Scenes
             {
                 NetworkManager.StartServer(false);
                 NetworkManager.BeginJoin(new System.Net.IPAddress(new byte[] { 127, 0, 0, 1 }), 12345,false);
+                NetworkManager.Client.simulation.EntityAdded += Simulation_EntityAdded;
                 NetworkManager.Client.StateChanged += Client_StateChanged_Debug;
             }
-            NetworkManager.Client.simulation.EntityAdded += Simulation_EntityAdded;
+            else
+                NetworkManager.Client.simulation.EntityAdded += Simulation_EntityAdded;
         }
 
         private void Client_StateChanged_Debug(object sender, EventArgs e)
@@ -44,6 +45,8 @@ namespace TheCheaps.Scenes
 
         private List<PlayerEntity> gui_entities;
         private ContentManager Content;
+        private bool contentLoaded;
+        private SpriteFont font12;
         private SpriteFont font14;
         private SpriteFont font18;
         private SpriteFont font20;
@@ -52,13 +55,26 @@ namespace TheCheaps.Scenes
         public override void LoadContent(ContentManager content)
         {
             this.Content = content;
+            UpdateLoadContent();
+        }
+
+        private void UpdateLoadContent()
+        {
+            if (contentLoaded || player_index < 0)
+                return;
+            contentLoaded = true;
+            font12 = Content.Load<SpriteFont>("Font12");
             font14 = Content.Load<SpriteFont>("Font14");
             font18 = Content.Load<SpriteFont>("Font18");
             font20 = Content.Load<SpriteFont>("Font20");
             font28 = Content.Load<SpriteFont>("Font28");
-            var jsontextgui = File.ReadAllText("GUI.json");
+            var jsontextgui = File.ReadAllText("Items.json");
+            item_entities = JsonConvert.DeserializeObject<List<PlayerEntity>>(jsontextgui);
+            jsontextgui = File.ReadAllText("Recipes.json");
+            global_recipe_list = JsonConvert.DeserializeObject<List<Recipe>>(jsontextgui);
+            jsontextgui = File.ReadAllText("GUI.json");
             gui_entities = JsonConvert.DeserializeObject<List<PlayerEntity>>(jsontextgui);
-            foreach (var entity in gui_entities.ToArray())
+            foreach (var entity in gui_entities.Concat(item_entities).ToArray())
             {
                 var m = Regex.Match(entity.name, @"FACE_ACTOR_(\d\d)");
                 if (m.Success)
@@ -84,43 +100,68 @@ namespace TheCheaps.Scenes
                     gui_entities.Remove(hud_tg_bar);
                 }
                 if (entity.texture == null)
+                {
                     entity.LoadTexture(Content);
+                    entity.origin = Vector2.Zero;
+                }
             }
             GraphicSettings.DebugSquare = Content.Load<Texture2D>("menu/white_square");
             Entity.shadow = Content.Load<Texture2D>("Shadow");
             Entity.shadowOrigin = new Vector2(Entity.shadow.Width / 2, Entity.shadow.Height / 2);
+            score_icon = item_entities.First(x => x.name == "Score");
+            var icon_names = new[] { "UpDown++", "UpDown+", "UpDown-", "UpDown--" };
+            arrow_icons = icon_names.Select(x => item_entities.First(y => y.name == x)).ToArray();
             //Carico le textures degli oggetti già in sim
             foreach (var entity in NetworkManager.Client.simulation.model.entities.Values)
                 Simulation_EntityAdded(entity, null);
         }
+
         public override void Update(GameTime gameTime)
         {
-#if TEST
             if (NetworkManager.Client.network.model.serverState.GamePhase != TheCheapsLib.NetworkServerState.Phase.Gameplay)
             {
                 var pls = NetworkManager.Client.network.model.players;
                 if (pls.Any(x => x != null) && pls.All(p => p == null || p.Ready))
                     NetworkManager.Server.StartMatch();
             }
-#endif
             player_index = NetworkManager.Client.PlayerIndex;
+            if (player_index < 0)
+                return;
+            if (sim.player_entities.Count == 0)
+                return;
+            UpdateLoadContent();
             UpdateGUI();
         }
-
+        List<int> recipe_items = new List<int>();
         private void UpdateGUI()
         {
+            if (last_recipe != player.inventory.list_recipes.FirstOrDefault()) //If recipe changed
+            {
+                last_recipe = player.inventory.list_recipes.FirstOrDefault();
+                recipe_items.Clear();
+                if (last_recipe != null)
+                {
+                    foreach (var item in last_recipe.ingredient_and_amount)
+                        recipe_items.Add(item_entities.FindIndex(x => x.name.ToLowerInvariant() == item.Item1.ToLowerInvariant()));
+                }
+            }
         }
 
         Color backgroundColor = new Color(191 ,149 ,77);
-        private int player_index;
+        private int player_index = -1;
         private PlayerEntity hud_recipe;
         private PlayerEntity hud_tg_bar;
-        private PlayerEntity player { get { return sim.player_entities[NetworkManager.Client.PlayerIndex]; } }
+        private List<PlayerEntity> item_entities;
+        private Recipe last_recipe;
+        private List<Recipe> global_recipe_list;
+        private PlayerEntity score_icon;
+        private PlayerEntity[] arrow_icons;
+
+        private PlayerEntity player { get { return sim.player_entities[player_index]; } }
 
         SimulationModel sim { get { return NetworkManager.Client.simulation.model; } }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            refresh_entity_textures();
             game.GraphicsDevice.Clear(backgroundColor);
             if (player_index < 0)
                 return;
@@ -153,8 +194,51 @@ namespace TheCheaps.Scenes
             if (player.inventory.list_recipes.Count > 0)
             {
                 hud_recipe.Draw(spriteBatch);
-                spriteBatch.DrawString(font18, player.inventory.list_recipes[0].name, hud_recipe.posxy+new Vector2(0,-hud_recipe.sourcerect.Height+16), Color.White, true, false);
-                spriteBatch.DrawString(font18, "Bla bla", hud_recipe.posxy, Color.White, true, false);
+                var recipe = player.inventory.list_recipes[0];
+                var posxy = hud_recipe.posxy + new Vector2(8, 4);
+                spriteBatch.DrawString(font12, recipe.name, posxy, Color.White);
+                posxy.X += 8;
+                posxy.Y += 22;
+                Entity icon;
+                for (int i=0;i<recipe.ingredient_and_amount.Count;i++)
+                {
+                    icon = item_entities[recipe_items[i]];
+                    icon.posxy = posxy;
+                    icon.hasShadow = false;
+                    icon.Draw(spriteBatch);
+                    spriteBatch.DrawString(font12, $"{recipe.owned[i]}/{recipe.ingredient_and_amount[i].Item2}", posxy + new Vector2(icon.sourcerect.Width/2,(icon.sourcerect.Height + 12)), Color.White, false, false);
+                    posxy.X += 24+16;
+                }
+                posxy = hud_recipe.posxy+new Vector2(hud_recipe.sourcerect.Width-70,26);
+                score_icon.posxy = posxy;
+                score_icon.hasShadow = false;
+                score_icon.Draw(spriteBatch);
+                spriteBatch.DrawString(font12, $"+{recipe.score}", posxy + new Vector2(score_icon.sourcerect.Width+22, (score_icon.sourcerect.Height/2+2)), Color.White, false, false);
+            }
+            if (sim.broadcasting_news.Count > 0)
+            {
+                hud_tg_bar.Draw(spriteBatch);
+                var posxy = hud_tg_bar.posxy + new Vector2(8, 12);
+                var recipe_completed = global_recipe_list[sim.broadcasting_news[0]];
+                var name = sim.player_entities[sim.broadcasting_news[1]].name;
+                var mes = font20.MeasureString(name);
+                spriteBatch.DrawString(font20, name, posxy, Color.Red);
+                spriteBatch.DrawString(font20, recipe_completed.sentence_to_show, posxy+ Vector2.UnitX*(mes.X+10), Color.Black);
+                posxy = hud_tg_bar.posxy + new Vector2(hud_tg_bar.sourcerect.Width-96, 4);
+                var timer = (int)Math.Round(sim.timer);
+                spriteBatch.DrawString(font28, $"{timer/60}:{timer%60:00}", posxy, Color.White);
+                posxy = hud_tg_bar.posxy + new Vector2(24, hud_tg_bar.sourcerect.Height-26);
+                var sorted_pl = sim.player_entities.OrderByDescending(x=>x.score);
+                int i = 0;
+                foreach(var pl in sorted_pl)
+                {
+                    arrow_icons[i].posxy = posxy;
+                    arrow_icons[i].Draw(spriteBatch);
+                    spriteBatch.DrawString(font12, $"{pl.name}:{(int)pl.score:+0}", posxy+new Vector2(arrow_icons[i].sourcerect.Width + 4,8), Color.White);
+                    posxy.X += 236;
+                    i++;
+                }
+
             }
         }
 
@@ -170,19 +254,10 @@ namespace TheCheaps.Scenes
         public override void EndDraw(SpriteBatch spriteBatch)
         {
         }
-        private void refresh_entity_textures()
-        {
-            foreach (var entity in NetworkManager.Client.simulation.model.player_entities)
-            {
-                if (entity.texture == null)
-                    entity.LoadTexture(Content);
-            }
-        }
         public override void Terminate(ContentManager content)
         {
-#if TEST
             NetworkManager.StopServer();
-#endif
+            NetworkManager.StopClient();
         }
     }
 }

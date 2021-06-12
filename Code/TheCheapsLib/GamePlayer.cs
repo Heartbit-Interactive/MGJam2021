@@ -140,6 +140,7 @@ namespace TheCheapsLib
                                 entity.speed = speed_vector.Length();
                                 entity.direction = Vector2.Normalize(speed_vector);
                                 entity.removeable = true;
+                                entity.tags.Add(Tags.CAN_TAKE_ITEM);
                                 launched_items.Add(entity);
                             }
                         }
@@ -294,12 +295,12 @@ namespace TheCheapsLib
                 var recipe = playerEntity.inventory.list_recipes[j];
                 for (int i = 0; i < recipe.ingredient_and_amount.Count; i++)
                 {
-                    if (recipe.ingredient_and_amount[i].Item1 == entity_name)
-                    {
+                    var tupla = recipe.ingredient_and_amount[i];
+                    if (tupla.Item1 == entity_name && tupla.Item2> recipe.owned[i])
+                    {                        
                         recipe.owned[i]++;
                         recipe_completed(j);
                         return true;
-
                     }
                 }
             }
@@ -322,6 +323,7 @@ namespace TheCheapsLib
                 }
             }
             playerEntity.score += recipe.score;
+            sim.model.broadcasting_news = new List<int> { recipe.id, playerEntity.index };
             playerEntity.inventory.list_recipes.RemoveAt(recipe_index);
             generate_new_recipe(recipe_index);
             return true;
