@@ -74,13 +74,6 @@ namespace TheCheapsLib
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (GraphicSettings.ShowCollisions)
-            {
-                if (through)
-                    spriteBatch.Draw(GraphicSettings.DebugSquare, collisionrect, null, GraphicSettings.NonCollidingColor, 0, Vector2.Zero, SpriteEffects.None, 0);
-                else
-                    spriteBatch.Draw(GraphicSettings.DebugSquare, collisionrect, null, GraphicSettings.CollisorColor, 0, Vector2.Zero, SpriteEffects.None, 0);
-            }
             if (texture != null)
             {
                 if (this.hasShadow)
@@ -93,6 +86,13 @@ namespace TheCheapsLib
 
                 spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, this.sourcerect, Color.White, 0, this.origin, 1, SpriteEffects.None, depth);
             }
+            if (GraphicSettings.ShowCollisions)
+            {
+                if (through)
+                    spriteBatch.Draw(GraphicSettings.DebugSquare, collisionrect, null, GraphicSettings.NonCollidingColor, 0, Vector2.Zero, SpriteEffects.None, 1);
+                else
+                    spriteBatch.Draw(GraphicSettings.DebugSquare, collisionrect, null, GraphicSettings.CollisorColor, 0, Vector2.Zero, SpriteEffects.None, 1);
+            }
         }
 
         public virtual void update_collision_rect()
@@ -100,7 +100,13 @@ namespace TheCheapsLib
             var offx = (int)(posxy.X - collisionrect.Width / 2);
             var offy = (int)(posxy.Y - collisionrect.Height);
             collisionrect.X = offx;
-            collisionrect.Y = offy;            
+            collisionrect.Y = offy;
+        }
+        public Rectangle get_displaced_collision_rect(Vector2 deltaxy)
+        {
+            var X = (int)(posxy.X + deltaxy.X - collisionrect.Width / 2);
+            var Y = (int)(posxy.Y + deltaxy.Y - collisionrect.Height);
+            return new Rectangle(X, Y, collisionrect.Width, collisionrect.Height);
         }
         public void LoadTexture(ContentManager Content)
         {

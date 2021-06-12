@@ -223,8 +223,7 @@ namespace TheCheapsLib
             //Accumulate new movement
             this.deltaxy += newmove_additional_deltaxy;
             //Player collision rect was not yet updated this frame, so we shift a copy of it for the accumulated movement
-            var tentativePlayerCollRect = playerEntity.collisionrect;
-            tentativePlayerCollRect.Offset((int)deltaxy.X, (int)deltaxy.Y);
+            var tentativePlayerCollRect = playerEntity.get_displaced_collision_rect(deltaxy);
             //Cycle all other entities
             foreach (var otherEntity in model.entities.Values)
             {
@@ -253,8 +252,7 @@ namespace TheCheapsLib
                     {
                         //Try to cancel H move
                         deltaxy -= new Vector2(newmove_additional_deltaxy.X, 0);
-                        tentativePlayerCollRect = playerEntity.collisionrect;
-                        tentativePlayerCollRect.Offset((int)deltaxy.X, (int)deltaxy.Y);
+                        tentativePlayerCollRect = playerEntity.get_displaced_collision_rect(deltaxy);
                         //if collides afterwards rollback and cancel V move
                         rect = Rectangle.Intersect(otherEntity.collisionrect, tentativePlayerCollRect);
                         if (rect.Width != 0 || rect.Height != 0)
@@ -263,8 +261,7 @@ namespace TheCheapsLib
                         }
                     }
                     //Final collision test
-                    tentativePlayerCollRect = playerEntity.collisionrect;
-                    tentativePlayerCollRect.Offset((int)deltaxy.X, (int)deltaxy.Y);
+                    tentativePlayerCollRect = playerEntity.get_displaced_collision_rect(deltaxy);
                     rect = Rectangle.Intersect(otherEntity.collisionrect, tentativePlayerCollRect);
                     //If after removing the component we still collide, cancel the movement completely
                     if (rect.Width != 0 || rect.Height != 0)
