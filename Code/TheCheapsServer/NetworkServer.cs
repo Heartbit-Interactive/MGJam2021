@@ -125,14 +125,21 @@ namespace TheCheapsServer
         public void StartMatch()
         {
             network.model.serverState.GamePhase = NetworkServerState.Phase.Gameplay;
+            simulation.run++;
+            simulation.model.run++;
+            if (simulation.model.timer <= 0)
+            {
+                simulation.Reset();
+                simulation.StartServer();
+            }
             simulation.GameEndedServer += Simulation_GameEndedServer;
-            BroadCast(MessageType.PeerState, network.GetState(), NetDeliveryMethod.ReliableOrdered);
             BroadCast(MessageType.SimulationState, simulation.GetState(), NetDeliveryMethod.ReliableOrdered);
+            BroadCast(MessageType.PeerState, network.GetState(), NetDeliveryMethod.ReliableOrdered);
         }
 
         private void Simulation_GameEndedServer(object sender, EventArgs e)
         {
-            network.model.serverState.GamePhase = NetworkServerState.Phase.Lobby;
+            network.model.serverState.GamePhase = NetworkServerState.Phase.Lobby;            
             //Send timer elapsed
             BroadCast(MessageType.SimulationDelta, simulation.GetDelta(), NetDeliveryMethod.ReliableOrdered); 
             BroadCast(MessageType.PeerState, network.GetState(), NetDeliveryMethod.ReliableOrdered);

@@ -38,8 +38,13 @@ namespace TheCheapsLib
             set
             {
                 _texture = value;
-                if (sourcerect.Width == 0)
-                    sourcerect = _texture.Bounds;
+                if (_texture == null)
+                    sourcerect.Width = 0;
+                else
+                {
+                    if (sourcerect.Width == 0)
+                        sourcerect = _texture.Bounds;
+                }
                 hasShadow = sourcerect.Width <= 48;
             }
         }
@@ -211,8 +216,11 @@ namespace TheCheapsLib
             {
                 this.frame_index = other.frame_index;
                 this.sourcerect.X = this.sourcerect.Width * this.frame_index;
-                this.sourcerect.Y = this.sourcerect.X / this.texture.Width*this.sourcerect.Height;
-                this.sourcerect.X = this.sourcerect.X % this.texture.Width;
+                if (texture != null)
+                {
+                    this.sourcerect.Y = this.sourcerect.X / this.texture.Width * this.sourcerect.Height;
+                    this.sourcerect.X = this.sourcerect.X % this.texture.Width;
+                }
             }
         }
         protected bool disposed;
@@ -221,6 +229,7 @@ namespace TheCheapsLib
         {
             if (this.disposed)
                 return;
+            texture = null;
             Pool.Return(this);
             this.disposed = true;
         }

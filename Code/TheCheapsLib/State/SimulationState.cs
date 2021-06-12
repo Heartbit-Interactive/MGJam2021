@@ -35,6 +35,7 @@ namespace TheCheapsLib
             {
                 var entity = PlayerEntity.Create();
                 entity.BinaryRead(br);
+                entity.index = i;
                 player_entities.Add(entity);
             }
             count = br.ReadInt32();

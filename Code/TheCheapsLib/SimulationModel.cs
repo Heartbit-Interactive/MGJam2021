@@ -25,6 +25,7 @@ namespace TheCheapsLib
         //UNCHANGEABLE/NON BROADCASTED (client has these loaded in the game_screen for referencing)
         internal List<Entity> items = new List<Entity>();
         internal List<Recipe> recipes = new List<Recipe>();
+        public int run;
 
         internal void Clear()
         {
@@ -37,9 +38,12 @@ namespace TheCheapsLib
             player_entities.Clear();
             foreach (var actionl in actions)
             {
-                if(actionl!=null)
-                foreach (var action in actionl)
-                    action.Dispose();
+                if (actionl != null)
+                {
+                    foreach (var action in actionl)
+                        action.Dispose();
+                    actionl.Clear();
+                }
             }
             updated_entities.Clear();
             removed_entities.Clear();
@@ -47,8 +51,8 @@ namespace TheCheapsLib
             broadcasting_news.Clear();
             foreach (var item in items)
                 item.Dispose();
-            foreach (var item in items)
-                item.Dispose();
+            items.Clear();
+            recipes.Clear();
         }
     }
 }

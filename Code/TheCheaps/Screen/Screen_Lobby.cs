@@ -17,14 +17,8 @@ namespace TheCheaps.Scenes
     class Screen_Lobby : Screen_MenuBase
     {
         int menuIndex = 1;
-        bool shadow = false;
-        bool outline = true;
         int extra_lineHeight = 8;
-#if DEBUG
-        public override string audio_name => null;
-#else
         public override string audio_name => "menu/lobby_loop";
-#endif
         string _bgName = "menu/title_background";
         public override string background_name { get { return _bgName; } }        
         public override bool audio_loop => true;
@@ -220,7 +214,7 @@ namespace TheCheaps.Scenes
                     SetStarting();
                 if (NetworkManager.Client.network.model.serverState.GamePhase == NetworkServerState.Phase.Gameplay)
                 {
-                    ScreenManager.Instance.ChangeScreen("game");
+                    NetworkManager.Client.StartMatch();
                 }
             }
             if (player_option != null)

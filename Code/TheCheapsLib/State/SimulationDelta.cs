@@ -37,6 +37,7 @@ namespace TheCheapsLib
             for (int i = 0; i < count; i++)
             {
                 var entity = PlayerEntity.Create();
+                entity.index = i;
                 entity.BinaryReadDelta(br);
                 player_entities.Add(entity);
             }

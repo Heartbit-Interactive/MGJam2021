@@ -27,7 +27,7 @@ namespace TheCheaps.Scenes
             {
                 var se = content.Load<SoundEffect>(audio_name);
                 audio = se.CreateInstance();
-                audio.Volume = 0.75f;
+                audio.Volume = 0.5f;
                 audio.IsLooped = audio_loop;
                 audio.Play();
             }

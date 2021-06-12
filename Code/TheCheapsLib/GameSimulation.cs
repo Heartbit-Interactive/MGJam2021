@@ -15,6 +15,8 @@ namespace TheCheapsLib
         private DateTime last_time = DateTime.MinValue;
         private List<int> currentle_broadcasting;
         private float currentle_broadcasting_timer;
+        public int run;
+        public bool ready;
 
         public GameSimulation()
         {
@@ -40,6 +42,7 @@ namespace TheCheapsLib
             for (int i = 0; i < players.Length; i++)
             {
                 players[i] = new GamePlayer(i, this);
+                model.player_entities[i].index = i;
             }
 
             InitializeEntityIdentifiers(entities);
@@ -50,6 +53,7 @@ namespace TheCheapsLib
         /// </summary>
         public void StartCommon()
         {
+            ready = true;
             var jsontextitems = File.ReadAllText("Items.json");
             model.items = JsonConvert.DeserializeObject<List<Entity>>(jsontextitems);
 
@@ -118,7 +122,6 @@ namespace TheCheapsLib
         {
             if (GameEndedServer != null)
                 GameEndedServer.Invoke(this, null);
-            StartServer();
         }
 
         private void update_entity(float elapsedTimeSeconds,Entity entity)
@@ -200,7 +203,14 @@ namespace TheCheapsLib
                 }
             }
         }
-        
+
+        public void Reset()
+        {
+            model.Clear();
+            last_time = DateTime.MinValue;
+            ready = false;
+        }
+
         public SimulationState GetState()
         {
             var state = new SimulationState();
@@ -296,7 +306,7 @@ namespace TheCheapsLib
             model.timer = delta.timer;
             model.broadcasting_news = delta.broadcasting_news;
             foreach (var added_entity in delta.added_entities)
-            {
+            {                
                 model.entities.Add(added_entity.uniqueId, added_entity);
                 OnEntityAdded(added_entity);
             }

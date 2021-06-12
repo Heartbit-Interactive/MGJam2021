@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Text;
+using TheCheaps.Scenes;
 using TheCheapsLib;
 using TheCheapsServer;
 
@@ -114,7 +115,18 @@ namespace TheCheaps
             LastStatus = Status;
             LastConnected = currentConnected;
         }
-
+        public void StartMatch()
+        {
+            simulation.Reset();
+            simulation.StartCommon();
+            ScreenManager.Instance.ChangeScreen("game");
+            inGame = true;
+            if (pending_sim_state != null)
+            {
+                simulation.SetState(pending_sim_state);
+                pending_sim_state = null;
+            }
+        }
         private void StepResponseTimeouts()
         {
             var ticks = DateTime.UtcNow.Ticks;
@@ -164,10 +176,19 @@ namespace TheCheaps
                                 _stateChanged = true;
                                 break;
                             case NetworkServer.MessageType.SimulationState:
-                                simulation.SetState(msg.Deserialize<SimulationState>());
+                                var state = msg.Deserialize<SimulationState>();
+                                if (inGame)
+                                {
+                                    simulation.SetState(state);
+                                }
+                                else
+                                {
+                                    pending_sim_state = state;
+                                }
                                 break;
                             case NetworkServer.MessageType.SimulationDelta:
-                                simulation.ApplyDelta(msg.Deserialize<SimulationDelta>());
+                                if (inGame)
+                                    simulation.ApplyDelta(msg.Deserialize<SimulationDelta>());
                                 break;
                             default:
                                 throw new Exception("Invalid message type");
@@ -181,6 +202,13 @@ namespace TheCheaps
                 msg = client.ReadMessage();
             }
         }
+
+        internal void StopMatch()
+        {
+            inGame = false;
+            ScreenManager.Instance.ChangeScreen("lobby");
+        }
+
         Dictionary<ulong, EventHandler<NetworkResponseEventArgs>> MessagesWaitingResponse = new Dictionary<ulong, EventHandler<NetworkResponseEventArgs>>(); 
         private void processResponse(NetworkResponse networkResponse)
         {
@@ -213,6 +241,8 @@ namespace TheCheaps
         private NetPeerStatus LastStatus;
         private bool LastConnected;
         private bool _stateChanged;
+        private SimulationState pending_sim_state;
+        private bool inGame;
 
         private void SendOp(NetworkOp.OpType type, EventHandler<NetworkResponseEventArgs> handler, params object[] pars)
         {

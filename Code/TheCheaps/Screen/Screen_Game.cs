@@ -27,6 +27,7 @@ namespace TheCheaps.Scenes
                 NetworkManager.BeginJoin(new System.Net.IPAddress(new byte[] { 127, 0, 0, 1 }), 12345, false);
                 NetworkManager.Client.simulation.EntityAdded += Simulation_EntityAdded;
                 NetworkManager.Client.StateChanged += Client_StateChanged_Debug;
+                NetworkManager.Client.StartMatch();
             }
             else
                 NetworkManager.Client.simulation.EntityAdded += Simulation_EntityAdded;
@@ -141,7 +142,7 @@ namespace TheCheaps.Scenes
             {
                 if (sim.timer <= 0)
                 {
-                    ScreenManager.Instance.ChangeScreen("lobby");
+                    NetworkManager.Client.StopMatch();
                     return;
                 }
                 else //Il server nn ha ancora avviato il match (SOLO DEBUG SE ARRIVO AL GAME SUBITO)
@@ -209,6 +210,15 @@ namespace TheCheaps.Scenes
 
         private void draw_hud(SpriteBatch spriteBatch)
         {
+#if DEBUG
+            //            {
+            //                var timer = (int)Math.Round(sim.timer);
+            //                var posxy = new Vector2(GraphicSettings.Bounds.Width - 96, 48);
+            //                spriteBatch.DrawString(font28, $"{timer / 60}:{timer % 60:00}", posxy, Color.Purple);
+            //                for (int i = 0; i < Settings.maxPlayers; i++)
+            //                    spriteBatch.DrawString(font20, sim.player_entities[i].score.ToString(), new Vector2(posxy.X, posxy.Y +32+ 24 * i), Color.Purple) ;
+            //            }
+#endif
             if (sim.timer <= 0)
             {
                 var entity = win_screens[sim.player_entities.OrderByDescending(x => x.score).First().index];
@@ -219,6 +229,8 @@ namespace TheCheaps.Scenes
             {
                 hud_recipe.Draw(spriteBatch);
                 var recipe = player.inventory.list_recipes[0];
+                if (recipe.name == null)
+                    return;
                 var posxy = hud_recipe.posxy + new Vector2(8, 4);
                 spriteBatch.DrawString(font12, recipe.name, posxy, Color.White);
                 posxy.X += 8;
@@ -285,6 +297,8 @@ namespace TheCheaps.Scenes
                 NetworkManager.StopServer();
                 NetworkManager.StopClient();
             }
+            if (hud_recipe == null)
+                return;
             hud_recipe.Dispose();
             hud_tg_bar.Dispose();
             foreach (var item in item_entities)
