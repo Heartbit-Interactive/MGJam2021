@@ -91,6 +91,7 @@ namespace TheCheapsLib
         internal static float PlayerFrameRate = 12;
         internal static float ContinueWalkingAnimeFor = 0.125f;
         internal static float StunDuration = 3;
+        internal static float ThrowHeight = 42;
 
         /// <summary>
         /// Number of hits required to mine a resource from a pile

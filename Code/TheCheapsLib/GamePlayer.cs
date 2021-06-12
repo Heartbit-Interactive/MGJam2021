@@ -70,7 +70,9 @@ namespace TheCheapsLib
                 playerEntity.frame_index = 3;
             else
             {
-                frame_counter -= elapsedTimeS;
+                if (model.actions[id] != null)
+                    model.actions[id].Clear();
+                    frame_counter -= elapsedTimeS;
                 if (frame_counter < 0)
                 {
                     frame_counter = max_frame_counter;
@@ -209,10 +211,12 @@ namespace TheCheapsLib
                                     entity.direction = action.direction;
                                 var speed_vector = Settings.ThrowSpeed * entity.direction;
                                 speed_vector += current_speed;
+                                entity.posz = Settings.ThrowHeight;
                                 entity.speed = speed_vector.Length();
                                 entity.direction = Vector2.Normalize(speed_vector);
                                 entity.removeable = true;
                                 entity.tags.Add(Tags.CAN_TAKE_ITEM);
+                                entity.hasShadow = true;
                                 launched_items.Add(entity);
                             }
                         }
@@ -367,7 +371,8 @@ namespace TheCheapsLib
             {
                 var entity = this.playerEntity.inventory.entities[i];
                 entity.posxy = this.playerEntity.posxy;
-                entity.posz = 48 + (i * 24 - 2);
+                entity.posz = 42 + i * (20 - 2);
+                entity.hasShadow = false;
                 model.updated_entities.Add(entity);
             }
         }
@@ -408,6 +413,10 @@ namespace TheCheapsLib
             }
             playerEntity.score += recipe.score;
             sim.model.broadcasting_news = new List<int> { recipe.id, playerEntity.index };
+            var baseE = sim.model.entities.Values.FirstOrDefault(x => x.name == "BASE_0" + (playerEntity.index + 1));
+            if (baseE.frame_index < 3)
+                baseE.frame_index++;
+            model.updated_entities.Add(baseE);
             playerEntity.inventory.list_recipes.RemoveAt(recipe_index);
             generate_new_recipe(recipe_index);
             return true;

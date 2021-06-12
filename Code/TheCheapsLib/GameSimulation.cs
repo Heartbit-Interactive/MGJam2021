@@ -145,7 +145,7 @@ namespace TheCheapsLib
                 }
                 model.updated_entities.Add(entity);
             }
-            if (entity.tags.Contains(Tags.CAN_TAKE_ITEM))
+            if (entity.tags.Contains(Tags.CAN_TAKE_ITEM) && entity.posz>0)
             {
                 //Se colpisce un player
                 foreach (var player in players)
@@ -157,8 +157,13 @@ namespace TheCheapsLib
                         if (player.launched_items.Contains(entity))
                             continue;
                         entity.posz = 0;
+                        entity.posxy -= entity.direction * 24;
+                        entity.update_collision_rect();
+                        entity.posz = 0;
                         entity.speed = 0;
+                        model.updated_entities.Add(entity);
                         player.stun_player();
+                        
                     }
                     else if (player.launched_items.Contains(entity))
                         player.launched_items.Remove(entity);
