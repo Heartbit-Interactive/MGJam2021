@@ -25,19 +25,9 @@ namespace TheCheapsLib
         /// </summary>
         public void StartServer()
         {
-            //SimulationModel.entities = new List<Entity>();
-            //SimulationModel.entities.Add(new Entity());
-            //SimulationModel.entities.Add(new Entity() { posxy = new Microsoft.Xna.Framework.Vector2(0, 0.5f), texture_path = "123", direction = new Microsoft.Xna.Framework.Vector2(0, 1), });
-            //var text = JsonConvert.SerializeObject(SimulationModel.entities, Formatting.Indented);
-            //File.WriteAllText("Level.json", text);
             var jsontext = File.ReadAllText("Level.json");
             var entities = JsonConvert.DeserializeObject<List<Entity>>(jsontext);
 
-            //SimulationModel.player_entities = new List<PlayerEntity>();
-            //SimulationModel.player_entities.Add(new PlayerEntity());
-            //SimulationModel.player_entities.Add(new PlayerEntity() { posxy = new Microsoft.Xna.Framework.Vector2(0, 0.5f), texture_path = "123", direction = new Microsoft.Xna.Framework.Vector2(0, 1), });
-            //var text = JsonConvert.SerializeObject(SimulationModel.player_entities, Formatting.Indented);
-            //File.WriteAllText("Players.json", text);
             StartCommon();
 
             var jsontextplayer = File.ReadAllText("Players.json");
@@ -119,13 +109,16 @@ namespace TheCheapsLib
                 }
             }
             if (model.timer <= 0)
-                OnGameEnded();
+                OnGameEndedServer();
             last_time = now;
         }
 
-        private void OnGameEnded()
+        public event EventHandler GameEndedServer;
+        private void OnGameEndedServer()
         {
-            //throw new NotImplementedException();
+            if (GameEndedServer != null)
+                GameEndedServer.Invoke(this, null);
+            StartServer();
         }
 
         private void update_entity(float elapsedTimeSeconds,Entity entity)
@@ -311,7 +304,7 @@ namespace TheCheapsLib
             {
                 if (!model.entities.TryGetValue(freshEntity.uniqueId, out var existingEntity))
                 {
-                    throw new Exception("invalid id on update");
+                    //throw new Exception("invalid id on update");
                 }
                 else
                 {

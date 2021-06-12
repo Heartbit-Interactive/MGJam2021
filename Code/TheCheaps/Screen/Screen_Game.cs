@@ -24,7 +24,7 @@ namespace TheCheaps.Scenes
             if (NetworkManager.Client == null)
             {
                 NetworkManager.StartServer(false);
-                NetworkManager.BeginJoin(new System.Net.IPAddress(new byte[] { 127, 0, 0, 1 }), 12345,false);                
+                NetworkManager.BeginJoin(new System.Net.IPAddress(new byte[] { 127, 0, 0, 1 }), 12345, false);
                 NetworkManager.Client.simulation.EntityAdded += Simulation_EntityAdded;
                 NetworkManager.Client.StateChanged += Client_StateChanged_Debug;
             }
@@ -43,7 +43,6 @@ namespace TheCheaps.Scenes
                 entity.LoadTexture(Content);
         }
 
-        private List<Entity> gui_entities;
         private ContentManager Content;
         private bool contentLoaded;
         private SpriteFont font12;
@@ -51,7 +50,17 @@ namespace TheCheaps.Scenes
         private SpriteFont font18;
         private SpriteFont font20;
         private SpriteFont font28;
+        Color backgroundColor = new Color(191, 149, 77);
+        private int player_index = -1;
+        private Entity hud_recipe;
+        private Entity hud_tg_bar;
+        private List<Entity> item_entities;
+        private Recipe last_recipe;
+        private List<Recipe> global_recipe_list;
+        private Entity score_icon;
+        private Entity[] arrow_icons;
         private Entity[] win_screens = new Entity[Settings.maxPlayers];
+        private List<Entity> gui_entities;
         public override void LoadContent(ContentManager content)
         {
             this.Content = content;
@@ -94,7 +103,7 @@ namespace TheCheaps.Scenes
                 {
                     if (int.TryParse(m2.Groups[1].Captures[0].Value, out int id))
                     {
-                        win_screens[id-1] = entity;
+                        win_screens[id - 1] = entity;
                         gui_entities.Remove(entity);
                     }
                 }
@@ -130,9 +139,17 @@ namespace TheCheaps.Scenes
         {
             if (NetworkManager.Client.network.model.serverState.GamePhase != TheCheapsLib.NetworkServerState.Phase.Gameplay)
             {
-                var pls = NetworkManager.Client.network.model.players;
-                if (pls.Any(x => x != null) && pls.All(p => p == null || p.Ready))
-                    NetworkManager.Server.StartMatch();
+                if (sim.timer <= 0)
+                {
+                    ScreenManager.Instance.ChangeScreen("lobby");
+                    return;
+                }
+                else //Il server nn ha ancora avviato il match (SOLO DEBUG SE ARRIVO AL GAME SUBITO)
+                {
+                    var pls = NetworkManager.Client.network.model.players;
+                    if (pls.Any(x => x != null) && pls.All(p => p == null || p.Ready))
+                        NetworkManager.Server.StartMatch();
+                }
             }
             player_index = NetworkManager.Client.PlayerIndex;
             if (player_index < 0)
@@ -157,15 +174,6 @@ namespace TheCheaps.Scenes
             }
         }
 
-        Color backgroundColor = new Color(191 ,149 ,77);
-        private int player_index = -1;
-        private Entity hud_recipe;
-        private Entity hud_tg_bar;
-        private List<Entity> item_entities;
-        private Recipe last_recipe;
-        private List<Recipe> global_recipe_list;
-        private Entity score_icon;
-        private Entity[] arrow_icons;
 
         private PlayerEntity player { get { return sim.player_entities[player_index]; } }
 
@@ -192,7 +200,7 @@ namespace TheCheaps.Scenes
             spriteBatch.End();
             spriteBatch.Begin();
             foreach (var entity in gui_entities)
-            {                
+            {
                 entity.Draw(spriteBatch);
             }
             draw_hud(spriteBatch);
@@ -203,10 +211,10 @@ namespace TheCheaps.Scenes
         {
             if (sim.timer <= 0)
             {
-                var entity = win_screens[sim.player_entities.OrderByDescending(x=>x.score).First().index];
+                var entity = win_screens[sim.player_entities.OrderByDescending(x => x.score).First().index];
                 entity.Draw(spriteBatch);
                 return;
-            }            
+            }
             if (player.inventory.list_recipes.Count > 0)
             {
                 hud_recipe.Draw(spriteBatch);
@@ -216,20 +224,20 @@ namespace TheCheaps.Scenes
                 posxy.X += 8;
                 posxy.Y += 22;
                 Entity icon;
-                for (int i=0;i<recipe.ingredient_and_amount.Count;i++)
+                for (int i = 0; i < recipe.ingredient_and_amount.Count; i++)
                 {
                     icon = item_entities[recipe_items[i]];
                     icon.posxy = posxy;
                     icon.hasShadow = false;
                     icon.Draw(spriteBatch);
-                    spriteBatch.DrawString(font12, $"{recipe.owned[i]}/{recipe.ingredient_and_amount[i].Item2}", posxy + new Vector2(icon.sourcerect.Width/2,(icon.sourcerect.Height + 12)), Color.White, false, false);
-                    posxy.X += 24+16;
+                    spriteBatch.DrawString(font12, $"{recipe.owned[i]}/{recipe.ingredient_and_amount[i].Item2}", posxy + new Vector2(icon.sourcerect.Width / 2, (icon.sourcerect.Height + 12)), Color.White, false, false);
+                    posxy.X += 24 + 16;
                 }
-                posxy = hud_recipe.posxy+new Vector2(hud_recipe.sourcerect.Width-70,26);
+                posxy = hud_recipe.posxy + new Vector2(hud_recipe.sourcerect.Width - 70, 26);
                 score_icon.posxy = posxy;
                 score_icon.hasShadow = false;
                 score_icon.Draw(spriteBatch);
-                spriteBatch.DrawString(font12, $"+{recipe.score}", posxy + new Vector2(score_icon.sourcerect.Width+22, (score_icon.sourcerect.Height/2+2)), Color.White, false, false);
+                spriteBatch.DrawString(font12, $"+{recipe.score}", posxy + new Vector2(score_icon.sourcerect.Width + 22, (score_icon.sourcerect.Height / 2 + 2)), Color.White, false, false);
             }
             if (sim.broadcasting_news.Count > 0)
             {
@@ -239,18 +247,18 @@ namespace TheCheaps.Scenes
                 var name = sim.player_entities[sim.broadcasting_news[1]].name;
                 var mes = font20.MeasureString(name);
                 spriteBatch.DrawString(font20, name, posxy, Color.Red);
-                spriteBatch.DrawString(font20, recipe_completed.sentence_to_show, posxy+ Vector2.UnitX*(mes.X+10), Color.Black);
-                posxy = hud_tg_bar.posxy + new Vector2(hud_tg_bar.sourcerect.Width-96, 4);
+                spriteBatch.DrawString(font20, recipe_completed.sentence_to_show, posxy + Vector2.UnitX * (mes.X + 10), Color.Black);
+                posxy = hud_tg_bar.posxy + new Vector2(hud_tg_bar.sourcerect.Width - 96, 4);
                 var timer = (int)Math.Round(sim.timer);
-                spriteBatch.DrawString(font28, $"{timer/60}:{timer%60:00}", posxy, Color.White);
-                posxy = hud_tg_bar.posxy + new Vector2(24, hud_tg_bar.sourcerect.Height-26);
-                var sorted_pl = sim.player_entities.OrderByDescending(x=>x.score);
+                spriteBatch.DrawString(font28, $"{timer / 60}:{timer % 60:00}", posxy, Color.White);
+                posxy = hud_tg_bar.posxy + new Vector2(24, hud_tg_bar.sourcerect.Height - 26);
+                var sorted_pl = sim.player_entities.OrderByDescending(x => x.score);
                 int i = 0;
-                foreach(var pl in sorted_pl)
+                foreach (var pl in sorted_pl)
                 {
                     arrow_icons[i].posxy = posxy;
                     arrow_icons[i].Draw(spriteBatch);
-                    spriteBatch.DrawString(font12, $"{pl.name}:{(int)pl.score:+0}", posxy+new Vector2(arrow_icons[i].sourcerect.Width + 4,8), Color.White);
+                    spriteBatch.DrawString(font12, $"{pl.name}:{(int)pl.score:+0}", posxy + new Vector2(arrow_icons[i].sourcerect.Width + 4, 8), Color.White);
                     posxy.X += 236;
                     i++;
                 }
@@ -260,7 +268,7 @@ namespace TheCheaps.Scenes
 
         private static Matrix MakeCameraMatrix(PlayerEntity pl)
         {
-            var posplayer = pl.posxy-Vector2.One*16;
+            var posplayer = pl.posxy - Vector2.One * 16;
             var shift_x = Mathf.Clamp(posplayer.X - GraphicSettings.Bounds.Width / 2, 0, Settings.LevelWidth - GraphicSettings.Bounds.Width);
             var shift_y = Mathf.Clamp(posplayer.Y - GraphicSettings.Bounds.Height / 2, 0, Settings.LevelHeight - GraphicSettings.Bounds.Height);
             var translation_matrix = Matrix.CreateTranslation(new Vector3(-shift_x, -shift_y, 0));
@@ -272,8 +280,22 @@ namespace TheCheaps.Scenes
         }
         public override void Terminate(ContentManager content)
         {
-            NetworkManager.StopServer();
-            NetworkManager.StopClient();
+            if (ScreenManager.Instance.Exiting)
+            {
+                NetworkManager.StopServer();
+                NetworkManager.StopClient();
+            }
+            hud_recipe.Dispose();
+            hud_tg_bar.Dispose();
+            foreach (var item in item_entities)
+                item.Dispose();
+            score_icon.Dispose();
+            foreach (var item in arrow_icons)
+                item.Dispose();
+            foreach (var item in win_screens)
+                item.Dispose();
+            foreach (var item in gui_entities)
+                item.Dispose();
         }
     }
 }

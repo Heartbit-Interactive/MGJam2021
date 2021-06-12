@@ -56,7 +56,8 @@ namespace TheCheaps
             base.Draw(gameTime);
         }
         protected override void OnExiting(object sender, EventArgs args)
-        {            
+        {
+            ScreenManager.Instance.Exiting = true;
             base.OnExiting(sender, args);
         }
     }

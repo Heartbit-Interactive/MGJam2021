@@ -80,7 +80,7 @@ namespace TheCheapsLib
         /// Total game duration in seconds, is shown during the "breaking news gui event"
         /// </summary>
 #if DEBUG
-        public static int TotalGameTimeS = 60 * 2;
+        public static int TotalGameTimeS = 15 * 1;
 #else
         public static int TotalGameTimeS = 60 * 4;
 #endif

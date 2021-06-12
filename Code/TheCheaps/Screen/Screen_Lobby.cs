@@ -52,6 +52,12 @@ namespace TheCheaps.Scenes
         public Screen_Lobby()
         {
             setDefault();
+            if (NetworkManager.Server != null)
+            {
+                SetServer();
+            }
+            else if (NetworkManager.Client != null)
+                SetClient();
         }
 
         private void setDefault()

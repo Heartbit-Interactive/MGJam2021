@@ -16,6 +16,8 @@ namespace TheCheaps.Scenes
         public Screen_Base Screen;
         ContentManager _content;
         SpriteBatch _spriteBatch;
+        internal bool Exiting;
+
         public ScreenManager(Game game):base(game)
         {
             if (Instance != null)
