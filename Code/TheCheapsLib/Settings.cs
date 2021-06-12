@@ -88,6 +88,10 @@ namespace TheCheapsLib
         /// Total duration in seconds to show broadcasting news
         /// </summary>
         internal static int BroadCastDuration = 10;
+        internal static float PlayerFrameRate = 12;
+        internal static float ContinueWalkingAnimeFor = 0.125f;
+        internal static float StunDuration = 3;
+
         /// <summary>
         /// Number of hits required to mine a resource from a pile
         /// </summary>

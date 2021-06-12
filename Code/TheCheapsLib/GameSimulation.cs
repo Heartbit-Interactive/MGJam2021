@@ -90,6 +90,8 @@ namespace TheCheapsLib
             if (last_time == DateTime.MinValue)
                 last_time = now;
             var elapsedSecondsf = (float)(now- last_time).TotalSeconds;
+            if (float.IsNaN(elapsedSecondsf))
+                System.Diagnostics.Debugger.Break();
             foreach (var player in players)
             {
                 player.Update(elapsedSecondsf);
@@ -123,7 +125,7 @@ namespace TheCheapsLib
 
         private void OnGameEnded()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void update_entity(float elapsedTimeSeconds,Entity entity)

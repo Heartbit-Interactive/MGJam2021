@@ -42,17 +42,87 @@ namespace TheCheapsLib
         public void Update(float elapsedTimeS)
         {
             deltaxy = Vector2.Zero;
+            if (stunnedCounter > 0)
+            {
+                updateStunned(elapsedTimeS);
+                return;
+            }
             update_input(elapsedTimeS);
             playerEntity.update_timer_dash(elapsedTimeS);
-            if(heap_clicked!= null && click_for_interact > 0)
+            if (heap_clicked != null && click_for_interact > 0)
             {
                 if (stoppedInteractingTimer >= Settings.MaxTimeBetwheenClicksToMineResource)
                     click_for_interact = 0;
                 else
-                    stoppedInteractingTimer+=elapsedTimeS;
+                    stoppedInteractingTimer += elapsedTimeS;
             }
             update_position(elapsedTimeS);
+                update_animation_walk(elapsedTimeS);
+            
         }
+
+        private void updateStunned(float elapsedTimeS)
+        {
+            stunnedCounter -= elapsedTimeS;
+            if (stunnedCounter <= 0)
+                playerEntity.frame_index = 0;
+            else if (playerEntity.frame_index < 3)
+                playerEntity.frame_index = 3;
+            else
+            {
+                frame_counter -= elapsedTimeS;
+                if (frame_counter < 0)
+                {
+                    frame_counter = max_frame_counter;
+                    step_index = (step_index + 1) % 3;
+                    playerEntity.frame_index = step_index + 3;
+                }
+            }
+        }
+
+        int step_index = 0;
+        float max_frame_counter = 1 / (float)Settings.PlayerFrameRate;
+        float continue_walking_for = 0;
+        private void update_animation_walk(float elapsedTime)
+        {
+            if (deltaxy != Vector2.Zero)
+            {
+                frame_counter -= elapsedTime;
+                if (frame_counter < 0)
+                {
+                    frame_counter = max_frame_counter;
+                    step_index = (step_index + 1) % 4;
+                    if (step_index == 3)
+                        playerEntity.frame_index = 1;
+                    else
+                        playerEntity.frame_index = step_index;
+                }
+                continue_walking_for = Settings.ContinueWalkingAnimeFor;
+            }
+            else if (continue_walking_for > 0)
+            {
+                continue_walking_for -= elapsedTime;
+                frame_counter -= elapsedTime;
+                if (frame_counter < 0)
+                {
+                    frame_counter = max_frame_counter;
+                    step_index = (step_index + 1) % 4;
+                    if (step_index == 3)
+                        playerEntity.frame_index = 1;
+                    else
+                        playerEntity.frame_index = step_index;
+                }
+            }
+            else
+            {
+                playerEntity.frame_index = 0;
+                frame_counter = max_frame_counter;
+            }
+        }
+
+        float frame_counter = 0;
+        private float stunnedCounter;
+
         public void update_input(float elapsedTime)
         {
             var current_speed = Vector2.Zero;
@@ -62,7 +132,7 @@ namespace TheCheapsLib
             }
             while (model.actions[id].Count > 0)
             {
-                var action = model.actions[id].LastOrDefault();
+                var action = model.actions[id].LastOrDefault();                
                 switch (action.type)
                 {
                     case ActionModel.Type.Interact:
@@ -120,6 +190,8 @@ namespace TheCheapsLib
                             if (playerEntity.dash_timer_counter <= 0)
                             {
                                 playerEntity.dash_timer_counter = Settings.DashRecoilS;
+                                if (float.IsNaN(action.direction.X) && float.IsNaN(action.direction.Y))
+                                    action.direction = playerEntity.direction;
                                 accumulateMovement(Settings.DashDistance, action.direction);
                             }
                         }
@@ -165,11 +237,13 @@ namespace TheCheapsLib
             {
                 var entity = this.playerEntity.inventory.entities[i];
                 var posx = (i - 1)*5;
+                if (float.IsNaN(posx))
+                    System.Diagnostics.Debugger.Break();
                 entity.posxy += new Vector2(posx, 0);
                 entity.posz = 0;
                 entity.life_time = Settings.TimeOnTheFloor;
             }
-
+            this.stunnedCounter = Settings.StunDuration;
         }
 
         private void loot_random_material()
@@ -219,10 +293,14 @@ namespace TheCheapsLib
             this.playerEntity.direction = direction;
             //Movement to add to currently accumulated movement this frame (we can use it to partially roll back this move)
             var newmove_additional_deltaxy = movePixels * direction;
+            if (float.IsNaN(newmove_additional_deltaxy.X))
+                System.Diagnostics.Debugger.Break();
             //Store the current accumulated movement to restore it if needed
             var prevdelta = this.deltaxy;
             //Accumulate new movement
             this.deltaxy += newmove_additional_deltaxy;
+            if (float.IsNaN(deltaxy.X))
+                System.Diagnostics.Debugger.Break();
             //Player collision rect was not yet updated this frame, so we shift a copy of it for the accumulated movement
             var tentativePlayerCollRect = playerEntity.get_displaced_collision_rect(deltaxy);
             //Cycle all other entities
@@ -240,6 +318,8 @@ namespace TheCheapsLib
                         if (rect.Width == tentativePlayerCollRect.Width) //Total Compenetration (Cancel move)
                         {
                             deltaxy = prevdelta;
+                            if (float.IsNaN(deltaxy.X))
+                                System.Diagnostics.Debugger.Break();
                             return;
                         }
                         else
@@ -268,6 +348,8 @@ namespace TheCheapsLib
                     if (rect.Width != 0 || rect.Height != 0)
                     {
                         deltaxy = prevdelta;
+                        if (float.IsNaN(deltaxy.X))
+                            System.Diagnostics.Debugger.Break();
                         return;
                     }
                 }
@@ -276,6 +358,8 @@ namespace TheCheapsLib
 
         private void update_position(float elapsedTime)
         {
+            if (float.IsNaN(deltaxy.X))
+                System.Diagnostics.Debugger.Break();
             this.playerEntity.posxy += deltaxy;
             playerEntity.update_collision_rect();
 

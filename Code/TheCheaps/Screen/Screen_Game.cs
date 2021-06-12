@@ -24,7 +24,7 @@ namespace TheCheaps.Scenes
             if (NetworkManager.Client == null)
             {
                 NetworkManager.StartServer(false);
-                NetworkManager.BeginJoin(new System.Net.IPAddress(new byte[] { 127, 0, 0, 1 }), 12345,false);
+                NetworkManager.BeginJoin(new System.Net.IPAddress(new byte[] { 127, 0, 0, 1 }), 12345,false);                
                 NetworkManager.Client.simulation.EntityAdded += Simulation_EntityAdded;
                 NetworkManager.Client.StateChanged += Client_StateChanged_Debug;
             }
@@ -43,7 +43,7 @@ namespace TheCheaps.Scenes
                 entity.LoadTexture(Content);
         }
 
-        private List<PlayerEntity> gui_entities;
+        private List<Entity> gui_entities;
         private ContentManager Content;
         private bool contentLoaded;
         private SpriteFont font12;
@@ -69,11 +69,11 @@ namespace TheCheaps.Scenes
             font20 = Content.Load<SpriteFont>("Font20");
             font28 = Content.Load<SpriteFont>("Font28");
             var jsontextgui = File.ReadAllText("Items.json");
-            item_entities = JsonConvert.DeserializeObject<List<PlayerEntity>>(jsontextgui);
+            item_entities = JsonConvert.DeserializeObject<List<Entity>>(jsontextgui);
             jsontextgui = File.ReadAllText("Recipes.json");
             global_recipe_list = JsonConvert.DeserializeObject<List<Recipe>>(jsontextgui);
             jsontextgui = File.ReadAllText("GUI.json");
-            gui_entities = JsonConvert.DeserializeObject<List<PlayerEntity>>(jsontextgui);
+            gui_entities = JsonConvert.DeserializeObject<List<Entity>>(jsontextgui);
             foreach (var entity in gui_entities.Concat(item_entities).ToArray())
             {
                 var m = Regex.Match(entity.name, @"FACE_ACTOR_(\d\d)");
@@ -159,13 +159,13 @@ namespace TheCheaps.Scenes
 
         Color backgroundColor = new Color(191 ,149 ,77);
         private int player_index = -1;
-        private PlayerEntity hud_recipe;
-        private PlayerEntity hud_tg_bar;
-        private List<PlayerEntity> item_entities;
+        private Entity hud_recipe;
+        private Entity hud_tg_bar;
+        private List<Entity> item_entities;
         private Recipe last_recipe;
         private List<Recipe> global_recipe_list;
-        private PlayerEntity score_icon;
-        private PlayerEntity[] arrow_icons;
+        private Entity score_icon;
+        private Entity[] arrow_icons;
 
         private PlayerEntity player { get { return sim.player_entities[player_index]; } }
 
@@ -260,7 +260,7 @@ namespace TheCheaps.Scenes
 
         private static Matrix MakeCameraMatrix(PlayerEntity pl)
         {
-            var posplayer = pl.posxy;
+            var posplayer = pl.posxy-Vector2.One*16;
             var shift_x = Mathf.Clamp(posplayer.X - GraphicSettings.Bounds.Width / 2, 0, Settings.LevelWidth - GraphicSettings.Bounds.Width);
             var shift_y = Mathf.Clamp(posplayer.Y - GraphicSettings.Bounds.Height / 2, 0, Settings.LevelHeight - GraphicSettings.Bounds.Height);
             var translation_matrix = Matrix.CreateTranslation(new Vector3(-shift_x, -shift_y, 0));

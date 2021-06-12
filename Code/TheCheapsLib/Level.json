@@ -1,5 +1,37 @@
 [
   {
+    "name": "TOP COLLISION",
+    "posxy": "960,0",
+    "collisionrect": {
+      "Width": 1952,
+      "Height": 16
+    }
+  },
+  {
+    "name": "LX COLLISION",
+    "posxy": "-8,1080",
+    "collisionrect": {
+      "Width": 16,
+      "Height": 1080
+    }
+  },
+  {
+    "name": "RX COLLISION",
+    "posxy": "1928,1080",
+    "collisionrect": {
+      "Width": 16,
+      "Height": 1080
+    }
+  },
+  {
+    "name": "BOT COLLISION",
+    "posxy": "960,1096",
+    "collisionrect": {
+      "Width": 1952,
+      "Height": 16
+    }
+  },
+  {
     "name": "BASE_01",
     "posxy": "96,312",
     "z": 0.0,

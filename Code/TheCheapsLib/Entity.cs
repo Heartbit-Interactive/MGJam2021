@@ -18,7 +18,7 @@ namespace TheCheapsLib
     {
         public string texture_path="";
         public string name = "default";
-        public Vector2 posxy;//posizione piedi
+        public Vector2 posxy;
         public float z;
         public Rectangle sourcerect;
         public Vector2 direction;
@@ -27,7 +27,8 @@ namespace TheCheapsLib
         public List<string> tags = new List<string>();
         //for collision
         public Rectangle collisionrect;
-        internal float posz;
+        public float posz;
+        public int frame_index = 0;
         [JsonIgnore]
         Texture2D _texture;
         [JsonIgnore]
@@ -81,10 +82,11 @@ namespace TheCheapsLib
                     spriteBatch.Draw(shadow, this.posxy, null, Color.White, 0, shadowOrigin, 1, SpriteEffects.None, 0.1f);
                 }
                 var depth = z;
-                if (collisionrect.Width!=0)
-                    depth += ((posxy.Y+posz) / (GraphicSettings.Bounds.Height+128)) * 0.5f;
+                if (collisionrect.Width != 0)
+                    depth += ((posxy.Y + posz) / (GraphicSettings.Bounds.Height + 128)) * 0.5f;
 
-                spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, this.sourcerect, Color.White, 0, this.origin, 1, SpriteEffects.None, depth);
+                var effects = direction.X < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+                spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, this.sourcerect, Color.White, 0, this.origin, 1, effects, depth);
             }
             if (GraphicSettings.ShowCollisions)
             {
@@ -108,8 +110,10 @@ namespace TheCheapsLib
             var Y = (int)(posxy.Y + deltaxy.Y - collisionrect.Height);
             return new Rectangle(X, Y, collisionrect.Width, collisionrect.Height);
         }
-        public void LoadTexture(ContentManager Content)
+        public virtual void LoadTexture(ContentManager Content)
         {
+            if (string.IsNullOrEmpty(texture_path))
+                return;
             texture = Content.Load<Texture2D>(texture_path);
             if (sourcerect.Width != 0)
                 origin = new Vector2(sourcerect.Width / 2, sourcerect.Height);
@@ -155,6 +159,7 @@ namespace TheCheapsLib
             posz = br.ReadSingle();
             life_time = br.ReadSingle();
             removeable = br.ReadBoolean();
+            frame_index = br.ReadInt32();
         }
 
         public virtual void BinaryWrite(BinaryWriter bw)
@@ -189,6 +194,7 @@ namespace TheCheapsLib
             bw.Write(posz);
             bw.Write(life_time);
             bw.Write(removeable);
+            bw.Write(frame_index);
         }
 
         internal virtual void CopyDelta(Entity other)
@@ -201,6 +207,13 @@ namespace TheCheapsLib
             this.tags = other.tags;
             this.posz = other.posz;
             this.removeable = other.removeable;
+            if (this.frame_index != other.frame_index)
+            {
+                this.frame_index = other.frame_index;
+                this.sourcerect.X = this.sourcerect.Width * this.frame_index;
+                this.sourcerect.Y = this.sourcerect.X / this.texture.Width*this.sourcerect.Height;
+                this.sourcerect.X = this.sourcerect.X % this.texture.Width;
+            }
         }
         protected bool disposed;
 
@@ -259,6 +272,7 @@ namespace TheCheapsLib
 
             posz = br.ReadSingle();
             removeable = br.ReadBoolean();
+            frame_index = br.ReadInt32();
         }
 
         public virtual void BinaryWriteDelta(BinaryWriter bw)
@@ -278,6 +292,7 @@ namespace TheCheapsLib
                 bw.Write(tag);
             bw.Write(posz);
             bw.Write(removeable);
+            bw.Write(frame_index);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.ObjectPool;
+using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +14,8 @@ namespace TheCheapsLib
         public float dash_timer_counter;
 
         public int score = 0;
+        private bool walking = false;
+        public int step = 0;
 
         public PlayerEntity():base() 
         {
@@ -56,7 +59,11 @@ namespace TheCheapsLib
             base.BinaryWriteDelta(bw);
             BinaryWritePlayer(bw);
         }
-
+        public override void LoadTexture(ContentManager Content)
+        {
+            System.Diagnostics.Debug.WriteLine($"Player texture loaded {texture_path}");
+            base.LoadTexture(Content);
+        }
         private void BinaryWritePlayer(BinaryWriter bw)
         {
             bw.Write(score);
@@ -78,6 +85,7 @@ namespace TheCheapsLib
         }
         internal override void CopyDelta(Entity other)
         {
+            this.walking = other.posxy != this.posxy;
             base.CopyDelta(other);
             var othp = (PlayerEntity)other;
             this.score = othp.score;
@@ -91,7 +99,8 @@ namespace TheCheapsLib
             this.disposed = true;
         }
         private static ObjectPool<PlayerEntity> Pool = ObjectPool.Create<PlayerEntity>();
-        public static PlayerEntity Create()
+
+        public static new PlayerEntity Create()
         {
             return Pool.Get();
         }
