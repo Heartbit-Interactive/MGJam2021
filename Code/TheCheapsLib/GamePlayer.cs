@@ -120,7 +120,7 @@ namespace TheCheapsLib
                             if (playerEntity.dash_timer_counter <= 0)
                             {
                                 playerEntity.dash_timer_counter = Settings.DashRecoilS;
-                                movement(Settings.DashDistance, action.direction);
+                                accumulateMovement(Settings.DashDistance, action.direction);
                             }
                         }
                         break;
@@ -146,7 +146,7 @@ namespace TheCheapsLib
                         break;
                     case ActionModel.Type.Move:
                         current_speed = Settings.MoveSpeed * Vector2.Normalize(action.direction);
-                        movement(Settings.MoveSpeed*elapsedTime,action.direction);
+                        accumulateMovement(Settings.MoveSpeed*elapsedTime,action.direction);
                         break;
 
                 }
@@ -213,53 +213,59 @@ namespace TheCheapsLib
             return false;
         }
 
-        private void movement(float speedframe, Vector2 vector)
+        private void accumulateMovement(float movePixels, Vector2 direction)
         {
-            //+= perchè può succedere più volte nel frame
-            var move_shift = speedframe * vector;
+            this.playerEntity.direction = direction;
+            //Movement to add to currently accumulated movement this frame (we can use it to partially roll back this move)
+            var newmove_additional_deltaxy = movePixels * direction;
+            //Store the current accumulated movement to restore it if needed
             var prevdelta = this.deltaxy;
-            this.deltaxy += move_shift;
-            this.playerEntity.direction = vector;
-
-            var temprect = playerEntity.collisionrect;
-            temprect.Offset((int)deltaxy.X, (int)deltaxy.Y);
-            foreach (var entity in model.entities.Values)
+            //Accumulate new movement
+            this.deltaxy += newmove_additional_deltaxy;
+            //Player collision rect was not yet updated this frame, so we shift a copy of it for the accumulated movement
+            var tentativePlayerCollRect = playerEntity.collisionrect;
+            tentativePlayerCollRect.Offset((int)deltaxy.X, (int)deltaxy.Y);
+            //Cycle all other entities
+            foreach (var otherEntity in model.entities.Values)
             {
-                if (entity.through || entity.collisionrect.Width == 0)
+                //That have collision
+                if (otherEntity.through || otherEntity.collisionrect.Width == 0)
                     continue;
-                var rect = Rectangle.Intersect(entity.collisionrect, temprect);
+                var rect = Rectangle.Intersect(otherEntity.collisionrect, tentativePlayerCollRect);
+                //Collision strategies
                 if (rect.Width != 0 || rect.Height != 0)
                 {
-                    if (rect.Height == temprect.Height) //99% collisione horz
+                    if (rect.Height == tentativePlayerCollRect.Height) //Horz Collision?
                     {
-                        if (rect.Width == temprect.Width) //Compenetrazione totale
+                        if (rect.Width == tentativePlayerCollRect.Width) //Total Compenetration (Cancel move)
                         {
                             deltaxy = prevdelta;
                             return;
                         }
                         else
-                            deltaxy -= new Vector2(move_shift.X, 0);
+                            deltaxy -= new Vector2(newmove_additional_deltaxy.X, 0); //Horz Collision!
                     }
-                    else if (rect.Width == temprect.Width) //99% collisione vert
+                    else if (rect.Width == tentativePlayerCollRect.Width) //Vert Collision!
                     {
-                        deltaxy -= new Vector2(0, move_shift.Y);
+                        deltaxy -= new Vector2(0, newmove_additional_deltaxy.Y);
                     }
-                    else
+                    else //Ambiguous Collision!
                     {
-                        //Provo a fixare in x ma se collido fixo in Y
-                        deltaxy -= new Vector2(move_shift.X, 0);
-                        temprect = playerEntity.collisionrect;
-                        temprect.Offset((int)deltaxy.X, (int)deltaxy.Y);
-                        rect = Rectangle.Intersect(entity.collisionrect, temprect);
+                        //Try to cancel H move
+                        deltaxy -= new Vector2(newmove_additional_deltaxy.X, 0);
+                        tentativePlayerCollRect = playerEntity.collisionrect;
+                        tentativePlayerCollRect.Offset((int)deltaxy.X, (int)deltaxy.Y);
+                        //if collides afterwards rollback and cancel V move
+                        rect = Rectangle.Intersect(otherEntity.collisionrect, tentativePlayerCollRect);
                         if (rect.Width != 0 || rect.Height != 0)
                         {
-                            deltaxy += new Vector2(move_shift.X, -move_shift.Y);
+                            deltaxy += new Vector2(newmove_additional_deltaxy.X, -newmove_additional_deltaxy.Y);
                         }
                     }
-                    //Ultimo test
-                    temprect = playerEntity.collisionrect;
-                    temprect.Offset((int)deltaxy.X, (int)deltaxy.Y);
-                    rect = Rectangle.Intersect(entity.collisionrect, temprect);
+                    //Final collision test
+                    tentativePlayerCollRect = playerEntity.collisionrect;
+                    tentativePlayerCollRect.Offset((int)deltaxy.X, (int)deltaxy.Y);
+                    rect = Rectangle.Intersect(otherEntity.collisionrect, tentativePlayerCollRect);
                     //If after removing the component we still collide, cancel the movement completely
                     if (rect.Width != 0 || rect.Height != 0)
                     {
