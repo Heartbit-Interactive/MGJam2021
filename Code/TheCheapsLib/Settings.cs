@@ -14,7 +14,7 @@ namespace TheCheapsLib
         /// <summary>
         /// Time in second before an item on the floor disappears
         /// </summary>
-        public const float TimeOnTheFloor = 3f;
+        public const float TimeOnTheFloor = 5f;
         /// <summary>
         /// Score received when selling an item that is not in the current recipe
         /// </summary>
@@ -53,7 +53,7 @@ namespace TheCheapsLib
 #if DEBUG
         public const float MoveSpeed = 9 * 60f;
 #else
-        public const float MoveSpeed = 3*60f;
+        public const float MoveSpeed = 6*60f;
 #endif
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace TheCheapsLib
         /// Total game duration in seconds, is shown during the "breaking news gui event"
         /// </summary>
 #if DEBUG
-        public static int TotalGameTimeS = 60 * 30;
+        public static int TotalGameTimeS = 60 * 2;
 #else
         public static int TotalGameTimeS = 60 * 4;
 #endif
@@ -92,7 +92,7 @@ namespace TheCheapsLib
         /// Number of hits required to mine a resource from a pile
         /// </summary>
 #if DEBUG
-        public const int ClicksRequiredToMineResource = 1;
+        public const int ClicksRequiredToMineResource = 2;
 #else
         public const int ClicksRequiredToMineResource = 5;
 #endif

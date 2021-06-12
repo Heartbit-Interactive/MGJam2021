@@ -51,7 +51,7 @@ namespace TheCheaps.Scenes
         private SpriteFont font18;
         private SpriteFont font20;
         private SpriteFont font28;
-
+        private Entity[] win_screens = new Entity[Settings.maxPlayers];
         public override void LoadContent(ContentManager content)
         {
             this.Content = content;
@@ -77,6 +77,7 @@ namespace TheCheaps.Scenes
             foreach (var entity in gui_entities.Concat(item_entities).ToArray())
             {
                 var m = Regex.Match(entity.name, @"FACE_ACTOR_(\d\d)");
+                var m2 = Regex.Match(entity.name, @"WIN_(\d\d)");
                 if (m.Success)
                 {
                     if (int.TryParse(m.Groups[1].Captures[0].Value, out int id))
@@ -87,6 +88,14 @@ namespace TheCheaps.Scenes
                             gui_entities.Remove(entity);
                             continue;
                         }
+                    }
+                }
+                else if (m2.Success)
+                {
+                    if (int.TryParse(m2.Groups[1].Captures[0].Value, out int id))
+                    {
+                        win_screens[id-1] = entity;
+                        gui_entities.Remove(entity);
                     }
                 }
                 else if (entity.name.StartsWith("HUD_Ricetta"))
@@ -103,6 +112,7 @@ namespace TheCheaps.Scenes
                 {
                     entity.LoadTexture(Content);
                     entity.origin = Vector2.Zero;
+                    entity.hasShadow = false;
                 }
             }
             GraphicSettings.DebugSquare = Content.Load<Texture2D>("menu/white_square");
@@ -191,6 +201,12 @@ namespace TheCheaps.Scenes
 
         private void draw_hud(SpriteBatch spriteBatch)
         {
+            if (sim.timer <= 0)
+            {
+                var entity = win_screens[sim.player_entities.OrderByDescending(x=>x.score).First().index];
+                entity.Draw(spriteBatch);
+                return;
+            }            
             if (player.inventory.list_recipes.Count > 0)
             {
                 hud_recipe.Draw(spriteBatch);

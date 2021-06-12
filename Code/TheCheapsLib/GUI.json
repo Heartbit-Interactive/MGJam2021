@@ -43,22 +43,40 @@
   //  "texture_path": "HUD_Ricetta_01_Mockup",
   //},
 
-  //{
-  //  "name": "HUD_Ricetta_01_Mockup 3",
-  //  "posxy": "534,120",
-  //  "z": 0.9,
-  //  "texture_path": "HUD_Ricetta_01_Mockup",
-  //},
   {
     "name": "HUD_BarraTelegiornale_01",
     "posxy": "0,462",
     "z": 0.9,
     "texture_path": "HUD_BarraTelegiornale_01"
-  }
+  },
   //{
   //  "name": "HUD_BarraTelegiornale_01_Mockup",
   //  "posxy": "480,528",
   //  "z": 0.9,
   //  "texture_path": "HUD_BarraTelegiornale_01_Mockup",
   //}
+  {
+    "name": "WIN_01",
+    "posxy": "0,0",
+    "z": 0.95,
+    "texture_path": "ACTOR_01_WIN"
+  },
+  {
+    "name": "WIN_02",
+    "posxy": "0,0",
+    "z": 0.95,
+    "texture_path": "ACTOR_02_WIN"
+  },
+  {
+    "name": "WIN_03",
+    "posxy": "0,0",
+    "z": 0.95,
+    "texture_path": "ACTOR_03_WIN"
+  },
+  {
+    "name": "WIN_04",
+    "posxy": "0,0",
+    "z": 0.95,
+    "texture_path": "ACTOR_04_WIN"
+  }
 ]
