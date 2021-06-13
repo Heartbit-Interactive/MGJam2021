@@ -46,6 +46,8 @@ namespace TheCheapsLib
                         sourcerect = _texture.Bounds;
                 }
                 hasShadow = sourcerect.Width <= 48;
+                destinationRectangle.Height = sourcerect.Height;
+                destinationRectangle.Width = sourcerect.Width;
             }
         }
         [JsonIgnore]
@@ -63,7 +65,12 @@ namespace TheCheapsLib
         public static Vector2 shadowOrigin;
         [JsonIgnore]
         internal static int UniqueCounter;
-		
+        [JsonIgnore]
+        internal static float ShakeCounter;
+        [JsonIgnore]
+        internal static float ShakeIntensity;
+        [JsonIgnore]
+        internal static float ShakeX;
 
         internal float life_time = Settings.TimeOnTheFloor;
         internal bool removeable = false;
@@ -77,11 +84,17 @@ namespace TheCheapsLib
             update_collision_rect();
             this.uniqueId = UniqueCounter++;
         }
-
+        Rectangle destinationRectangle;
+        public void Update()
+        { 
+        
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             if (texture != null)
             {
+                destinationRectangle.X = (int)(this.posxy.X+shakeX);
+                    destinationRectangle.Y = (int)(this.posxy.Y - this.posz);
                 if (this.hasShadow)
                 {
                     spriteBatch.Draw(shadow, this.posxy, null, Color.White, 0, shadowOrigin, 1, SpriteEffects.None, 0.1f);
@@ -91,7 +104,7 @@ namespace TheCheapsLib
                     depth += ((posxy.Y + posz) / (GraphicSettings.Bounds.Height + 128)) * 0.5f;
 
                 var effects = direction.X < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-                spriteBatch.Draw(this.texture, this.posxy - this.posz * Vector2.UnitY, this.sourcerect, Color.White, 0, this.origin, 1, effects, depth);
+                spriteBatch.Draw(this.texture, destinationRectangle, this.sourcerect, Color.White, 0, this.origin,  effects, depth);
             }
             if (GraphicSettings.ShowCollisions)
             {
