@@ -14,6 +14,8 @@ namespace TheCheapsLib
         public List<Entity> added_entities        ;
         public List<int> removed_entities;
         public List<int> broadcasting_news;
+        public List<S2CActionModel> special_commands;
+
         public SimulationDelta()
         {
 
@@ -61,6 +63,15 @@ namespace TheCheapsLib
             broadcasting_news = new List<int>(count);
             for (int i = 0; i < count; i++)
                 broadcasting_news.Add(br.ReadInt32());
+
+            count = br.ReadInt32();
+            for (int i = 0; i < count; i++)
+            {
+                var entity = S2CActionModel.Create();
+                entity.BinaryRead(br);
+                special_commands.Add(entity);
+            }
+
             timer = br.ReadInt32();
         }
         public override void BinaryWrite(BinaryWriter bw)
@@ -83,6 +94,9 @@ namespace TheCheapsLib
             bw.Write(broadcasting_news.Count);
             foreach (var id in broadcasting_news)
                 bw.Write(id);
+            bw.Write(special_commands.Count);
+            foreach (var entity in special_commands)
+                entity.BinaryWrite(bw);
             bw.Write(timer);
         }
     }

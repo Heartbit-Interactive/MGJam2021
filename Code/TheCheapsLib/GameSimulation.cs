@@ -231,6 +231,7 @@ namespace TheCheapsLib
             delta.removed_entities = model.removed_entities;
             delta.updated_entities = model.updated_entities;
             delta.broadcasting_news = model.broadcasting_news;
+            delta.special_commands = model.special_commands;
             delta.timer = (int)model.timer;
             return delta;
         }
@@ -305,6 +306,8 @@ namespace TheCheapsLib
         {
             model.timer = delta.timer;
             model.broadcasting_news = delta.broadcasting_news;
+            foreach (var s2cCommand in delta.special_commands)
+                processS2CCommand(s2cCommand);
             foreach (var added_entity in delta.added_entities)
             {                
                 model.entities.Add(added_entity.uniqueId, added_entity);
@@ -342,6 +345,31 @@ namespace TheCheapsLib
             }
             OnStateUpdated();
         }
+
+        private void processS2CCommand(S2CActionModel s2cCommand)
+        {
+            switch (s2cCommand.type)
+            {
+                case S2CActionModel.Type.SE:
+                    {
+                        SoundManager.PlaySE((SEType)s2cCommand.parameters[0]);
+                    }
+                    break;
+                case S2CActionModel.Type.Shake:
+                    {
+                        if (model.entities.TryGetValue(s2cCommand.parameters[0], out var ent))
+                        {
+                            ent.StartShake(s2cCommand.parameters[1], s2cCommand.parameters[2], s2cCommand.parameters[3]);
+                        }
+                    }
+                    break;
+                case S2CActionModel.Type.Popup:
+                    throw new NotImplementedException();
+                default:
+                    break;
+            }
+        }
+
         public event EventHandler StateUpdated;
         private void OnStateUpdated()
         {

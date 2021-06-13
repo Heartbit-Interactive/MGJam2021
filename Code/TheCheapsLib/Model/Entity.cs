@@ -54,6 +54,9 @@ namespace TheCheapsLib
         public Vector2 origin;
         [JsonIgnore]
         public int uniqueId;
+
+        internal float life_time = Settings.TimeOnTheFloor;
+        internal bool removeable = false;
         /// <summary>
         /// Non in delta, depends if rect size <48 = true
         /// </summary>
@@ -66,15 +69,15 @@ namespace TheCheapsLib
         [JsonIgnore]
         internal static int UniqueCounter;
         [JsonIgnore]
-        internal static float ShakeCounter;
+        internal float ShakeCounter;
         [JsonIgnore]
-        internal static float ShakeIntensity;
+        internal float ShakeIntensity;
         [JsonIgnore]
-        internal static float ShakeX;
-
-        internal float life_time = Settings.TimeOnTheFloor;
-        internal bool removeable = false;
-        /// PRIVATE: usa Entity.Create
+        internal float ShakeSpeed;
+        [JsonIgnore]
+        internal float ShakeDuration;
+        [JsonIgnore]
+        internal float ShakeX;
         public Entity() { }
 
         internal void InitializeServer(float default_z)
@@ -85,15 +88,35 @@ namespace TheCheapsLib
             this.uniqueId = UniqueCounter++;
         }
         Rectangle destinationRectangle;
-        public void Update()
-        { 
-        
+        public void StartShake(int durationMs, int speedMRadMsec, int amplitudePx)
+        {
+            ShakeDuration = durationMs / 1000f;
+            ShakeSpeed = speedMRadMsec;
+            ShakeIntensity = amplitudePx;
+            ShakeCounter = 0;
+        }
+        public void Update(float dt)
+        {
+            if (ShakeDuration > 0)
+            {
+                ShakeCounter += dt;
+                if (ShakeCounter < ShakeDuration)
+                {
+                    ShakeX = (float)(Math.Sin(ShakeSpeed * ShakeCounter) * ShakeIntensity);
+            }
+                else
+                {
+                    ShakeDuration = 0;
+                    ShakeX = 0;
+                    ShakeCounter = 0;
+                }
+            }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
             if (texture != null)
             {
-                destinationRectangle.X = (int)(this.posxy.X+shakeX);
+                destinationRectangle.X = (int)(this.posxy.X+ ShakeX);
                     destinationRectangle.Y = (int)(this.posxy.Y - this.posz);
                 if (this.hasShadow)
                 {
@@ -249,7 +272,11 @@ namespace TheCheapsLib
         private static ObjectPool<Entity> Pool = ObjectPool.Create<Entity>();
         public static Entity Create()
         {
-            return Pool.Get();
+            var item = Pool.Get();
+            item.ShakeDuration = 0;
+            item.ShakeX = 0;
+            item.ShakeCounter = 0;
+            return item;
         }
 
         internal Entity Clone()

@@ -20,7 +20,8 @@ namespace TheCheapsLib
         /// <summary>
         /// Contains the informations required to show the TV-styled news bar on all player screens
         /// </summary>
-        public List<int> broadcasting_news=new List<int>(); 
+        public List<int> broadcasting_news = new List<int>();
+        public List<S2CActionModel> special_commands = new List<S2CActionModel>();
 
         //UNCHANGEABLE/NON BROADCASTED (client has these loaded in the game_screen for referencing)
         internal List<Entity> items = new List<Entity>();
