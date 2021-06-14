@@ -55,7 +55,9 @@ namespace TheCheaps
                 _client.Update(time);
         }
         public static void StopServer()
-        {            
+        {
+            if (_server == null)
+                return;
             ServerThreadManager.Stop();
             _server = null;
         }
@@ -69,6 +71,12 @@ namespace TheCheaps
             _client = new NetworkClient(ip,port,use_upnp);
         }
 
+        internal static void Shutdown()
+        {
+            StopClient();
+            StopServer();
+        }
+
         internal static void BeginHost(int port,bool use_upnp)
         {
             if (_server != null || _client!=null)
@@ -79,7 +87,9 @@ namespace TheCheaps
 
         internal static void StopClient()
         {
-            _client.Disconnect();
+            if (_client == null)
+                return;
+                _client.Disconnect();
             _client.Dispose();
             _client = null;
         }

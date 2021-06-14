@@ -13,6 +13,10 @@ namespace TheCheapsServer
         {
             if(serverCancellation!=null)
                 serverCancellation.Cancel();
+            while(server!=null)
+            {
+                System.Threading.Thread.Sleep(1);
+            }
         }
 
         static NetworkServer server;

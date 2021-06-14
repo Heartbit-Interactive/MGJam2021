@@ -243,7 +243,7 @@ namespace Lidgren.Network
 			else if (sendRelate > 0)
 			{
 				// uh... we haven't sent this message yet? Weird, dupe or error...
-				NetException.Assert(false, "Got ack for message not yet sent?");
+				//NetException.Assert(false, "Got ack for message not yet sent?");
 				return;
 			}
 

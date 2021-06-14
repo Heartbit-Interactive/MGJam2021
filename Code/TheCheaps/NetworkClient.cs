@@ -297,7 +297,7 @@ namespace TheCheaps
         internal void Disconnect()
         {
             SendOp(NetworkOp.OpType.Disconnect);
-            client.Disconnect("DisconnectRequestedByUser");
+            client.Shutdown("DisconnectRequestedByUser");
         }
     }
 }

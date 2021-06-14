@@ -58,6 +58,7 @@ namespace TheCheaps
         protected override void OnExiting(object sender, EventArgs args)
         {
             ScreenManager.Instance.Exiting = true;
+            NetworkManager.Shutdown();
             base.OnExiting(sender, args);
         }
     }
