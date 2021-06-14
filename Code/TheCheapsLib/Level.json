@@ -38,7 +38,7 @@
     "texture_path": "BASE_01",
     "direction": "0, 1",
     "collisionrect": {
-      "Width": 168,
+      "Width": 144,
       "Height": 64
     },
     "sourcerect": {
@@ -54,7 +54,7 @@
     "texture_path": "BASE_02",
     "direction": "0, 1",
     "collisionrect": {
-      "Width": 168,
+      "Width": 144,
       "Height": 64
     },
     "sourcerect": {
@@ -70,7 +70,7 @@
     "texture_path": "BASE_03",
     "direction": "0, 1",
     "collisionrect": {
-      "Width": 168,
+      "Width": 144,
       "Height": 64
     },
     "sourcerect": {
@@ -86,7 +86,7 @@
     "texture_path": "BASE_04",
     "direction": "0, 1",
     "collisionrect": {
-      "Width": 168,
+      "Width": 144,
       "Height": 64
     },
     "sourcerect": {
