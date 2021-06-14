@@ -58,8 +58,19 @@ namespace TheCheapsLib
                     stoppedInteractingTimer += elapsedTimeS;
             }
             update_position(elapsedTimeS);
-                update_animation_walk(elapsedTimeS);
-            
+            update_animation_walk(elapsedTimeS);
+            update_animation_dash(elapsedTimeS);
+
+
+        }
+
+        private void update_animation_dash(float elapsedTimeS)
+        {
+            if (performing_dash)
+            {
+                playerEntity.frame_index = 6;
+                performing_dash = false;
+            }
         }
 
         private void updateStunned(float elapsedTimeS)
@@ -125,6 +136,7 @@ namespace TheCheapsLib
 
         float frame_counter = 0;
         private float stunnedCounter;
+        private bool performing_dash;
 
         public void update_input(float elapsedTime)
         {
@@ -200,6 +212,7 @@ namespace TheCheapsLib
                                 if (float.IsNaN(action.direction.X) && float.IsNaN(action.direction.Y))
                                     action.direction = playerEntity.direction;
                                 accumulateMovement(Settings.DashDistance, action.direction);
+                                performing_dash = true;
                             }
                         }
                         break;
@@ -297,7 +310,7 @@ namespace TheCheapsLib
             Vector2 pos_player = playerEntity.posxy;
             Vector2 pos_entity = entity.posxy ;
 
-            if(Math.Abs(pos_entity.X - pos_player.X)<= radius && Math.Abs(pos_entity.Y - pos_player.Y) <= radius)
+            if(Math.Abs(pos_entity.X - pos_player.X)<= radius + 24 && Math.Abs(pos_entity.Y - pos_player.Y) <= radius)
             {
                 return true;
             }

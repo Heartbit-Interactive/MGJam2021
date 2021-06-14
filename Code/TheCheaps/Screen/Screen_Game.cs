@@ -65,6 +65,7 @@ namespace TheCheaps.Scenes
         public override void LoadContent(ContentManager content)
         {
             this.Content = content;
+            SoundManager.PlayBGM("BGM/Music_2");
             UpdateLoadContent();
         }
 
@@ -292,6 +293,7 @@ namespace TheCheaps.Scenes
         }
         public override void Terminate(ContentManager content)
         {
+            SoundManager.StopBGM("BGM/Music_2");
             if (ScreenManager.Instance.Exiting)
             {
                 NetworkManager.StopServer();
