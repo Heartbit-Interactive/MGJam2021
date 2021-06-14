@@ -22,6 +22,7 @@ namespace TheCheapsLib
         private float stoppedInteractingTimer = 0;
         private Vector2 deltaxy;
         internal List<Entity> launched_items = new List<Entity>();
+        public List<Recipe> recipes_associated = new List<Recipe>();
 
         /// <summary>
         /// PRIVATE: USA LA POOL PER CREARE
@@ -34,10 +35,10 @@ namespace TheCheapsLib
             this.sim = sim;
             this.model = sim.model;
             this.playerEntity = model.player_entities[id];
-            for(int i =0; i< Settings.RecipesPerPlayer; i++)
-            {
-                generate_new_recipe(i);
-            }
+            //for(int i =0; i< Settings.RecipesPerPlayer; i++)
+            //{
+            //    generate_new_recipe(i);
+            //}
         }
         public void Update(float elapsedTimeS)
         {
@@ -428,11 +429,11 @@ namespace TheCheapsLib
         /// genera una nuova recipe
         /// </summary>
         /// <param name="index_where_add"></param>
-        private void generate_new_recipe(int index_where_add)
+        public void generate_new_recipe(int index_where_add)
         {
             System.Random random = new System.Random();
-            var index_recipe = random.Next(model.recipes.Count);
-            var recipe_choosen = model.recipes[index_recipe];
+            var index_recipe = random.Next(recipes_associated.Count);
+            var recipe_choosen = recipes_associated[index_recipe];
             var new_recipe= new Recipe(recipe_choosen.name, recipe_choosen.ingredient_and_amount, recipe_choosen.owned, recipe_choosen.score, recipe_choosen.type, recipe_choosen.sentence_to_show, recipe_choosen.character_associated);
             new_recipe.id = recipe_choosen.id;
             if (playerEntity.inventory.list_recipes.Count <= index_where_add)
