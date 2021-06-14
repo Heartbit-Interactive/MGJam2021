@@ -17,6 +17,9 @@
     <None Remove="Content\obj\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="SoundManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Content\MenuContent.mgcb" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
