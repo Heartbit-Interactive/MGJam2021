@@ -28,9 +28,13 @@ namespace TheCheaps
         {
             get;
             private set;
-        } = 12345;
+        }
 
         public static IPAddress PublicIp { get; internal set; }
+        static NetworkManager()
+        {
+            Port = 12345;
+        }
         public static bool ServerRunning { get { return _server != null && _server.Started; } }
 
         public static void StartServer(bool use_upnp)

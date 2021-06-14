@@ -44,8 +44,16 @@ namespace TheCheapsLib
                 players[i] = new GamePlayer(i, this);
                 model.player_entities[i].index = i;
             }
-
-            InitializeEntityIdentifiers(entities);
+            foreach (var recipe in model.recipes)
+            {
+                if (recipe.character_associated != null)
+                    players.FirstOrDefault(x => x.playerEntity.name == recipe.character_associated).recipes_associated.Add(recipe);
+            }
+            for (int i = 0; i < players.Length; i++)
+            {
+                players[i].generate_new_recipe(0);
+            }
+                InitializeEntityIdentifiers(entities);
 
         }
         /// <summary>
@@ -59,8 +67,10 @@ namespace TheCheapsLib
 
             var jsontextrecipe = File.ReadAllText("Recipes.json");
             model.recipes = JsonConvert.DeserializeObject<List<Recipe>>(jsontextrecipe);
-            for (int i = 0; i < model.recipes.Count; i++)
+            for (int i = 1; i < model.recipes.Count; i++)
+            {
                 model.recipes[i].id = i;
+            }
         }
 
         private void InitializeEntityIdentifiers(List<Entity> entities)
