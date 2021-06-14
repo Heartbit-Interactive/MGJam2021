@@ -396,7 +396,7 @@ namespace TheCheapsLib
                     }
                     break;
                 case S2CActionModel.Type.Popup:
-                    throw new NotImplementedException();
+                    //throw new NotImplementedException();
                 default:
                     break;
             }
