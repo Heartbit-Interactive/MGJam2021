@@ -157,6 +157,12 @@
 /processorParam:TextureFormat=Color
 /build:BASE_04.png
 
+#begin BGM/Music_2.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:BGM/Music_2.mp3
+
 #begin FACE_ACTOR_01.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -564,6 +570,54 @@
 /processorParam:TextureFormat=Color
 /build:LEVEL_Trash_A_01.png
 
+#begin Pointer_01.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Pointer_01.png
+
+#begin Pointer_02.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Pointer_02.png
+
+#begin Pointer_03.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Pointer_03.png
+
+#begin Pointer_04.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Pointer_04.png
+
 #begin RESOURCE_01.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -611,6 +665,84 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:RESOURCE_04.png
+
+#begin SE/Blow5.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Blow5.wav
+
+#begin SE/Blow5.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Blow5.wav
+
+#begin SE/Heal5.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Heal5.wav
+
+#begin SE/Heal5.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Heal5.wav
+
+#begin SE/Hit_Bush2_edit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Hit_Bush2_edit.wav
+
+#begin SE/Hit_Dig1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Hit_Dig1.wav
+
+#begin SE/Hit_Dig1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Hit_Dig1.wav
+
+#begin SE/Hit_Interact1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Hit_Interact1.wav
+
+#begin SE/Title_Risucchio01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Title_Risucchio01.wav
+
+#begin SE/Title_Risucchio01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Title_Risucchio01.wav
+
+#begin SE/Wind7.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Wind7.wav
+
+#begin SE/Wind7.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Wind7.wav
+
+#begin SE/Wind7.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Wind7.wav
 
 #begin Shadow.png
 /importer:TextureImporter
