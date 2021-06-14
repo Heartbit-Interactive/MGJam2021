@@ -87,7 +87,7 @@ namespace TheCheaps
 
             try
             {
-                var errormessage = MessageBox.Show(e.ToString(), $"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //var errormessage = MessageBox.Show(e.ToString(), $"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch { }
         }
