@@ -46,11 +46,11 @@ namespace TheCheapsLib
         /// <summary>
         /// Exit Speed in pixel per second of a thrown item
         /// </summary>
-        public static float ThrowSpeed = 4*60f;
+        public static float ThrowSpeed = 6*60f;
         /// <summary>
         /// Distance to pickup an item
         /// </summary>
-        internal static int DistanceForPickup = 18;
+        internal static int DistanceForPickup = 24;
         /// <summary>
         /// Distance for interacting with a base
         /// </summary>
@@ -90,7 +90,7 @@ namespace TheCheapsLib
         /// <summary>
         /// Number of hits required to mine a resource from a pile
         /// </summary>
-        public const int ClicksRequiredToMineResource = 5;
+        public const int ClicksRequiredToMineResource = 3;
         /// <summary>
         /// Number of seconds after which the clicked counter is resed due to inactivity
         /// </summary>
