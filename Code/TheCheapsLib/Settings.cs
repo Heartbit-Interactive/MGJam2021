@@ -71,11 +71,22 @@ namespace TheCheapsLib
         /// Total duration in seconds to show broadcasting news
         /// </summary>
         internal static int BroadCastDuration = 10;
+        /// <summary>
+        /// Speed of player animation
+        /// </summary>
         internal static float PlayerFrameRate = 12;
+        /// <summary>
+        /// Fix for glitches in animation when walking and server data is intermittent
+        /// </summary>
         internal static float ContinueWalkingAnimeFor = 0.125f;
+        /// <summary>
+        /// Stun duration in seconds
+        /// </summary>
         internal static float StunDuration = 3;
+        /// <summary>
+        /// Height at wich an item get shot when throw is pressed
+        /// </summary>
         internal static float ThrowHeight = 42;
-
         /// <summary>
         /// Number of hits required to mine a resource from a pile
         /// </summary>
