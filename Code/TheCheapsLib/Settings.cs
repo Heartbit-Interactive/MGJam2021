@@ -22,19 +22,11 @@ namespace TheCheapsLib
         /// <summary>
         /// Number of seconds bethween dash moves
         /// </summary>
-#if DEBUG
-        public const int InventoryMaxSize = 6;
-#else
         public const int InventoryMaxSize = 3;
-#endif
         /// <summary>
         /// Time before the start of a match
         /// </summary>
-#if DEBUG
-        public static float StartGameCountDownMax = 3;
-#else
         public static float StartGameCountDownMax = 5;
-#endif
         /// <summary>
         /// Total level size in pixels
         /// </summary>
@@ -50,12 +42,7 @@ namespace TheCheapsLib
         /// <summary>
         /// Pixels/Second traversed when moving
         /// </summary>
-#if DEBUG
-        public const float MoveSpeed = 9 * 60f;
-#else
         public const float MoveSpeed = 6*60f;
-#endif
-
         /// <summary>
         /// Exit Speed in pixel per second of a thrown item
         /// </summary>
@@ -79,11 +66,7 @@ namespace TheCheapsLib
         /// <summary>
         /// Total game duration in seconds, is shown during the "breaking news gui event"
         /// </summary>
-#if DEBUG
-        public static int TotalGameTimeS = 60 * 2;
-#else
         public static int TotalGameTimeS = 60 * 4;
-#endif
         /// <summary>
         /// Total duration in seconds to show broadcasting news
         /// </summary>
@@ -96,11 +79,7 @@ namespace TheCheapsLib
         /// <summary>
         /// Number of hits required to mine a resource from a pile
         /// </summary>
-#if DEBUG
-        public const int ClicksRequiredToMineResource = 2;
-#else
         public const int ClicksRequiredToMineResource = 5;
-#endif
         /// <summary>
         /// Number of seconds after which the clicked counter is resed due to inactivity
         /// </summary>
