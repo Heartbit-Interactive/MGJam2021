@@ -459,7 +459,7 @@ namespace TheCheapsLib
             playerEntity.score += recipe.score;
             sim.model.broadcasting_news = new List<int> { recipe.id, playerEntity.index };
             var baseE = sim.model.entities.Values.FirstOrDefault(x => x.name == "BASE_0" + (playerEntity.index + 1));
-            if (baseE.frame_index < 3)
+            if (baseE.frame_index < 2)
                 baseE.frame_index++;
             model.updated_entities.Add(baseE);
             playerEntity.inventory.list_recipes.RemoveAt(recipe_index);
