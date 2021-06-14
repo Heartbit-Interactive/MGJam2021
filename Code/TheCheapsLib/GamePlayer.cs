@@ -313,24 +313,27 @@ namespace TheCheapsLib
 
         private bool player_near_entity(Entity entity, int radius)
         {
-            Vector2 pos_player = playerEntity.posxy;
-            Vector2 pos_entity = entity.posxy ;
+            var rect = entity.collisionrect;
+            rect.Inflate(16,16);
+            return (playerEntity.collisionrect.Intersects(rect));
 
-            if(Math.Abs(pos_entity.X - pos_player.X)<= radius + 16)
-            {
-                var distance_y = pos_entity.Y - pos_player.Y;
-                if ( distance_y< 0)
-                {
-                    if (Math.Abs(distance_y) <= 25)
-                        return true;
-                }
-                else
-                {
-                    if (distance_y <= radius)
-                        return true;
-                }
-            }
-            return false;
+            //Vector2 pos_player = playerEntity.posxy;
+            //Vector2 pos_entity = entity.posxy;
+            //if (Math.Abs(pos_entity.X - pos_player.X)<= radius + 16)
+            //{
+            //    var distance_y = pos_entity.Y - pos_player.Y;
+            //    if ( distance_y< 0)
+            //    {
+            //        if (Math.Abs(distance_y) <= 25)
+            //            return true;
+            //    }
+            //    else
+            //    {
+            //        if (distance_y <= radius)
+            //            return true;
+            //    }
+            //}
+            //return false;
         }
 
         private void accumulateMovement(float movePixels, Vector2 direction)
