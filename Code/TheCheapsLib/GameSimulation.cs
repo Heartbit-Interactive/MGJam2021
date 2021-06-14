@@ -306,6 +306,8 @@ namespace TheCheapsLib
         {
             model.timer = delta.timer;
             model.broadcasting_news = delta.broadcasting_news;
+            if (delta.special_commands == null)
+                delta.special_commands = new List<S2CActionModel>();
             foreach (var s2cCommand in delta.special_commands)
                 processS2CCommand(s2cCommand);
             foreach (var added_entity in delta.added_entities)
