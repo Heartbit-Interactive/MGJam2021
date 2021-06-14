@@ -1,3 +1,0 @@
-[submodule "Code/Libraries/Lidgren"]
-	path = Code/Libraries/Lidgren
-	url = https://github.com/Heartbit-Interactive/lidgren-network-gen3
