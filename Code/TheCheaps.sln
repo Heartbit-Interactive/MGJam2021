@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheCheapsServer", "TheCheap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheCheapsLib", "TheCheapsLib\TheCheapsLib.csproj", "{1FE9280D-C422-4587-811D-B65AF1C1D711}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidgren.Network.MultiTarget", "Libraries\Lidgren\Lidgren.Network.MultiTarget\Lidgren.Network.MultiTarget.csproj", "{BADD1107-7935-4C6B-B455-861285D402C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidgren.Network.MultiTarget", "Libraries\Lidgren.Network.MultiTarget\Lidgren.Network.MultiTarget.csproj", "{2D7FA079-FF19-45F8-9F0E-D8C93C0CCB53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{1FE9280D-C422-4587-811D-B65AF1C1D711}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FE9280D-C422-4587-811D-B65AF1C1D711}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FE9280D-C422-4587-811D-B65AF1C1D711}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BADD1107-7935-4C6B-B455-861285D402C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BADD1107-7935-4C6B-B455-861285D402C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BADD1107-7935-4C6B-B455-861285D402C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BADD1107-7935-4C6B-B455-861285D402C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D7FA079-FF19-45F8-9F0E-D8C93C0CCB53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D7FA079-FF19-45F8-9F0E-D8C93C0CCB53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D7FA079-FF19-45F8-9F0E-D8C93C0CCB53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D7FA079-FF19-45F8-9F0E-D8C93C0CCB53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
