@@ -32,19 +32,19 @@ namespace TheCheapsLib
                 switch (sEType)
                 {
                     case SEType.Rummage:
-                        se = content.Load<SoundEffect>("");
+                        se = content.Load<SoundEffect>("Hit_Dig1");
                         break;
                     case SEType.Throw:
-                        se = content.Load<SoundEffect>("");
+                        se = content.Load<SoundEffect>("Hit_Bush2_edit");
                         break;
                     case SEType.Stun:
-                        se = content.Load<SoundEffect>("");
+                        se = content.Load<SoundEffect>("Blow5");
                         break;
                     case SEType.Sold:
-                        se = content.Load<SoundEffect>("");
+                        se = content.Load<SoundEffect>("Hit_Interact1");
                         break;
                     case SEType.Recipe:
-                        se = content.Load<SoundEffect>("");
+                        se = content.Load<SoundEffect>("Title_Risucchio01");
                         break;
                     default:
                         break;
