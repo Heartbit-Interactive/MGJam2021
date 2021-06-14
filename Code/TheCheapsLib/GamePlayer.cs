@@ -10,7 +10,7 @@ namespace TheCheapsLib
     //controller del player entity
     public class GamePlayer
     {
-        private int id;
+        public int id;
         private GameSimulation sim;
         private SimulationModel model;
         public PlayerEntity playerEntity;
@@ -151,6 +151,7 @@ namespace TheCheapsLib
                             else
                             {
                                 model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.Shake, parameters = new int[] { heap_clicked.uniqueId, Settings.DurationShakeMsec, Settings.SpeedShake, Settings.AmplitudeShake } });
+                                model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.SE, parameters = new int[] { id, (int)SEType.Rummage} });
                                 click_for_interact++;
                                 stoppedInteractingTimer = 0;
 
@@ -208,6 +209,7 @@ namespace TheCheapsLib
                             var entity = model.player_entities[id].inventory.entities.LastOrDefault();
                             if (entity != null)
                             {
+                                model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.SE, parameters = new int[] { id, (int)SEType.Throw } });
                                 model.player_entities[id].inventory.entities.Remove(entity);
                                 if (float.IsNaN(action.direction.X) && float.IsNaN(action.direction.Y))
                                     entity.direction = playerEntity.direction;
@@ -274,6 +276,12 @@ namespace TheCheapsLib
                 posxy = entity.posxy;
             Entity new_entity = entity.Clone();
             new_entity.through = true;
+            //Se raccolgo da terra voglio che nn possa scadere
+            new_entity.removeable = false;
+            new_entity.life_time = Settings.TimeOnTheFloor;
+            new_entity.tags.Remove(Tags.CAN_TAKE_ITEM);
+            new_entity.hasShadow = false;
+
             if (playerEntity.inventory == null)
                 playerEntity.inventory = new Inventory();
             if (playerEntity.inventory.entities.Count < Settings.InventoryMaxSize)
