@@ -10,7 +10,7 @@ namespace TheCheapsLib
     //controller del player entity
     public class GamePlayer
     {
-        private int id;
+        public int id;
         private GameSimulation sim;
         private SimulationModel model;
         public PlayerEntity playerEntity;
@@ -22,6 +22,7 @@ namespace TheCheapsLib
         private float stoppedInteractingTimer = 0;
         private Vector2 deltaxy;
         internal List<Entity> launched_items = new List<Entity>();
+        public List<Recipe> recipes_associated = new List<Recipe>();
 
         /// <summary>
         /// PRIVATE: USA LA POOL PER CREARE
@@ -34,10 +35,10 @@ namespace TheCheapsLib
             this.sim = sim;
             this.model = sim.model;
             this.playerEntity = model.player_entities[id];
-            for(int i =0; i< Settings.RecipesPerPlayer; i++)
-            {
-                generate_new_recipe(i);
-            }
+            //for(int i =0; i< Settings.RecipesPerPlayer; i++)
+            //{
+            //    generate_new_recipe(i);
+            //}
         }
         public void Update(float elapsedTimeS)
         {
@@ -162,6 +163,7 @@ namespace TheCheapsLib
                             else
                             {
                                 model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.Shake, parameters = new int[] { heap_clicked.uniqueId, Settings.DurationShakeMsec, Settings.SpeedShake, Settings.AmplitudeShake } });
+                                model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.SE, parameters = new int[] { id, (int)SEType.Rummage} });
                                 click_for_interact++;
                                 stoppedInteractingTimer = 0;
 
@@ -220,6 +222,7 @@ namespace TheCheapsLib
                             var entity = model.player_entities[id].inventory.entities.LastOrDefault();
                             if (entity != null)
                             {
+                                model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.SE, parameters = new int[] { id, (int)SEType.Throw } });
                                 model.player_entities[id].inventory.entities.Remove(entity);
                                 if (float.IsNaN(action.direction.X) && float.IsNaN(action.direction.Y))
                                     entity.direction = playerEntity.direction;
@@ -286,6 +289,12 @@ namespace TheCheapsLib
                 posxy = entity.posxy;
             Entity new_entity = entity.Clone();
             new_entity.through = true;
+            //Se raccolgo da terra voglio che nn possa scadere
+            new_entity.removeable = false;
+            new_entity.life_time = Settings.TimeOnTheFloor;
+            new_entity.tags.Remove(Tags.CAN_TAKE_ITEM);
+            new_entity.hasShadow = false;
+
             if (playerEntity.inventory == null)
                 playerEntity.inventory = new Inventory();
             if (playerEntity.inventory.entities.Count < Settings.InventoryMaxSize)
@@ -442,11 +451,11 @@ namespace TheCheapsLib
         /// genera una nuova recipe
         /// </summary>
         /// <param name="index_where_add"></param>
-        private void generate_new_recipe(int index_where_add)
+        public void generate_new_recipe(int index_where_add)
         {
             System.Random random = new System.Random();
-            var index_recipe = random.Next(model.recipes.Count);
-            var recipe_choosen = model.recipes[index_recipe];
+            var index_recipe = random.Next(recipes_associated.Count);
+            var recipe_choosen = recipes_associated[index_recipe];
             var new_recipe= new Recipe(recipe_choosen.name, recipe_choosen.ingredient_and_amount, recipe_choosen.owned, recipe_choosen.score, recipe_choosen.type, recipe_choosen.sentence_to_show, recipe_choosen.character_associated);
             new_recipe.id = recipe_choosen.id;
             if (playerEntity.inventory.list_recipes.Count <= index_where_add)

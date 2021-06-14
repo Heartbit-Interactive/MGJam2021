@@ -2,7 +2,7 @@
   {
     "index": 0,
     "texture_path": "ACTOR_01",
-    "name": "ACTOR_01_Wizard",
+    "name": "Player 1",
     "posxy": "96, 340",
     "z": 0.0,
     "collisionrect": {
@@ -17,7 +17,7 @@
   {
     "index": 1,
     "texture_path": "ACTOR_02",
-    "name": "ACTOR_02_NoVax",
+    "name": "Player 2",
     "posxy": "1824, 340",
     "z": 0.0,
     "collisionrect": {
@@ -32,7 +32,7 @@
   {
     "index": 2,
     "texture_path": "ACTOR_03",
-    "name": "ACTOR_03_Solomon",
+    "name": "Player 3",
     "posxy": "1824, 948",
     "z": 0.0,
     "collisionrect": {
@@ -47,7 +47,7 @@
   {
     "index": 3,
     "texture_path": "ACTOR_04",
-    "name": "ACTOR_04_Insano",
+    "name": "Player 4",
     "posxy": "96, 948",
     "z": 0.0,
     "collisionrect": {
@@ -57,7 +57,7 @@
     "sourcerect": {
       "Width": 48,
       "Height": 48
-    },
+    }
   }
 
 ]

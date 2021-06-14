@@ -44,8 +44,16 @@ namespace TheCheapsLib
                 players[i] = new GamePlayer(i, this);
                 model.player_entities[i].index = i;
             }
-
-            InitializeEntityIdentifiers(entities);
+            foreach (var recipe in model.recipes)
+            {
+                if (recipe.character_associated != null)
+                    players.FirstOrDefault(x => x.playerEntity.name == recipe.character_associated).recipes_associated.Add(recipe);
+            }
+            for (int i = 0; i < players.Length; i++)
+            {
+                players[i].generate_new_recipe(0);
+            }
+                InitializeEntityIdentifiers(entities);
 
         }
         /// <summary>
@@ -59,8 +67,10 @@ namespace TheCheapsLib
 
             var jsontextrecipe = File.ReadAllText("Recipes.json");
             model.recipes = JsonConvert.DeserializeObject<List<Recipe>>(jsontextrecipe);
-            for (int i = 0; i < model.recipes.Count; i++)
+            for (int i = 1; i < model.recipes.Count; i++)
+            {
                 model.recipes[i].id = i;
+            }
         }
 
         private void InitializeEntityIdentifiers(List<Entity> entities)
@@ -170,29 +180,38 @@ namespace TheCheapsLib
                         entity.speed = 0;
                         model.updated_entities.Add(entity);
                         player.stun_player();
-                        
+                        model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.SE, parameters = new int[] { player.id, (int)SEType.Stun } });
+
                     }
                     else if (player.launched_items.Contains(entity))
                         player.launched_items.Remove(entity);
                 }
                 //Controllo colpisce una base
-                foreach (var en in model.entities)
+                foreach (var en in model.entities.Values)
                 {
-                    if (en.Value.tags.Contains(Tags.BASE))
+                    if (en.tags.Contains(Tags.BASE))
                     {
-                        if (Rectangle.Intersect(en.Value.collisionrect, entity.collisionrect).Width != 0)
+                        if (Rectangle.Intersect(en.collisionrect, entity.collisionrect).Width != 0)
                         {
-                            var a = Int32.Parse(en.Value.tags.Where(x => x != Tags.BASE).FirstOrDefault());
+                            var a = Int32.Parse(en.tags.Where(x => x != Tags.BASE).FirstOrDefault());
                             var player = players[a];
+                            var score_pre = players[a].playerEntity.score;
                             //oggetto aggiunto alle recipe in questa funzione
                             if (player.if_player_needs_ingredient_add(entity.name))
                             {
-                                entity.removeable = true;
+                                if (score_pre != players[a].playerEntity.score)
+                                {
+                                    model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.Popup, parameters = new int[] { en.uniqueId, players[a].playerEntity.score- score_pre} });
+                                }
+                                entity.removeable = true;                                
+                                model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.SE, parameters = new int[] { a, (int)SEType.Recipe } });
                             }
                             else
                             {
                                 //oggetto venduto si ottengono punti
                                 player.playerEntity.score += Settings.scoreSellItem;
+                                model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.SE, parameters = new int[] { a, (int)SEType.Sold } });
+                                model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.Popup, parameters = new int[] { en.uniqueId, Settings.scoreSellItem } });
                             }
                             entity.speed = 0;
                             entity.life_time = 0;
@@ -365,7 +384,7 @@ namespace TheCheapsLib
             {
                 case S2CActionModel.Type.SE:
                     {
-                        SoundManager.PlaySE((SEType)s2cCommand.parameters[0]);
+                        SoundManager.PlaySE((SEType)s2cCommand.parameters[1]);
                     }
                     break;
                 case S2CActionModel.Type.Shake:
