@@ -82,7 +82,7 @@
 
 #begin menu/lobby_loop.mp3
 /importer:Mp3Importer
-/processor:SoundEffectProcessor
+/processor:SongProcessor
 /processorParam:Quality=Best
 /build:menu/lobby_loop.mp3
 
