@@ -155,15 +155,15 @@ namespace TheCheapsLib
                         //heap interact
                         if (heap_clicked != null && player_near_entity(heap_clicked, Settings.DistanceForMiningTrash)/* playerEntity.collisionrect.Intersects(heap_clicked.collisionrect)*/)
                         {
-                            if(click_for_interact >= Settings.ClicksRequiredToMineResource)
+                            model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.Shake, parameters = new int[] { heap_clicked.uniqueId, Settings.DurationShakeMsec, Settings.SpeedShake, Settings.AmplitudeShake } });
+                            model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.SE, parameters = new int[] { id, (int)SEType.Rummage } });
+                            if (click_for_interact >= Settings.ClicksRequiredToMineResource)
                             {
                                 loot_random_material();
                                 click_for_interact = 0;
                             }
                             else
                             {
-                                model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.Shake, parameters = new int[] { heap_clicked.uniqueId, Settings.DurationShakeMsec, Settings.SpeedShake, Settings.AmplitudeShake } });
-                                model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.SE, parameters = new int[] { id, (int)SEType.Rummage} });
                                 click_for_interact++;
                                 stoppedInteractingTimer = 0;
 
@@ -185,6 +185,7 @@ namespace TheCheapsLib
                             else if (entity.tags.Contains(Tags.HEAP) && player_near_entity(entity, Settings.DistanceForMiningTrash))
                             {
                                 model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.Shake, parameters = new int[] { entity.uniqueId, Settings.DurationShakeMsec, Settings.SpeedShake, Settings.AmplitudeShake } });
+                                model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.SE, parameters = new int[] { id, (int)SEType.Rummage } });
                                 if (click_for_interact >= Settings.ClicksRequiredToMineResource)
                                 {
                                     loot_random_material();
@@ -314,7 +315,7 @@ namespace TheCheapsLib
         private bool player_near_entity(Entity entity, int radius)
         {
             var rect = entity.collisionrect;
-            rect.Inflate(16,16);
+            rect.Inflate(radius, radius);
             return (playerEntity.collisionrect.Intersects(rect));
 
             //Vector2 pos_player = playerEntity.posxy;
