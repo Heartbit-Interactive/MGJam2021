@@ -25,11 +25,16 @@ namespace TheCheaps.Scenes
             this.content = content;
             if (audio_name != null)
             {
-                var se = content.Load<SoundEffect>(audio_name);
-                audio = se.CreateInstance();
-                audio.Volume = 0.5f;
-                audio.IsLooped = audio_loop;
-                audio.Play();
+                if (audio_loop)
+                    SoundManager.PlayBGM(audio_name);
+                else
+                {
+                    var se = content.Load<SoundEffect>(audio_name);
+                    audio = se.CreateInstance();
+                    audio.Volume = 0.5f;
+                    audio.IsLooped = audio_loop;
+                    audio.Play();
+                }
             }
             background = content.Load<Texture2D>(background_name);
         }
@@ -83,8 +88,15 @@ namespace TheCheaps.Scenes
         }
         public override void Terminate(ContentManager content)
         {
-            if(audio!=null)
+            if (audio_loop)
+            {
+                SoundManager.StopBGM(audio_name);   
+            }
+            else
+            if (audio != null)
+            {
                 audio.Stop();
+            }
             audio = null;
             background = null;
         }

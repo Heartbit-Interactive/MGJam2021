@@ -55,20 +55,24 @@ namespace TheCheapsLib
             if (se != null)
                 se.Play(0.5f, 0, 0);
         }
-        internal static void PlayBGM(string name)
+        public static void PlayBGM(string name)
         {
             var song = content.Load<Song>(name);
+            current_song_name = name;
             MediaPlayer.Play(song);
+            MediaPlayer.IsRepeating = true;
         }
-        internal static void StopBGM()
+        public static void StopBGM(string name)
         {
-            MediaPlayer.Stop();
+            if (current_song_name == name)
+                MediaPlayer.Stop();
         }
         private static SoundEffect buzzer;
         private static SoundEffect accept;
         private static SoundEffect cancel;
         private static SoundEffect cursor;
         private static float se_volume = 0.75f;
+        private static string current_song_name;
 
         public static void PlayBuzzer()
         {
