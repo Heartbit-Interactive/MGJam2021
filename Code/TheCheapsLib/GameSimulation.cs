@@ -180,29 +180,38 @@ namespace TheCheapsLib
                         entity.speed = 0;
                         model.updated_entities.Add(entity);
                         player.stun_player();
-                        
+                        model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.SE, parameters = new int[] { player.id, (int)SEType.Stun } });
+
                     }
                     else if (player.launched_items.Contains(entity))
                         player.launched_items.Remove(entity);
                 }
                 //Controllo colpisce una base
-                foreach (var en in model.entities)
+                foreach (var en in model.entities.Values)
                 {
-                    if (en.Value.tags.Contains(Tags.BASE))
+                    if (en.tags.Contains(Tags.BASE))
                     {
-                        if (Rectangle.Intersect(en.Value.collisionrect, entity.collisionrect).Width != 0)
+                        if (Rectangle.Intersect(en.collisionrect, entity.collisionrect).Width != 0)
                         {
-                            var a = Int32.Parse(en.Value.tags.Where(x => x != Tags.BASE).FirstOrDefault());
+                            var a = Int32.Parse(en.tags.Where(x => x != Tags.BASE).FirstOrDefault());
                             var player = players[a];
+                            var score_pre = players[a].playerEntity.score;
                             //oggetto aggiunto alle recipe in questa funzione
                             if (player.if_player_needs_ingredient_add(entity.name))
                             {
-                                entity.removeable = true;
+                                if (score_pre != players[a].playerEntity.score)
+                                {
+                                    model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.Popup, parameters = new int[] { en.uniqueId, players[a].playerEntity.score- score_pre} });
+                                }
+                                entity.removeable = true;                                
+                                model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.SE, parameters = new int[] { a, (int)SEType.Recipe } });
                             }
                             else
                             {
                                 //oggetto venduto si ottengono punti
                                 player.playerEntity.score += Settings.scoreSellItem;
+                                model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.SE, parameters = new int[] { a, (int)SEType.Sold } });
+                                model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.Popup, parameters = new int[] { en.uniqueId, Settings.scoreSellItem } });
                             }
                             entity.speed = 0;
                             entity.life_time = 0;
@@ -375,7 +384,7 @@ namespace TheCheapsLib
             {
                 case S2CActionModel.Type.SE:
                     {
-                        SoundManager.PlaySE((SEType)s2cCommand.parameters[0]);
+                        SoundManager.PlaySE((SEType)s2cCommand.parameters[1]);
                     }
                     break;
                 case S2CActionModel.Type.Shake:
