@@ -252,15 +252,17 @@ namespace TheCheaps.Scenes
                 score_icon.Draw(spriteBatch);
                 spriteBatch.DrawString(font12, $"+{recipe.score}", posxy + new Vector2(score_icon.sourcerect.Width + 22, (score_icon.sourcerect.Height / 2 + 2)), Color.White, false, false);
             }
-            if (sim.broadcasting_news.Count > 0)
             {
                 hud_tg_bar.Draw(spriteBatch);
                 var posxy = hud_tg_bar.posxy + new Vector2(8, 12);
-                var recipe_completed = global_recipe_list[sim.broadcasting_news[0]];
-                var name = sim.player_entities[sim.broadcasting_news[1]].name;
-                var mes = font20.MeasureString(name);
-                spriteBatch.DrawString(font20, name, posxy, Color.Red);
-                spriteBatch.DrawString(font20, recipe_completed.sentence_to_show, posxy + Vector2.UnitX * (mes.X + 10), Color.Black);
+                if (sim.broadcasting_news.Count > 0)
+                {
+                    var recipe_completed = global_recipe_list[sim.broadcasting_news[0]];
+                    var name = sim.player_entities[sim.broadcasting_news[1]].name;
+                    var mes = font20.MeasureString(name);
+                    spriteBatch.DrawString(font20, name, posxy, Color.Red);
+                    spriteBatch.DrawString(font20, recipe_completed.sentence_to_show, posxy + Vector2.UnitX * (mes.X + 10), Color.Black);
+                }
                 posxy = hud_tg_bar.posxy + new Vector2(hud_tg_bar.sourcerect.Width - 96, 4);
                 var timer = (int)Math.Round(sim.timer);
                 spriteBatch.DrawString(font28, $"{timer / 60}:{timer % 60:00}", posxy, Color.White);

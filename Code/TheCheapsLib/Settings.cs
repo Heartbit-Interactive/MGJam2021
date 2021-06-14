@@ -111,7 +111,7 @@ namespace TheCheapsLib
         public const float DashRecoilS = 40/60f;
 
 
-        public const int DurationShakeMsec = 1000;
+        public const int DurationShakeMsec = 500;
         public const int SpeedShake = 30;
         public const int AmplitudeShake = 1;
 

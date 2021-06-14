@@ -169,6 +169,8 @@ namespace TheCheapsLib
                 {
                     if (player.playerEntity.inventory.entities.Contains(entity))
                         continue;
+                    if(entity.tags.Contains(player.id.ToString()))
+                        continue;
                     if (Rectangle.Intersect(player.playerEntity.collisionrect, entity.collisionrect).Width != 0)
                     {
                         if (player.launched_items.Contains(entity))

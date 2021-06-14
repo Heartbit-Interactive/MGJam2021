@@ -184,6 +184,7 @@ namespace TheCheapsLib
                             }
                             else if (entity.tags.Contains(Tags.HEAP) && player_near_entity(entity, Settings.DistanceForMiningTrash))
                             {
+                                model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.Shake, parameters = new int[] { entity.uniqueId, Settings.DurationShakeMsec, Settings.SpeedShake, Settings.AmplitudeShake } });
                                 if (click_for_interact >= Settings.ClicksRequiredToMineResource)
                                 {
                                     loot_random_material();
@@ -191,7 +192,6 @@ namespace TheCheapsLib
                                 }
                                 else
                                 {
-                                    model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.Shake, parameters = new int[] { entity.uniqueId, Settings.DurationShakeMsec, Settings.SpeedShake, Settings.AmplitudeShake } });
                                     click_for_interact++;
                                     stoppedInteractingTimer = 0;
                                 }
@@ -208,6 +208,7 @@ namespace TheCheapsLib
                         {
                             if (playerEntity.dash_timer_counter <= 0)
                             {
+                                model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.SE, parameters = new int[] { id, (int)SEType.Dash } });
                                 playerEntity.dash_timer_counter = Settings.DashRecoilS;
                                 if (float.IsNaN(action.direction.X) && float.IsNaN(action.direction.Y))
                                     action.direction = playerEntity.direction;
@@ -235,6 +236,7 @@ namespace TheCheapsLib
                                 entity.direction = Vector2.Normalize(speed_vector);
                                 entity.removeable = true;
                                 entity.tags.Add(Tags.CAN_TAKE_ITEM);
+                                entity.tags.Add(id.ToString());
                                 entity.hasShadow = true;
                                 launched_items.Add(entity);
                             }
@@ -293,6 +295,10 @@ namespace TheCheapsLib
             new_entity.removeable = false;
             new_entity.life_time = Settings.TimeOnTheFloor;
             new_entity.tags.Remove(Tags.CAN_TAKE_ITEM);
+            new_entity.tags.Remove("0");
+            new_entity.tags.Remove("1");
+            new_entity.tags.Remove("2");
+            new_entity.tags.Remove("3");
             new_entity.hasShadow = false;
 
             if (playerEntity.inventory == null)

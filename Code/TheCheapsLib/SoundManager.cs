@@ -12,7 +12,8 @@ namespace TheCheapsLib
         Throw,
         Stun,
         Sold,
-        Recipe
+        Recipe,
+        Dash
     }
     public static class SoundManager
     {
@@ -33,19 +34,22 @@ namespace TheCheapsLib
                 switch (sEType)
                 {
                     case SEType.Rummage:
-                        se = content.Load<SoundEffect>("Hit_Dig1");
+                        se = content.Load<SoundEffect>("SE/Hit_Dig1");
                         break;
                     case SEType.Throw:
-                        se = content.Load<SoundEffect>("Hit_Bush2_edit");
+                        se = content.Load<SoundEffect>("SE/Hit_Bush2_edit");
                         break;
                     case SEType.Stun:
-                        se = content.Load<SoundEffect>("Blow5");
+                        se = content.Load<SoundEffect>("SE/Blow5");
                         break;
                     case SEType.Sold:
-                        se = content.Load<SoundEffect>("Hit_Interact1");
+                        se = content.Load<SoundEffect>("SE/Hit_Interact1");
                         break;
                     case SEType.Recipe:
-                        se = content.Load<SoundEffect>("Title_Risucchio01");
+                        se = content.Load<SoundEffect>("SE/Title_Risucchio01");
+                        break;
+                    case SEType.Dash:
+                        se = content.Load<SoundEffect>("SE/Wind7");
                         break;
                     default:
                         break;
@@ -53,12 +57,13 @@ namespace TheCheapsLib
             }
             catch { }
             if (se != null)
-                se.Play(0.5f, 0, 0);
+                se.Play(0.55f, 0, 0);
         }
         public static void PlayBGM(string name)
         {
             var song = content.Load<Song>(name);
             current_song_name = name;
+            MediaPlayer.Volume = 0.45f;
             MediaPlayer.Play(song);
             MediaPlayer.IsRepeating = true;
         }
