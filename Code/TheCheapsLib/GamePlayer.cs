@@ -310,9 +310,19 @@ namespace TheCheapsLib
             Vector2 pos_player = playerEntity.posxy;
             Vector2 pos_entity = entity.posxy ;
 
-            if(Math.Abs(pos_entity.X - pos_player.X)<= radius + 24 && Math.Abs(pos_entity.Y - pos_player.Y) <= radius)
+            if(Math.Abs(pos_entity.X - pos_player.X)<= radius + 16)
             {
-                return true;
+                var distance_y = pos_entity.Y - pos_player.Y;
+                if ( distance_y< 0)
+                {
+                    if (Math.Abs(distance_y) <= 25)
+                        return true;
+                }
+                else
+                {
+                    if (distance_y <= radius)
+                        return true;
+                }
             }
             return false;
         }
