@@ -33,30 +33,6 @@ jobs:
         echo "TAGVERSION=${TAGVERSION:1}" >> $GITHUB_ENV    
     - name: Checkout repository
       uses: actions/checkout@master
-    - name: Show Working Dir tree BEFORE
-      run: |
-       echo  "Current work dir is : "
-       pwd
-       sudo apt-get install tree
-       tree -d
-       #~ - name: Checkout submodules
-       #~ uses: textbook/git-checkout-submodule-action@master      
-    - name: Try to update submodule manually to check if permissions are ok afterwards
-      run: |
-       git submodule update --init --recursive
-       echo  "Current work dir is : "
-       pwd
-       tree -d
-       ls -ld Code/Libraries/Lidgren
-       #~ chmod -R 777 Code/Libraries/Lidgren
-       ls -ld Code/Libraries/Lidgren/Lidgren.Network.MultiTarget
-       #~ chmod -R 777 Code/Libraries/Lidgren/Lidgren.Network.MultiTarget       
-       mkdir Code/Libraries/Lidgren/Lidgren.Network.MultiTarget/obj 
-       mkdir Code/Libraries/Lidgren/Lidgren.Network.MultiTarget/bin
-       #~ ls -ld Code/Libraries/Lidgren/Lidgren.Network.MultiTarget/obj
-       #~ chmod -R 777 Code/Libraries/Lidgren/Lidgren.Network.MultiTarget/obj 
-       #~ ls -ld Code/Libraries/Lidgren/Lidgren.Network.MultiTarget/bin
-       #~ chmod -R 777 Code/Libraries/Lidgren/Lidgren.Network.MultiTarget/bin
     - name: Install font
       run: |
         wget -P /usr/share/fonts/truetype https://github.com/Heartbit-Interactive/MGJam2021/raw/main/Assets/Pixellari.ttf
