@@ -104,6 +104,7 @@ namespace TheCheaps
                     {
                         SendMessage(ClientMessageType.ActionState, actionState, NetDeliveryMethod.Unreliable);
                     }
+                    simulation.StepClient();
                     break;
                 case NetworkServerState.Phase.Lobby:
                     break;

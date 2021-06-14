@@ -75,6 +75,16 @@ namespace TheCheapsLib
                 entity.InitializeServer(0.04f);
         }
 
+        public void StepClient()
+        {
+            var now = DateTime.UtcNow;
+            if (last_time == DateTime.MinValue)
+                last_time = now;
+            var elapsedSecondsf = (float)(now - last_time).TotalSeconds;
+            foreach (var entity in model.entities.Values)
+                entity.Update(elapsedSecondsf) ;
+            last_time = now;
+        }
         public void Step()
         {
             model.updated_entities.Clear();
@@ -127,7 +137,6 @@ namespace TheCheapsLib
 
         private void update_entity(float elapsedTimeSeconds,Entity entity)
         {
-            entity.Update(0.3f);
             if(entity.speed > 0)
             {
                 entity.posxy += entity.direction * entity.speed * elapsedTimeSeconds;
