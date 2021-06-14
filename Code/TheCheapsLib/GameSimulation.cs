@@ -80,6 +80,7 @@ namespace TheCheapsLib
             model.updated_entities.Clear();
             model.removed_entities.Clear();
             model.added_entities.Clear();
+            model.special_commands.Clear();
             var now = DateTime.UtcNow;
             if (last_time == DateTime.MinValue)
                 last_time = now;
