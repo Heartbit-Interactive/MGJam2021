@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -54,7 +55,15 @@ namespace TheCheapsLib
             if (se != null)
                 se.Play(0.5f, 0, 0);
         }
-
+        internal static void PlayBGM(string name)
+        {
+            var song = content.Load<Song>(name);
+            MediaPlayer.Play(song);
+        }
+        internal static void StopBGM()
+        {
+            MediaPlayer.Stop();
+        }
         private static SoundEffect buzzer;
         private static SoundEffect accept;
         private static SoundEffect cancel;
