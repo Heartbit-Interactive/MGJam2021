@@ -38,20 +38,15 @@ namespace TheCheapsServer
             server = new NetServer(config);
             server.Start();
             forward_port = server_port;
-            if (server.UPnP.Status == UPnPStatus.Available)
+            if (config.EnableUPnP)
             {
                 while (forward_port < port_suggestion + 10)
                 {
                     try
                     {
-                        if (config.EnableUPnP)
-                        {
-                            success = server.UPnP.ForwardPort(port_suggestion, "TheCheaps");
-                            if (!success)
-                                throw new Exception($"UPnP could not forward port {port_suggestion}");
-                        }
-                        else
-                            success = true;
+                        success = server.UPnP.ForwardPort(forward_port, "TheCheaps");
+                        if (!success)
+                            throw new Exception($"UPnP could not forward port {port_suggestion}");
                         break;
                     }
                     catch
