@@ -38,31 +38,37 @@ namespace TheCheaps
 
         public NetworkClient(IPAddress ip, int server_port, bool use_upnp)
         {
-            int client_port = server_port+1;
-            while (client_port < server_port + 10)
+            int port_suggestion = server_port+1;
+
+            config = new NetPeerConfiguration("TheCheaps");
+            config.EnableUPnP = use_upnp;
+            config.MaximumConnections = 4;
+            //config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
+            config.Port = port_suggestion;
+            client = new NetClient(config);
+            client.Start();
+            forward_port = server_port;
+            if (config.EnableUPnP)
             {
-                try
+                bool success = false;
+                while (forward_port < port_suggestion + 10)
                 {
-                    config = new NetPeerConfiguration("TheCheaps");
-                    config.EnableUPnP = use_upnp;
-                    config.MaximumConnections = 4;
-                    //config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
-                    config.Port = client_port;
-                    client = new NetClient(config);
-                    client.Start();
-                    if (use_upnp)
+                    try
                     {
-                        bool success = client.UPnP.ForwardPort(client_port, "TheCheaps");
+                        success = client.UPnP.ForwardPort(forward_port, "TheCheaps");
                         if (!success)
-                            throw new Exception($"UPnP could not forward port {client_port}");
+                            throw new Exception($"UPnP could not forward port {port_suggestion}");
+                        break;
                     }
-                    break;
+                    catch
+                    {
+                        forward_port++;
+                    }
                 }
-                catch
-                {
-                    client_port++;
-                }
+                if (!success)
+                    throw new Exception($"UPnP could not forward ANY port in the {port_suggestion}-{port_suggestion + 10} range");
             }
+
             var string_ip = ip.ToString();
             connection = client.Connect(host: string_ip, port: server_port);
 
@@ -244,6 +250,7 @@ namespace TheCheaps
         private bool _stateChanged;
         private SimulationState pending_sim_state;
         private bool inGame;
+        private int forward_port;
 
         private void SendOp(NetworkOp.OpType type, EventHandler<NetworkResponseEventArgs> handler, params object[] pars)
         {
