@@ -159,8 +159,8 @@ namespace TheCheaps.Scenes
                     status_option.text = $"[Hosting] Starting";
                     break;
                 case Lidgren.Network.NetPeerStatus.Running:
-                    status_option.text = $"[Hosting] Public Ip: {NetworkManager.PublicIp}:{NetworkManager.Port}";
-                    status_option2.text = $"Local Ip: {NetworkManager.LocalIp}";
+                    status_option.text = $"[Hosting] Public Ip: {NetworkManager.PublicIp}:{NetworkManager.ExternalPort}";
+                    status_option2.text = $"Local Ip: {NetworkManager.LocalIp}:{NetworkManager.Port}";
                     break;
                 case Lidgren.Network.NetPeerStatus.ShutdownRequested:
                     status_option.text = $"[Hosting] Shutdown Requested";

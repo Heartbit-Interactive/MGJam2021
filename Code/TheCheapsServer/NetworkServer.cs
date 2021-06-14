@@ -19,42 +19,49 @@ namespace TheCheapsServer
         private GameInput input;
         private GameSimulation simulation;
         private GameNetwork network;
+        private int forward_port;
         public bool Started { get { return _started; } }
         private bool _started;
         public NetPeerStatus Status { get { return server.Status; } }
         public int CurrentPort { get { return server.Configuration.Port; } }
+        public int ExternalPort { get { return forward_port; } }
 
         public NetworkServer(int port_suggestion, bool use_upnp)
         {
             //config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
             int server_port = port_suggestion;
             bool success = false;
-            while (server_port < port_suggestion + 10)
+            config = new Lidgren.Network.NetPeerConfiguration("TheCheaps");
+            config.EnableUPnP = use_upnp;
+            config.MaximumConnections = 4;
+            config.Port = server_port;
+            server = new NetServer(config);
+            server.Start();
+            forward_port = server_port;
+            if (server.UPnP.Status == UPnPStatus.Available)
             {
-                try
+                while (forward_port < port_suggestion + 10)
                 {
-                    config = new Lidgren.Network.NetPeerConfiguration("TheCheaps");
-                    config.EnableUPnP = use_upnp;
-                    config.MaximumConnections = 4;
-                    config.Port = server_port;
-                    server = new NetServer(config);
-                    server.Start();
-                    if (config.EnableUPnP)
+                    try
                     {
-                        success = server.UPnP.ForwardPort(port_suggestion, "TheCheaps");
-                        if (!success)
-                            throw new Exception($"UPnP could not forward port {port_suggestion}");
+                        if (config.EnableUPnP)
+                        {
+                            success = server.UPnP.ForwardPort(port_suggestion, "TheCheaps");
+                            if (!success)
+                                throw new Exception($"UPnP could not forward port {port_suggestion}");
+                        }
+                        else
+                            success = true;
+                        break;
                     }
-                    else
-                        success = true;
-                    break;
+                    catch
+                    {
+                        forward_port++;
+                    }
                 }
-                catch {
-                    server_port++;
-                }
+                if (!success)
+                    throw new Exception($"UPnP could not forward ANY port in the {port_suggestion}-{port_suggestion + 10} range");
             }
-            if (!success)
-                throw new Exception($"UPnP could not forward ANY port in the {port_suggestion}-{port_suggestion+10} range");
         }
         public void Start()
         {
@@ -99,7 +106,8 @@ namespace TheCheapsServer
             lastTime = time;
         }
 
-        Dictionary<NetConnection, ConnectionInfo> temp_connection_infos = new Dictionary<NetConnection, ConnectionInfo>();
+        Dictionary<NetConnection, ConnectionInfo> temp_connection_infos = new Dictionary<NetConnection, ConnectionInfo>();        
+
         private void UpdateConnection(TimeSpan elapsedTime, NetConnection connection)
         {
             if (!network.ConnectionInfos.TryGetValue(connection, out var info))

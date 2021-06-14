@@ -29,6 +29,11 @@ namespace TheCheaps
             get;
             private set;
         }
+        internal static int ExternalPort
+        {
+            get;
+            private set;
+        }
 
         public static IPAddress PublicIp { get; internal set; }
         static NetworkManager()
@@ -41,7 +46,7 @@ namespace TheCheaps
         {
             _server = ServerThreadManager.Start(Port, use_upnp);
             LocalIp = NetworkServer.GetLocalIPAddress();
-            Port = _server.CurrentPort;
+            ExternalPort = _server.ExternalPort;
         }
 
         public static void Update(GameTime time)
