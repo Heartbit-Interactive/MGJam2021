@@ -69,6 +69,8 @@ namespace TheCheapsLib
             {
                 var entity = S2CActionModel.Create();
                 entity.BinaryRead(br);
+                if (special_commands == null)
+                    special_commands = new List<S2CActionModel>();
                 special_commands.Add(entity);
             }
 

@@ -103,7 +103,7 @@ namespace TheCheapsLib
                 if (ShakeCounter < ShakeDuration)
                 {
                     ShakeX = (float)(Math.Sin(ShakeSpeed * ShakeCounter) * ShakeIntensity);
-            }
+                }
                 else
                 {
                     ShakeDuration = 0;

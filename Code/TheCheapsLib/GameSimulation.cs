@@ -127,6 +127,7 @@ namespace TheCheapsLib
 
         private void update_entity(float elapsedTimeSeconds,Entity entity)
         {
+            entity.Update(0.3f);
             if(entity.speed > 0)
             {
                 entity.posxy += entity.direction * entity.speed * elapsedTimeSeconds;

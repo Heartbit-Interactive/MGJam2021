@@ -148,6 +148,7 @@ namespace TheCheapsLib
                             }
                             else
                             {
+                                model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.Shake, parameters = new int[] { heap_clicked.uniqueId, 3000, 60, 2 } });
                                 click_for_interact++;
                                 stoppedInteractingTimer = 0;
 
@@ -175,6 +176,7 @@ namespace TheCheapsLib
                                 }
                                 else
                                 {
+                                    model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.Shake, parameters = new int[] { entity.uniqueId, 3000, 60, 2 } });
                                     click_for_interact++;
                                     stoppedInteractingTimer = 0;
                                 }
