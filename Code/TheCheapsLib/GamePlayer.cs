@@ -173,37 +173,37 @@ namespace TheCheapsLib
                         else
                         {
                             heap_clicked = null;
-                            click_for_interact = 0;
-                        }
-                        foreach(var entity in model.entities.Values)
-                        {
-                            if (entity.tags.Contains(Tags.CAN_TAKE_ITEM) && player_near_entity(entity,Settings.DistanceForPickup) && playerEntity.inventory.entities.Count<= Settings.InventoryMaxSize && !playerEntity.inventory.entities.Contains(entity))
+                            foreach (var entity in model.entities.Values)
                             {
-                                add_entity_in_inventory(entity);
-                                sim.RemEntity(entity);
-                            }
-                            else if (entity.tags.Contains(Tags.HEAP) && player_near_entity(entity, Settings.DistanceForMiningTrash))
-                            {
-                                model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.Shake, parameters = new int[] { entity.uniqueId, Settings.DurationShakeMsec, Settings.SpeedShake, Settings.AmplitudeShake } });
-                                model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.SE, parameters = new int[] { id, (int)SEType.Rummage } });
-                                if (click_for_interact >= Settings.ClicksRequiredToMineResource)
+                                if (entity.tags.Contains(Tags.CAN_TAKE_ITEM) && player_near_entity(entity, Settings.DistanceForPickup) && playerEntity.inventory.entities.Count <= Settings.InventoryMaxSize && !playerEntity.inventory.entities.Contains(entity))
                                 {
-                                    loot_random_material();
-                                    click_for_interact = 0;
+                                    add_entity_in_inventory(entity);
+                                    sim.RemEntity(entity);
+                                }
+                                else if (entity.tags.Contains(Tags.HEAP) && player_near_entity(entity, Settings.DistanceForMiningTrash))
+                                {
+                                    model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.Shake, parameters = new int[] { entity.uniqueId, Settings.DurationShakeMsec, Settings.SpeedShake, Settings.AmplitudeShake } });
+                                    model.special_commands.Add(new S2CActionModel() { type = S2CActionModel.Type.SE, parameters = new int[] { id, (int)SEType.Rummage } });
+                                    if (click_for_interact >= Settings.ClicksRequiredToMineResource)
+                                    {
+                                        loot_random_material();
+                                        click_for_interact = 0;
+                                    }
+                                    else
+                                    {
+                                        click_for_interact++;
+                                        stoppedInteractingTimer = 0;
+                                    }
+                                    heap_clicked = entity;
+                                    break;
                                 }
                                 else
                                 {
-                                    click_for_interact++;
-                                    stoppedInteractingTimer = 0;
+                                    click_for_interact = 0;
                                 }
-                                heap_clicked = entity;
-                                break;
-                            }
-                            else
-                            {
-                                click_for_interact = 0;
                             }
                         }
+                       
                         break;
                     case ActionModel.Type.Dash:
                         {
